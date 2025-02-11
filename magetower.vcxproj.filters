@@ -32,5 +32,8 @@
     <ClInclude Include="src\common\window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\common\scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

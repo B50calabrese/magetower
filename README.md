@@ -1,1 +1,1 @@
-# magetower
+# MageTower

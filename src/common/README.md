@@ -1,3 +1,5 @@
 # Common
 
-Contains utilities and functionality common across all games.
+## Overview
+
+Contains utilities and functionality common to game development.
