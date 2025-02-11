@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "scene_manager.h"
+
 namespace common {
 
     class Window {
@@ -29,6 +31,7 @@ namespace common {
 
         GLFWwindow* window_internal;
         MainLoopCallback main_loop_callback;
+        SceneManager scene_manager;
     };
 } // namespace common
 
