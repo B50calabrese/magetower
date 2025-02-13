@@ -2,18 +2,27 @@
 #include <GLFW/glfw3.h>
 
 #include "common/window.h"
+#include "scenes/mainmenu/main_menu_scene.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void callback();
 
 using common::Window;
+using scenes::mainmenu::MainMenuScene;
 
 int main()
 {
     Window* window = new Window(800, 600, "Test");
     window->init();
     window->setMainLoopCallback(&callback);
+
+    // Load the scenes for the game.
+    auto scene_manager = window->getSceneManager();
+
+    std::shared_ptr<MainMenuScene> main_menu_scene = std::make_shared<MainMenuScene>();
+    scene_manager->addScene(main_menu_scene);
+
     window->start();
     return 0;
 }

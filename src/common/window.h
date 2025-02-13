@@ -13,6 +13,7 @@ namespace common {
         Window(unsigned int width, unsigned int height, const char* name) :
             width(width), height(height), name(name) {
             this->main_loop_callback = nullptr;
+            this->scene_manager = std::make_shared<SceneManager>();
         }
 
         int init();
@@ -24,6 +25,10 @@ namespace common {
 
         void start();
 
+        std::shared_ptr<SceneManager> getSceneManager() {
+            return this->scene_manager;
+        }
+
     private:
         unsigned int width;
         unsigned int height;
@@ -31,7 +36,7 @@ namespace common {
 
         GLFWwindow* window_internal;
         MainLoopCallback main_loop_callback;
-        SceneManager scene_manager;
+        std::shared_ptr<SceneManager> scene_manager;
     };
 } // namespace common
 
