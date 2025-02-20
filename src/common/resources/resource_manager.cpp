@@ -74,7 +74,6 @@ namespace common {
             std::ifstream vShaderFile;
             std::ifstream fShaderFile;
 
-
             try {
                 vShaderFile.open(vertexShader);
                 fShaderFile.open(fragmentShader);

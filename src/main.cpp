@@ -15,13 +15,13 @@ int main()
 {
     Window* window = new Window(800, 600, "Test");
     window->init();
-    window->setMainLoopCallback(&callback);
 
     // Load the scenes for the game.
     auto scene_manager = window->getSceneManager();
 
     std::shared_ptr<MainMenuScene> main_menu_scene = std::make_shared<MainMenuScene>();
     scene_manager->addScene(main_menu_scene);
+    scene_manager->setCurrentScene(MainMenuScene::MAIN_MENU_SCENE_ID);
 
     window->start();
     return 0;

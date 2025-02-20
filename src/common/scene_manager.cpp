@@ -2,9 +2,14 @@
 
 namespace common {
 
-    void SceneManager::update() {}
+    void SceneManager::update(float deltaTimeMs) {
+        if (this->current_scene != nullptr)
+        this->current_scene->update(deltaTimeMs);
+    }
 
-    void SceneManager::display() {}
+    void SceneManager::display() {
+        this->current_scene->render(this->renderer_manager);
+    }
 
     void SceneManager::processInput(GLFWwindow* window) {}
 

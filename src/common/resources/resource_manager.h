@@ -28,7 +28,7 @@ namespace common {
             static Shader GetShader(std::string shader_name);
 
             static std::string GetBaseFilePath() {
-                return "C:/code/cardrogue/";
+                return "C:/code/magetower/";
             }
 
         private:

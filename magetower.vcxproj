@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\common\2D\renderer_manager.cpp" />
     <ClCompile Include="src\common\2D\sprite_renderer.cpp" />
     <ClCompile Include="src\common\2D\text_renderer.cpp" />
     <ClCompile Include="src\common\resources\resource_manager.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="src\common\window.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\scenes\mainmenu\main_menu_scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\common\README.md" />
@@ -179,6 +181,7 @@
     <None Include="src\common\resources\shaders\ui_primitive_gradient_color.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\common\2D\renderer_manager.h" />
     <ClInclude Include="src\common\2D\sprite_renderer.h" />
     <ClInclude Include="src\common\2D\text_renderer.h" />
     <ClInclude Include="src\common\resources\resource_manager.h" />
@@ -189,6 +192,9 @@
     <ClInclude Include="src\common\utils\bounding_box_2d.h" />
     <ClInclude Include="src\common\window.h" />
     <ClInclude Include="src\scenes\mainmenu\main_menu_scene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\mainmenu\background.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

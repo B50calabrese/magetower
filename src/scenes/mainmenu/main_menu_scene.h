@@ -2,6 +2,8 @@
 #define MAIN_MENU_SCENE_H
 
 #include "common/scene.h"
+#include "common/2D/renderer_manager.h"
+#include "common/resources/texture.h"
 
 namespace scenes {
     namespace mainmenu {
@@ -12,9 +14,9 @@ namespace scenes {
             
             MainMenuScene() : Scene(MAIN_MENU_SCENE_ID) {}
 
-            void render() {}
+            void render(std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
-            UpdateStatus update(float deltaTime) {
+            UpdateStatus update(float delta_time_ms) {
                 return UpdateStatus::OK;
             }
 
@@ -30,7 +32,12 @@ namespace scenes {
 
             }
 
-            void loadScene() {}
+            void loadScene();
+
+            void unloadScene() {}
+
+        private:
+            common::resources::Texture background_texture;
         };
     }
 } // namespace scenes

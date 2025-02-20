@@ -1,9 +1,13 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <iostream>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
 
+#include "2D/renderer_manager.h"
 #include "scene_manager.h"
 
 namespace common {
@@ -11,17 +15,14 @@ namespace common {
     class Window {
     public:
         Window(unsigned int width, unsigned int height, const char* name) :
-            width(width), height(height), name(name) {
-            this->main_loop_callback = nullptr;
-            this->scene_manager = std::make_shared<SceneManager>();
+            width(width), height(height), name(name), last_frame_ms(0.0f) {
+            this->scene_manager = std::make_shared<SceneManager>(
+                glm::ortho(0.0f, static_cast<float>(width),
+                    0.0f, static_cast<float>(height), -1.0f, 1.0f)
+            );
         }
 
         int init();
-
-        typedef void (*MainLoopCallback)();
-        void setMainLoopCallback(MainLoopCallback main_loop_callback) {
-            this->main_loop_callback = main_loop_callback;
-        }
 
         void start();
 
@@ -35,8 +36,9 @@ namespace common {
         const char* name;
 
         GLFWwindow* window_internal;
-        MainLoopCallback main_loop_callback;
         std::shared_ptr<SceneManager> scene_manager;
+
+        float last_frame_ms;
     };
 } // namespace common
 

@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "scene.h"
+#include "common/2D/renderer_manager.h"
 
 namespace common {
     
@@ -13,20 +14,33 @@ namespace common {
     */
     class SceneManager {
     public:
-        SceneManager() {}
+        SceneManager(glm::mat4 projection_matrix) : projection_matrix(projection_matrix) {}
+
+        void init() {
+            this->renderer_manager = std::make_shared<common::twod::RendererManager>(projection_matrix);
+        }
 
         void addScene(std::shared_ptr<Scene> scene) {
             scene_map[scene->getId()] = scene;
         }
 
-        void update();
+        void setCurrentScene(int id) {
+            this->current_scene = scene_map[id];
+            this->current_scene->loadScene();
+        }
+
+        void update(float deltaTimeMs);
         void display();
         void processInput(GLFWwindow* window);
         void processMouseInput(GLFWwindow* window, double xPos, double yPos);
         void processMouseClick(GLFWwindow* window, int button, int action, int mods);
 
     private:
+        glm::mat4 projection_matrix;
         std::map<int, std::shared_ptr<Scene>> scene_map;
+        std::shared_ptr<Scene> current_scene;
+
+        std::shared_ptr<common::twod::RendererManager> renderer_manager;
     };
 } // namespace common
 

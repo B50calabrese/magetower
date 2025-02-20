@@ -24,14 +24,21 @@ namespace common {
             std::cout << "Failed to initialize GLAD" << std::endl;
             return -1;
         }
+
+        this->scene_manager->init();
     }
 
     void Window::start() {
         while (!glfwWindowShouldClose(this->window_internal))
         {
-            if (this->main_loop_callback != nullptr) {
-                this->main_loop_callback();
-            }
+            float current_frame = glfwGetTime();
+            float delta_time = current_frame - this->last_frame_ms;
+            this->last_frame_ms = current_frame;
+
+            this->scene_manager->update(last_frame_ms);
+
+            this->scene_manager->display();
+
             glfwSwapBuffers(this->window_internal);
             glfwPollEvents();
         }
