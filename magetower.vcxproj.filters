@@ -48,6 +48,9 @@
     <ClCompile Include="src\scenes\mainmenu\main_menu_scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\common\2D\sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\common\README.md" />
@@ -61,6 +64,7 @@
     <None Include="src\common\resources\shaders\stencil.frag" />
     <None Include="src\common\resources\shaders\ui_primitive_constant_color.frag" />
     <None Include="src\common\resources\shaders\ui_primitive_constant_color.vert" />
+    <None Include="src\core\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common\window.h">
@@ -96,9 +100,24 @@
     <ClInclude Include="src\common\2D\renderer_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\consts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\2D\sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\2D\object2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\mainmenu\background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\mainmenu\exit_game_button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\mainmenu\start_game_button.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

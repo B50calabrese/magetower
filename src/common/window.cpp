@@ -25,6 +25,15 @@ namespace common {
             return -1;
         }
 
+        glEnable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_ALWAYS);
+        glEnable(GL_STENCIL_TEST);
+        glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+        glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
+
         this->scene_manager->init();
     }
 

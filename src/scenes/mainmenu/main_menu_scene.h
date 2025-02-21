@@ -3,6 +3,7 @@
 
 #include "common/scene.h"
 #include "common/2D/renderer_manager.h"
+#include "common/2D/sprite.h"
 #include "common/resources/texture.h"
 
 namespace scenes {
@@ -38,6 +39,9 @@ namespace scenes {
 
         private:
             common::resources::Texture background_texture;
+
+            std::shared_ptr<common::twod::Sprite> start_button;
+            std::shared_ptr<common::twod::Sprite> exit_button;
         };
     }
 } // namespace scenes

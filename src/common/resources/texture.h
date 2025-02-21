@@ -1,6 +1,8 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
+#include "glm/vec2.hpp"
+
 namespace common {
     namespace resources {
 
@@ -33,6 +35,10 @@ namespace common {
 
             unsigned int getHeight() {
                 return this->height;
+            }
+
+            glm::vec2 getSizeVector() {
+                return glm::vec2(this->width, this->height);
             }
 
         private:

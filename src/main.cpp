@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include "common/window.h"
+#include "core/consts.h"
 #include "scenes/mainmenu/main_menu_scene.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -13,7 +14,7 @@ using scenes::mainmenu::MainMenuScene;
 
 int main()
 {
-    Window* window = new Window(800, 600, "Test");
+    Window* window = new Window(core::SCREEN_WIDTH, core::SCREEN_HEIGHT, "Mage Tower");
     window->init();
 
     // Load the scenes for the game.
