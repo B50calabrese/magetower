@@ -3,17 +3,35 @@
 namespace common {
 
     void SceneManager::update(float deltaTimeMs) {
-        if (this->current_scene != nullptr)
-        this->current_scene->update(deltaTimeMs);
+        if (this->current_scene != nullptr) {
+            Scene::UpdateStatus status = this->current_scene->update(deltaTimeMs);
+            
+            switch (status) {
+            case Scene::UpdateStatus::CLOSE_WINDOW:
+                this->should_close_window = true;
+            
+            default:
+                // Default case fall through.
+                break;
+            }
+        }
     }
 
     void SceneManager::display() {
         this->current_scene->render(this->renderer_manager);
     }
 
-    void SceneManager::processInput(GLFWwindow* window) {}
+    void SceneManager::updateWindow(GLFWwindow* window) {
+        if (this->should_close_window)
+            glfwSetWindowShouldClose(window, true);
+    }
 
-    void SceneManager::processMouseInput(GLFWwindow* window, double xPos, double yPos) {}
+    void SceneManager::processMouseInput(GLFWwindow* window, double xPos, double yPos) {
+        this->current_scene->processMouseInput(window, xPos, yPos);
+    }
 
-    void SceneManager::processMouseClick(GLFWwindow* window, int button, int action, int mods) {}
+    void SceneManager::processMouseClick(GLFWwindow* window, int button, int action, int mods) {
+        this->current_scene->processMouseClick(window, button, action, mods);
+    }
+
 } // namespace common

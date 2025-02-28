@@ -47,6 +47,8 @@ namespace common {
                 return this->rotation_radians;
             }
 
+            bool containsPoint(glm::vec2 point);
+
         private:
             glm::vec2 position;
             glm::vec2 size;

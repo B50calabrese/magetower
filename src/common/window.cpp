@@ -4,6 +4,16 @@
 
 namespace common {
 
+    void Window::mouseMovementCallback(GLFWwindow* window, double xPos, double yPos) {
+        Window* window_internal = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        window_internal->getSceneManager()->processMouseInput(window, xPos, yPos);
+    }
+
+    void Window::mouseInputCallback(GLFWwindow* window, int button, int action, int mods) {
+        Window* window_internal = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        window_internal->getSceneManager()->processMouseClick(window, button, action, mods);
+    }
+
     int Window::init() {
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -35,6 +45,7 @@ namespace common {
         glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should pass the stencil test
 
         this->scene_manager->init();
+        this->initCallbacks();
     }
 
     void Window::start() {
@@ -43,6 +54,8 @@ namespace common {
             float current_frame = glfwGetTime();
             float delta_time = current_frame - this->last_frame_ms;
             this->last_frame_ms = current_frame;
+
+            this->scene_manager->updateWindow(this->window_internal);
 
             this->scene_manager->update(last_frame_ms);
 
@@ -53,6 +66,14 @@ namespace common {
         }
 
         glfwTerminate();
+    }
+
+    // Private functions
+
+    void Window::initCallbacks() {
+        glfwSetWindowUserPointer(this->window_internal, reinterpret_cast<void*>(this));
+        glfwSetCursorPosCallback(this->window_internal, Window::mouseMovementCallback);
+        glfwSetMouseButtonCallback(this->window_internal, Window::mouseInputCallback);
     }
 
 } // namespace common

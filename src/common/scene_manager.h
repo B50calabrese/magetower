@@ -14,7 +14,7 @@ namespace common {
     */
     class SceneManager {
     public:
-        SceneManager(glm::mat4 projection_matrix) : projection_matrix(projection_matrix) {}
+        SceneManager(glm::mat4 projection_matrix) : projection_matrix(projection_matrix), should_close_window(false) {}
 
         void init() {
             this->renderer_manager = std::make_shared<common::twod::RendererManager>(projection_matrix);
@@ -31,7 +31,7 @@ namespace common {
 
         void update(float deltaTimeMs);
         void display();
-        void processInput(GLFWwindow* window);
+        void updateWindow(GLFWwindow* window);
         void processMouseInput(GLFWwindow* window, double xPos, double yPos);
         void processMouseClick(GLFWwindow* window, int button, int action, int mods);
 
@@ -39,6 +39,7 @@ namespace common {
         glm::mat4 projection_matrix;
         std::map<int, std::shared_ptr<Scene>> scene_map;
         std::shared_ptr<Scene> current_scene;
+        bool should_close_window;
 
         std::shared_ptr<common::twod::RendererManager> renderer_manager;
     };

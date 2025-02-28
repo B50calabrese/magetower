@@ -22,6 +22,10 @@ namespace common {
             );
         }
 
+        static void mouseMovementCallback(GLFWwindow* window, double xPos, double yPos);
+
+        static void mouseInputCallback(GLFWwindow* window, int button, int action, int mods);
+
         int init();
 
         void start();
@@ -31,6 +35,8 @@ namespace common {
         }
 
     private:
+        void initCallbacks();       
+
         unsigned int width;
         unsigned int height;
         const char* name;

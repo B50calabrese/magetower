@@ -11,7 +11,7 @@ namespace common {
         /*
         * A sprite contains the size, position, and rotation information for a renderable object.
         */
-        class Sprite : Object2D {
+        class Sprite : public Object2D {
         public:
             Sprite(common::resources::Texture texture) : texture(texture) {}
             Sprite(

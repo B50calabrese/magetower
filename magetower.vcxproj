@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\common\2D\object2D.cpp" />
     <ClCompile Include="src\common\2D\renderer_manager.cpp" />
     <ClCompile Include="src\common\2D\sprite.cpp" />
     <ClCompile Include="src\common\2D\sprite_renderer.cpp" />
