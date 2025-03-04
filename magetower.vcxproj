@@ -160,6 +160,7 @@
     <ClCompile Include="src\common\2D\sprite.cpp" />
     <ClCompile Include="src\common\2D\sprite_renderer.cpp" />
     <ClCompile Include="src\common\2D\text_renderer.cpp" />
+    <ClCompile Include="src\common\ecs\engine.cpp" />
     <ClCompile Include="src\common\resources\resource_manager.cpp" />
     <ClCompile Include="src\common\resources\shader.cpp" />
     <ClCompile Include="src\common\resources\texture.cpp" />
@@ -167,9 +168,11 @@
     <ClCompile Include="src\common\window.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\scenes\battle\battle_scene.cpp" />
     <ClCompile Include="src\scenes\mainmenu\main_menu_scene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\common\ecs\README.md" />
     <None Include="src\common\README.md" />
     <None Include="src\common\resources\shaders\font.frag" />
     <None Include="src\common\resources\shaders\font.vert" />
@@ -189,6 +192,11 @@
     <ClInclude Include="src\common\2D\renderer_manager.h" />
     <ClInclude Include="src\common\2D\sprite_renderer.h" />
     <ClInclude Include="src\common\2D\text_renderer.h" />
+    <ClInclude Include="src\common\ecs\component.h" />
+    <ClInclude Include="src\common\ecs\engine.h" />
+    <ClInclude Include="src\common\ecs\entity.h" />
+    <ClInclude Include="src\common\ecs\render_system.h" />
+    <ClInclude Include="src\common\ecs\system.h" />
     <ClInclude Include="src\common\resources\resource_manager.h" />
     <ClInclude Include="src\common\resources\shader.h" />
     <ClInclude Include="src\common\resources\texture.h" />
@@ -197,6 +205,8 @@
     <ClInclude Include="src\common\utils\bounding_box_2d.h" />
     <ClInclude Include="src\common\window.h" />
     <ClInclude Include="src\core\consts.h" />
+    <ClInclude Include="src\scenes\battle\battle_scene.h" />
+    <ClInclude Include="src\scenes\battle\rendersystems\background_system.h" />
     <ClInclude Include="src\scenes\mainmenu\main_menu_scene.h" />
   </ItemGroup>
   <ItemGroup>

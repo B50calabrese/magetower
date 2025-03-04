@@ -4,6 +4,7 @@
 #include "common/window.h"
 #include "core/consts.h"
 #include "scenes/mainmenu/main_menu_scene.h"
+#include "scenes/battle/battle_scene.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -11,6 +12,7 @@ void callback();
 
 using common::Window;
 using scenes::mainmenu::MainMenuScene;
+using scenes::battle::BattleScene;
 
 int main()
 {
@@ -22,7 +24,10 @@ int main()
 
     std::shared_ptr<MainMenuScene> main_menu_scene = std::make_shared<MainMenuScene>();
     scene_manager->addScene(main_menu_scene);
-    scene_manager->setCurrentScene(MainMenuScene::MAIN_MENU_SCENE_ID);
+    scene_manager->setCurrentScene(core::MAIN_MENU_SCENE_ID);
+
+    std::shared_ptr<BattleScene> battle_scene = std::make_shared<BattleScene>();
+    scene_manager->addScene(battle_scene);
 
     window->start();
     return 0;

@@ -25,6 +25,9 @@ namespace common {
         }
 
         void setCurrentScene(int id) {
+            if (this->current_scene != nullptr) {
+                this->current_scene->unloadScene();
+            }
             this->current_scene = scene_map[id];
             this->current_scene->loadScene();
         }

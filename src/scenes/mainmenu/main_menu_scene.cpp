@@ -28,7 +28,9 @@ namespace scenes {
             // If clicked, check interaction with our buttons on the screen.
             if (this->wasLeftButtonClicked(button, action)) {
                 if (this->start_button->containsPoint(this->mouse_position)) {
-                    std::cout << "Hello\n";
+                    // Switch scene
+                    this->update_status = UpdateStatus::SWITCH_SCENE;
+                    this->next_scene_id = core::BATTLE_SCENE_ID;
                 } else if (this->exit_button->containsPoint(this->mouse_position)) {
                     this->update_status = UpdateStatus::CLOSE_WINDOW;
                 }

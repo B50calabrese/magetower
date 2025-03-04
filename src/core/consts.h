@@ -8,6 +8,10 @@ namespace core {
 
     const static float HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2.0f;
     const static float HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2.0f;
+
+    // Scene IDs
+    const static int MAIN_MENU_SCENE_ID = 1;
+    const static int BATTLE_SCENE_ID = 2;
 } // namespace core
 
 #endif // CONSTS_H

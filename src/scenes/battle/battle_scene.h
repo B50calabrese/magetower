@@ -1,18 +1,17 @@
-#ifndef MAIN_MENU_SCENE_H
-#define MAIN_MENU_SCENE_H
+#ifndef BATTLE_SCENE_H
+#define BATTLE_SCENE_H
 
 #include "common/scene.h"
 #include "common/2D/renderer_manager.h"
-#include "common/2D/sprite.h"
-#include "common/resources/texture.h"
+#include "common/ecs/engine.h"
 #include "core/consts.h"
 
 namespace scenes {
-    namespace mainmenu {
+    namespace battle {
 
-        class MainMenuScene : public common::Scene {
-        public:          
-            MainMenuScene() : Scene(core::MAIN_MENU_SCENE_ID), update_status(UpdateStatus::OK) {}
+        class BattleScene : public common::Scene {
+        public:
+            BattleScene() : Scene(core::BATTLE_SCENE_ID), update_status(UpdateStatus::OK) {}
 
             void render(std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
@@ -31,14 +30,10 @@ namespace scenes {
             void unloadScene() {}
 
         private:
-            common::resources::Texture background_texture;
-
-            std::shared_ptr<common::twod::Sprite> start_button;
-            std::shared_ptr<common::twod::Sprite> exit_button;
-
             UpdateStatus update_status;
+            common::ecs::Engine ecs_engine;
         };
-    }
+    } // namespace battle
 } // namespace scenes
 
-#endif // MAIN_MENU_SCENE_H
+#endif // BATTLE_SCENE_H

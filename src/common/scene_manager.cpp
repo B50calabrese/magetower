@@ -9,6 +9,11 @@ namespace common {
             switch (status) {
             case Scene::UpdateStatus::CLOSE_WINDOW:
                 this->should_close_window = true;
+                break;
+
+            case Scene::UpdateStatus::SWITCH_SCENE:
+                this->setCurrentScene(this->current_scene->getNextSceneId());
+                break;
             
             default:
                 // Default case fall through.

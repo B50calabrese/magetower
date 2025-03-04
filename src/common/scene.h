@@ -13,11 +13,12 @@ namespace common {
 	*/
 	class Scene {
 	public:
-		Scene(int id) : id(id), mouse_position(0.0f) {}
+		Scene(int id) : id(id), mouse_position(0.0f), next_scene_id(0) {}
 
 		enum UpdateStatus {
 			OK,
-			CLOSE_WINDOW
+			CLOSE_WINDOW,
+			SWITCH_SCENE
 		};
 
 		virtual void render(std::shared_ptr<common::twod::RendererManager> renderer_manager) = 0;
@@ -31,6 +32,10 @@ namespace common {
 			return this->id;
 		}
 
+		int getNextSceneId() {
+			return this->next_scene_id;
+		}
+
 	protected:
 		bool wasLeftButtonClicked(const int button, const int action) {
 			return (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS);
@@ -41,6 +46,7 @@ namespace common {
 		}
 
 		glm::vec2 mouse_position;
+		int next_scene_id;
 
 	private:
 		int id;
