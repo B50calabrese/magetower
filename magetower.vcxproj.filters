@@ -60,6 +60,18 @@
     <ClCompile Include="src\common\ecs\engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\rendersystems\sprite_render_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\ecs\component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\renderutils\card_render_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\rendersystems\card_render_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\common\README.md" />
@@ -137,7 +149,37 @@
     <ClInclude Include="src\common\ecs\component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\scenes\battle\rendersystems\background_system.h">
+    <ClInclude Include="src\core\components\texture_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\components\position_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\components\size_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\components\sprite_tag_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\rendersystems\sprite_render_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\components\card_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\renderutils\card_render_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\rendersystems\card_render_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\ecs\event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\ecs\event_listener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\events\mouse_click_event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,6 +191,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\mainmenu\start_game_button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\battle\background.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

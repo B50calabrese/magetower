@@ -16,6 +16,7 @@ namespace scenes {
             void render(std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
             UpdateStatus update(float delta_time_ms) {
+                this->ecs_engine.runSystems();
                 return this->update_status;
             }
 
@@ -30,6 +31,10 @@ namespace scenes {
             void unloadScene() {}
 
         private:
+            void loadEntities();
+
+            void loadSystems();
+
             UpdateStatus update_status;
             common::ecs::Engine ecs_engine;
         };

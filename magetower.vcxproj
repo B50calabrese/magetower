@@ -160,12 +160,16 @@
     <ClCompile Include="src\common\2D\sprite.cpp" />
     <ClCompile Include="src\common\2D\sprite_renderer.cpp" />
     <ClCompile Include="src\common\2D\text_renderer.cpp" />
+    <ClCompile Include="src\common\ecs\component.cpp" />
     <ClCompile Include="src\common\ecs\engine.cpp" />
     <ClCompile Include="src\common\resources\resource_manager.cpp" />
     <ClCompile Include="src\common\resources\shader.cpp" />
     <ClCompile Include="src\common\resources\texture.cpp" />
     <ClCompile Include="src\common\scene_manager.cpp" />
     <ClCompile Include="src\common\window.cpp" />
+    <ClCompile Include="src\core\rendersystems\card_render_system.cpp" />
+    <ClCompile Include="src\core\rendersystems\sprite_render_system.cpp" />
+    <ClCompile Include="src\core\renderutils\card_render_utils.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\scenes\battle\battle_scene.cpp" />
@@ -195,6 +199,8 @@
     <ClInclude Include="src\common\ecs\component.h" />
     <ClInclude Include="src\common\ecs\engine.h" />
     <ClInclude Include="src\common\ecs\entity.h" />
+    <ClInclude Include="src\common\ecs\event.h" />
+    <ClInclude Include="src\common\ecs\event_listener.h" />
     <ClInclude Include="src\common\ecs\render_system.h" />
     <ClInclude Include="src\common\ecs\system.h" />
     <ClInclude Include="src\common\resources\resource_manager.h" />
@@ -204,12 +210,21 @@
     <ClInclude Include="src\common\scene_manager.h" />
     <ClInclude Include="src\common\utils\bounding_box_2d.h" />
     <ClInclude Include="src\common\window.h" />
+    <ClInclude Include="src\core\components\card_component.h" />
+    <ClInclude Include="src\core\components\position_component.h" />
+    <ClInclude Include="src\core\components\size_component.h" />
+    <ClInclude Include="src\core\components\sprite_tag_component.h" />
+    <ClInclude Include="src\core\components\texture_component.h" />
     <ClInclude Include="src\core\consts.h" />
+    <ClInclude Include="src\core\events\mouse_click_event.h" />
+    <ClInclude Include="src\core\rendersystems\card_render_system.h" />
+    <ClInclude Include="src\core\rendersystems\sprite_render_system.h" />
+    <ClInclude Include="src\core\renderutils\card_render_util.h" />
     <ClInclude Include="src\scenes\battle\battle_scene.h" />
-    <ClInclude Include="src\scenes\battle\rendersystems\background_system.h" />
     <ClInclude Include="src\scenes\mainmenu\main_menu_scene.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\battle\background.png" />
     <Image Include="assets\mainmenu\background.png" />
     <Image Include="assets\mainmenu\exit_game_button.png" />
     <Image Include="assets\mainmenu\start_game_button.png" />

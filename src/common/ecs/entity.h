@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <bitset>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -14,6 +15,8 @@ namespace common {
         /* Container of components defined by an id. */
         class Entity {
         public:
+            const static int MAX_NUMBER_COMPONENTS = 64;
+
             using ComponentMap = std::map<std::type_index, std::unique_ptr<Component>>;
 
             Entity(int id) : id(id) {}
@@ -32,6 +35,7 @@ namespace common {
                 }
                 std::unique_ptr<T> component = std::make_unique<T>(std::forward<Args>(args)...);
                 this->components[typeIndex] = std::move(component);
+                this->signature[Component::getComponentId<T>()] = true;
                 return *static_cast<T*>(this->components[typeIndex].get()); // Return newly created component
             }
 
@@ -56,6 +60,10 @@ namespace common {
                 return this->components.count(typeIndex) > 0;
             }
 
+            const std::bitset<MAX_NUMBER_COMPONENTS> getSignature() {
+                return this->signature;
+            }
+
         private:
             // Disallow copy and move for simplicity in this example
             Entity(const Entity&) = delete;
@@ -65,8 +73,8 @@ namespace common {
 
             int id;
             ComponentMap components;
+            std::bitset<MAX_NUMBER_COMPONENTS> signature;
         };
-
     } // namespace ecs
 } // namespace common
 

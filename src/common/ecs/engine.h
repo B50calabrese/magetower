@@ -1,11 +1,16 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include <map>
 #include <memory>
+#include <queue>
+#include <typeindex>
 #include <vector>
 
 #include "common/2D/renderer_manager.h"
 #include "entity.h"
+#include "event.h"
+#include "event_listener.h"
 #include "render_system.h"
 #include "system.h"
 
@@ -18,6 +23,9 @@ namespace common {
             using EntityList = std::vector<std::unique_ptr<Entity>>;
             using SystemsList = std::vector<std::unique_ptr<System>>;
             using RenderSystemsList = std::vector<std::unique_ptr<RenderSystem>>;
+            using EventQueue = std::queue<std::unique_ptr<Event>>;
+            using EventListenersList = std::vector<EventListener>;
+            using EventTypeToListenersMap = std::map<std::type_index, EventListenersList>;
 
             Engine() = default;
             ~Engine() = default;
@@ -46,16 +54,25 @@ namespace common {
                 this->render_systems.push_back(std::move(system));
             }
 
-            void runSystems() {
-                for (const auto& system : this->systems) {
-                    system->process(*this);
-                }
-            }
+            void runSystems();
 
             void runRenderSystems(std::shared_ptr<common::twod::RendererManager> renderer_manager) {
                 for (const auto& system : this->render_systems) {
                     system->render(*this, renderer_manager);
                 }
+            }
+
+            void publishEvent(std::unique_ptr<Event> event) {
+                this->event_queue.push(std::move(event));
+            }
+
+            /*
+            * Used to register an event listener, using the event as a template type.
+            */
+            template<typename EventType>
+            void registerEventListener(std::unique_ptr<EventListener> event_listener) {
+                std::type_index eventTypeIndex = std::type_index(typeid(EventType));
+                this->event_type_to_listeners_map[eventTypeIndex].push_back(std::move(event_listener));
             }
 
         private:
@@ -64,6 +81,8 @@ namespace common {
             EntityList entities;
             SystemsList systems;
             RenderSystemsList render_systems;
+            EventQueue event_queue;
+            EventTypeToListenersMap event_type_to_listeners_map;
         };
 
     } // namespace ecs

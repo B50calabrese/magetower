@@ -10,3 +10,4 @@ forced by framework intentionally, to allow for flexibility.
 * System - Runs the business logic acting on a set of entities with a given component.
   * RenderSystem - A subset of systems intended to be used by the renderer.
 * Engine - Manages the various systems, entities, and components defined by the user.
+* Event/Event Listener - Handles out of band 'events' that should trigger immediate effects (such as the end of an animation).
