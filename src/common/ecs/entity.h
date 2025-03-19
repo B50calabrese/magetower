@@ -38,6 +38,15 @@ namespace common {
                 this->signature[Component::getComponentId<T>()] = true;
                 return *static_cast<T*>(this->components[typeIndex].get()); // Return newly created component
             }
+            
+            template<typename T>
+            void removeComponent() {
+                std::type_index typeIndex = std::type_index(typeid(T));
+                if (components.count(typeIndex)) {
+                    components.erase(typeIndex);
+                    signature[Component::getComponentId<T>()] = false; // Clear the bit in the signature
+                }
+            }
 
             /*
             * Gets the component of a given type.

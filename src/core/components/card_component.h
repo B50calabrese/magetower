@@ -13,7 +13,7 @@ namespace core {
         */
         class CardComponent : public common::ecs::Component {
         public:
-            CardComponent(std::string name) : name(name) {}
+            CardComponent(std::string name) : name(name), is_visible(false) {}
 
             std::string getName() {
                 return this->name;
@@ -23,8 +23,18 @@ namespace core {
                 this->name = name;
             }
 
+            bool isVisible() {
+                return this->is_visible;
+            }
+
+            void setIsVisible(bool is_visible) {
+                this->is_visible = is_visible;
+            }
+
         private:
             std::string name;
+            bool is_visible;
+            bool is_hovered;
         };
 
     } // namespace components

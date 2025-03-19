@@ -13,6 +13,18 @@ namespace core {
     // Scene IDs
     const static int MAIN_MENU_SCENE_ID = 1;
     const static int BATTLE_SCENE_ID = 2;
+
+    // Card constants
+    const static int CARD_IN_HAND_WIDTH = 96;
+    const static int CARD_IN_HAND_HEIGHT = 128;
+    const static int CARD_IN_HAND_ZOOM_SCALE = 2;
+    const static int CARD_IN_HAND_ZOOM_WIDTH = CARD_IN_HAND_WIDTH * CARD_IN_HAND_ZOOM_SCALE;
+    const static int CARD_IN_HAND_ZOOM_HEIGHT = CARD_IN_HAND_HEIGHT * CARD_IN_HAND_ZOOM_SCALE;
+
+    const static int CARD_HOLDING_WIDTH = 144;
+    const static int CARD_HOLDING_HALF_WIDTH = CARD_HOLDING_WIDTH / 2;
+    const static int CARD_HOLDING_HEIGHT = 196;
+    const static int CARD_HOLDING_HALF_HEIGHT = CARD_HOLDING_HEIGHT / 2;
 } // namespace core
 
 #endif // CONSTS_H

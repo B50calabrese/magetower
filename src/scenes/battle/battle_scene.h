@@ -5,6 +5,7 @@
 #include "common/2D/renderer_manager.h"
 #include "common/ecs/engine.h"
 #include "core/consts.h"
+#include "core/components/mouse_position_component.h"
 
 namespace scenes {
     namespace battle {
@@ -21,7 +22,10 @@ namespace scenes {
             }
 
             void processMouseInput(GLFWwindow* window, double xPos, double yPos) {
-                this->mouse_position = this->convertMousePositionIntoScreenCoordinates(xPos, yPos, core::SCREEN_WIDTH, core::SCREEN_HEIGHT);
+                auto mouse_component = this->ecs_engine.getSingletonComponent<core::components::MousePositionComponent>();
+                glm::vec2 position = this->convertMousePositionIntoScreenCoordinates(xPos, yPos, core::SCREEN_WIDTH, core::SCREEN_HEIGHT);
+                mouse_component->setX(position.x);
+                mouse_component->setY(position.y);
             }
 
             void processMouseClick(GLFWwindow* window, int button, int action, int mods);
@@ -34,6 +38,8 @@ namespace scenes {
             void loadEntities();
 
             void loadSystems();
+
+            void loadSingletonComponents();
 
             UpdateStatus update_status;
             common::ecs::Engine ecs_engine;

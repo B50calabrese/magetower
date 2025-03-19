@@ -19,6 +19,8 @@ namespace common {
             // This is the main function that systems need to override to implement 'logic'.
             virtual void process(Engine& engine) = 0;
 
+            virtual void registerEventListeners(Engine& engine) {}
+
         private:
             std::bitset<Entity::MAX_NUMBER_COMPONENTS> requiredSignature; // System's required components
 

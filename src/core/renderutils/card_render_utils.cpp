@@ -1,7 +1,9 @@
 #include "card_render_util.h"
 
 #include "common/resources/resource_manager.h"
+#include "common/resources/texture.h"
 #include "core/components/card_component.h"
+#include "core/components/is_hovered_tag_component.h"
 #include "core/components/position_component.h"
 #include "core/components/size_component.h"
 
@@ -10,7 +12,9 @@ namespace core {
 
         using common::ecs::Entity;
         using common::twod::RendererManager;
+        using common::resources::Texture;
         using core::components::CardComponent;
+        using core::components::IsHoveredTagComponent;
         using core::components::PositionComponent;
         using core::components::SizeComponent;
 
@@ -32,13 +36,16 @@ namespace core {
                 return;
             }
 
-            // Get the position and size components.
+            // Get the card, position, and size components.
             PositionComponent position = *entity.getComponent<PositionComponent>();
             SizeComponent size = *entity.getComponent<SizeComponent>();
+            CardComponent card = *entity.getComponent<CardComponent>();
+            glm::vec2 resolved_position = position.getPosition();
 
+            Texture& texture = card.isVisible() ? this->creature_card_frame_texture : this->card_back_texture;
             renderer_manager->getSpriteRenderer()->DrawSprite(
-                this->card_back_texture,
-                position.getPosition(),
+                texture,
+                resolved_position,
                 glm::vec2(size.getWidth(), size.getHeight())
             );
         }

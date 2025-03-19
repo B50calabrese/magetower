@@ -13,7 +13,10 @@ namespace common {
         */
         class EventListener {
         public:
-            virtual void handleEvent(Event& event, Engine& engine) = 0;
+            /*
+            * Handles the given event and returns true if the event should be 'consumed'.
+            */
+            virtual bool handleEvent(Event& event, Engine& engine) = 0;
         };
 
     }

@@ -26,6 +26,11 @@ namespace core {
                 this->height = height;
             }
 
+            void setSize(int width, int height) {
+                this->width = width;
+                this->height = height;
+            }
+
         private:
             int width, height;
         };

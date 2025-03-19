@@ -69,7 +69,16 @@
     <ClCompile Include="src\core\renderutils\card_render_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\rendersystems\card_render_system.cpp">
+    <ClCompile Include="src\scenes\battle\systems\player_hand_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\battle\rendersystems\card_render_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\battle\systems\system_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\battle\systems\card_hold_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -170,9 +179,6 @@
     <ClInclude Include="src\core\renderutils\card_render_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\rendersystems\card_render_system.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\common\ecs\event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -180,6 +186,39 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\events\mouse_click_event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\components\in_player_hand_tag_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\systems\player_hand_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\events\player_hand_update_event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\components\mouse_position_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\components\is_hovered_tag_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\rendersystems\card_render_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\components\player_holding_card_tag_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\components\input_state_singleton_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\utils\math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\systems\system_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\systems\card_hold_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
