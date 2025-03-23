@@ -15,6 +15,9 @@ namespace core {
     const static int BATTLE_SCENE_ID = 2;
 
     // Card constants
+    const static float CARD_DEFAULT_WIDTH = 196.0f;
+    const static float CARD_DEFAULT_HEIGHT = 256.0f;
+
     const static int CARD_IN_HAND_WIDTH = 96;
     const static int CARD_IN_HAND_HEIGHT = 128;
     const static int CARD_IN_HAND_ZOOM_SCALE = 2;

@@ -4,6 +4,7 @@
 #include <string>
 
 #include "common/ecs/component.h"
+#include "common/resources/texture.h"
 
 namespace core {
     namespace components {
@@ -13,7 +14,10 @@ namespace core {
         */
         class CardComponent : public common::ecs::Component {
         public:
-            CardComponent(std::string name) : name(name), is_visible(false) {}
+            CardComponent(std::string name) : name(name), is_visible(true), is_hovered(false), is_faceup(false) {}
+
+            CardComponent(common::resources::Texture card_art_texture, std::string name) :
+              name(name), is_visible(true), is_hovered(false), is_faceup(false), card_art_texture(card_art_texture) {}
 
             std::string getName() {
                 return this->name;
@@ -31,10 +35,29 @@ namespace core {
                 this->is_visible = is_visible;
             }
 
+            bool isFaceup() {
+                return this->is_faceup;
+            }
+
+            void setIsFaceup(bool is_faceup) {
+                this->is_faceup = is_faceup;
+            }
+
+            common::resources::Texture& getCardArtTexture() {
+                return this->card_art_texture;
+            }
+
+            void setCardArtTexture(common::resources::Texture texture) {
+                this->card_art_texture = texture;
+            }
+
         private:
             std::string name;
             bool is_visible;
             bool is_hovered;
+            bool is_faceup;
+
+            common::resources::Texture card_art_texture;
         };
 
     } // namespace components

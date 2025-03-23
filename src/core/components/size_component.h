@@ -31,6 +31,10 @@ namespace core {
                 this->height = height;
             }
 
+            glm::vec2 getSizeVec() {
+                return glm::vec2(width, height);
+            }
+
         private:
             int width, height;
         };

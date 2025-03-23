@@ -20,6 +20,8 @@ namespace core {
 
             void renderCard(const common::ecs::Entity& entity, std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
+            void renderCardBack(glm::vec2 position, glm::vec2 size, std::shared_ptr<common::twod::RendererManager> renderer_manager);
+
         private:
             common::resources::Texture card_back_texture;
             common::resources::Texture creature_card_frame_texture;

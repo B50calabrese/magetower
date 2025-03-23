@@ -21,6 +21,10 @@ namespace common {
 
             Entity(int id) : id(id) {}
 
+            int getId() {
+                return this->id;
+            }
+
             /*
             * Adds a component by passing in the arguments used to generate the component.
             */
