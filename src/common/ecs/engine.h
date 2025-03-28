@@ -35,6 +35,15 @@ namespace common {
                 return this->entities;
             }
 
+            const std::shared_ptr<Entity> getEntityFromId(int id) const {
+                for (auto entity : this->entities) {
+                    if (entity->getId() == id) {
+                        return entity;
+                    }
+                }
+                return nullptr;
+            }
+
             Entity& newEntity();
 
             /*
@@ -56,7 +65,7 @@ namespace common {
                 this->render_systems.push_back(std::move(system));
             }
 
-            void runSystems();
+            void runSystems(double delta_time_ms);
 
             void runRenderSystems(std::shared_ptr<common::twod::RendererManager> renderer_manager) {
                 for (const auto& system : this->render_systems) {

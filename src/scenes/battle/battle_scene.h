@@ -16,8 +16,8 @@ namespace scenes {
 
             void render(std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
-            UpdateStatus update(float delta_time_ms) {
-                this->ecs_engine.runSystems();
+            UpdateStatus update(double delta_time_ms) {
+                this->ecs_engine.runSystems(delta_time_ms);
                 return this->update_status;
             }
 
@@ -29,6 +29,8 @@ namespace scenes {
             }
 
             void processMouseClick(GLFWwindow* window, int button, int action, int mods);
+
+            void processKeyInput(GLFWwindow* window, int key, int scancode, int action, int mod);
 
             void loadScene();
 

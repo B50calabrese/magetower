@@ -19,7 +19,7 @@ namespace scenes {
             public:
                 PlayerHandSystem();
 
-                void process(common::ecs::Engine& engine);
+                void process(common::ecs::Engine& engine, double delta_time_ms);
 
                 void registerEventListeners(common::ecs::Engine& engine) override {
                     engine.registerEventListener<scenes::battle::events::PlayerHandUpdateEvent>(this);

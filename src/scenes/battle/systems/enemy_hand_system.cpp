@@ -26,7 +26,7 @@ namespace scenes {
                 this->setRequiredComponent<InEnemyHandTagComponent>();
             }
 
-            void EnemyHandSystem::process(Engine& engine) {
+            void EnemyHandSystem::process(Engine& engine, double delta_time_ms) {
                 std::vector<std::shared_ptr<Entity>> enemy_hand;
                 float total_width = 0;
 

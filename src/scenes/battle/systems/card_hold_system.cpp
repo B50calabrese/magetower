@@ -32,7 +32,7 @@ namespace scenes {
                 this->setRequiredComponent<PlayerHoldingCardTagComponent>();
             }
 
-            void CardHoldSystem::process(common::ecs::Engine& engine) {
+            void CardHoldSystem::process(common::ecs::Engine& engine, double delta_time_ms) {
                 for (auto& entity : engine.getEntities()) {
                     if ((this->getRequiredSignature() & entity->getSignature()) == this->getRequiredSignature()) {
                         SizeComponent* size_component = entity->getComponent<SizeComponent>();

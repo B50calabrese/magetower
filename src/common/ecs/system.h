@@ -17,7 +17,7 @@ namespace common {
             virtual ~System() = default;
 
             // This is the main function that systems need to override to implement 'logic'.
-            virtual void process(Engine& engine) = 0;
+            virtual void process(Engine& engine, double delta_time_ms) = 0;
 
             virtual void registerEventListeners(Engine& engine) {}
 

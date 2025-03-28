@@ -28,6 +28,10 @@ namespace core {
     const static int CARD_HOLDING_HALF_WIDTH = CARD_HOLDING_WIDTH / 2;
     const static int CARD_HOLDING_HEIGHT = 196;
     const static int CARD_HOLDING_HALF_HEIGHT = CARD_HOLDING_HEIGHT / 2;
+
+    // Position coordinates
+    const static glm::vec2 PLAYER_DECK_POSITION = glm::vec2(1703, 35);
+    const static glm::vec2 PLAYER_HAND_CENTER = glm::vec2(HALF_SCREEN_WIDTH, 0.0f);
 } // namespace core
 
 #endif // CONSTS_H

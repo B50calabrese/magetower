@@ -22,9 +22,10 @@ namespace common {
 		};
 
 		virtual void render(std::shared_ptr<common::twod::RendererManager> renderer_manager) = 0;
-		virtual UpdateStatus update(float delta_time_ms) = 0;
+		virtual UpdateStatus update(double delta_time_ms) = 0;
 		virtual void processMouseInput(GLFWwindow* window, double xPos, double yPos) = 0;
 		virtual void processMouseClick(GLFWwindow* window, int button, int action, int mods) = 0;
+		virtual void processKeyInput(GLFWwindow* window, int key, int scancode, int action, int mod) = 0;
 		virtual void loadScene() = 0;
 		virtual void unloadScene() = 0;
 

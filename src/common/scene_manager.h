@@ -32,11 +32,12 @@ namespace common {
             this->current_scene->loadScene();
         }
 
-        void update(float deltaTimeMs);
+        void update(double deltaTimeMs);
         void display();
         void updateWindow(GLFWwindow* window);
         void processMouseInput(GLFWwindow* window, double xPos, double yPos);
         void processMouseClick(GLFWwindow* window, int button, int action, int mods);
+        void processKeyInput(GLFWwindow* window, int key, int scancode, int action, int mod);
 
     private:
         glm::mat4 projection_matrix;

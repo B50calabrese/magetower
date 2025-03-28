@@ -26,6 +26,8 @@ namespace common {
 
         static void mouseInputCallback(GLFWwindow* window, int button, int action, int mods);
 
+        static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mod);
+
         int init();
 
         void start();
@@ -44,7 +46,7 @@ namespace common {
         GLFWwindow* window_internal;
         std::shared_ptr<SceneManager> scene_manager;
 
-        float last_frame_ms;
+        double last_frame_ms;
     };
 } // namespace common
 

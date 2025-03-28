@@ -18,7 +18,7 @@ namespace scenes {
             public:
                 CardHoldSystem();
 
-                void process(common::ecs::Engine& engine);
+                void process(common::ecs::Engine& engine, double delta_time_ms);
 
                 void registerEventListeners(common::ecs::Engine& engine) override {
                     engine.registerEventListener<core::events::MouseClickEvent>(this);

@@ -3,6 +3,7 @@
 #include "common/2D/renderer_manager.h"
 #include "common/ecs/engine.h"
 #include "common/ecs/entity.h"
+#include "core/consts.h"
 #include "core/renderutils/card_render_util.h"
 #include "scenes/battle/components/player_deck_singleton_component.h"
 
@@ -16,7 +17,6 @@ namespace scenes {
             using core::renderutils::CardRenderUtil;
             using scenes::battle::components::PlayerDeckSingletonComponent;
 
-            const glm::vec2 PlayerDeckRenderSystem::DECK_POSITION = glm::vec2(1703, 35);
             const glm::vec2 PlayerDeckRenderSystem::DECK_SIZE = glm::vec2(183, 247);
 
             PlayerDeckRenderSystem::PlayerDeckRenderSystem(std::shared_ptr<CardRenderUtil> card_render_util) :
@@ -27,7 +27,7 @@ namespace scenes {
 
                 if (deck->getSizeOfDeck() > 0) {
                     this->card_render_util->renderCardBack(
-                        PlayerDeckRenderSystem::DECK_POSITION,
+                        core::PLAYER_DECK_POSITION,
                         PlayerDeckRenderSystem::DECK_SIZE,
                         renderer_manager
                     );

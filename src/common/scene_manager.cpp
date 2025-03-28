@@ -2,7 +2,7 @@
 
 namespace common {
 
-    void SceneManager::update(float deltaTimeMs) {
+    void SceneManager::update(double deltaTimeMs) {
         if (this->current_scene != nullptr) {
             Scene::UpdateStatus status = this->current_scene->update(deltaTimeMs);
             
@@ -37,6 +37,10 @@ namespace common {
 
     void SceneManager::processMouseClick(GLFWwindow* window, int button, int action, int mods) {
         this->current_scene->processMouseClick(window, button, action, mods);
+    }
+
+    void SceneManager::processKeyInput(GLFWwindow* window, int key, int scancode, int action, int mod) {
+        this->current_scene->processKeyInput(window, key, scancode, action, mod);
     }
 
 } // namespace common

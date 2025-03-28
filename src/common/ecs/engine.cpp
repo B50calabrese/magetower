@@ -11,7 +11,7 @@ namespace common {
             return *(this->entities.back());
         }
 
-        void Engine::runSystems() {
+        void Engine::runSystems(double delta_time_ms) {
             // Handle all events first beforehand.
             while (!this->event_queue.empty()) {
                 std::unique_ptr<Event> event = std::move(this->event_queue.front());
@@ -35,7 +35,7 @@ namespace common {
 
             // Once events are processed then finish.
             for (const auto& system : this->systems) {
-                system->process(*this);
+                system->process(*this, delta_time_ms);
             }
         }
 

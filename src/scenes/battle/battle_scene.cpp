@@ -11,15 +11,18 @@
 #include "core/events/mouse_click_event.h"
 #include "core/rendersystems/sprite_render_system.h"
 #include "core/renderutils/card_render_util.h"
+#include "core/systems/animation_system.h"
 #include "scenes/battle/components/in_enemy_hand_tag_component.h"
 #include "scenes/battle/components/in_player_hand_tag_component.h"
 #include "scenes/battle/components/input_state_singleton_component.h"
 #include "scenes/battle/components/player_deck_singleton_component.h"
+#include "scenes/battle/events/player_draw_card_start_event.h"
 #include "scenes/battle/events/player_hand_update_event.h"
 #include "scenes/battle/rendersystems/card_render_system.h"
 #include "scenes/battle/rendersystems/player_deck_render_system.h"
 #include "scenes/battle/systems/card_hold_system.h"
 #include "scenes/battle/systems/enemy_hand_system.h"
+#include "scenes/battle/systems/player_deck_system.h"
 #include "scenes/battle/systems/player_hand_system.h"
 
 namespace scenes {
@@ -35,15 +38,18 @@ namespace scenes {
         using core::events::MouseClickEvent;
         using core::rendersystems::SpriteRenderSystem;
         using core::renderutils::CardRenderUtil;
+        using core::systems::AnimationSystem;
         using scenes::battle::components::InEnemyHandTagComponent;
         using scenes::battle::components::InPlayerHandTagComponent;
         using scenes::battle::components::InputStateSingletonComponent;
         using scenes::battle::components::PlayerDeckSingletonComponent;
+        using scenes::battle::events::PlayerDrawCardStartEvent;
         using scenes::battle::events::PlayerHandUpdateEvent;
         using scenes::battle::rendersystems::CardRenderSystem;
         using scenes::battle::rendersystems::PlayerDeckRenderSystem;
         using scenes::battle::systems::CardHoldSystem;
         using scenes::battle::systems::EnemyHandSystem;
+        using scenes::battle::systems::PlayerDeckSystem;
         using scenes::battle::systems::PlayerHandSystem;
 
         void BattleScene::render(std::shared_ptr<common::twod::RendererManager> renderer_manager) {
@@ -53,6 +59,12 @@ namespace scenes {
         void BattleScene::processMouseClick(GLFWwindow* window, int button, int action, int mods) {
             if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
                 this->ecs_engine.publishEvent(std::make_unique<MouseClickEvent>());
+        }
+
+        void BattleScene::processKeyInput(GLFWwindow* window, int key, int scancode, int action, int mod) {
+            if (key == GLFW_KEY_E && action == GLFW_PRESS) {
+                this->ecs_engine.publishEvent(std::make_unique<PlayerDrawCardStartEvent>());
+            }
         }
 
         void BattleScene::loadScene() {
@@ -125,7 +137,6 @@ namespace scenes {
             test_card_7.addComponent<PositionComponent>(glm::vec2(50.0f));
             test_card_7.addComponent<CardComponent>("Test name 2");
             test_card_7.getComponent<CardComponent>()->setIsVisible(false);
-            test_card_7.addComponent<InEnemyHandTagComponent>();
 
             ecs_engine.getSingletonComponent<PlayerDeckSingletonComponent>()->addCard(test_card_7.getId());
 
@@ -133,11 +144,14 @@ namespace scenes {
         }
 
         void BattleScene::loadSystems() {
+            this->ecs_engine.registerSystem<AnimationSystem>();
+
             std::shared_ptr<CardRenderUtil> card_render_util = std::make_shared<CardRenderUtil>();
             this->ecs_engine.registerRenderSystem<SpriteRenderSystem>();
             this->ecs_engine.registerRenderSystem<CardRenderSystem>(card_render_util);
             this->ecs_engine.registerRenderSystem<PlayerDeckRenderSystem>(card_render_util);
 
+            this->ecs_engine.registerSystem<PlayerDeckSystem>();
             this->ecs_engine.registerSystem<EnemyHandSystem>();
             this->ecs_engine.registerSystem<PlayerHandSystem>();
             this->ecs_engine.registerSystem<CardHoldSystem>();

@@ -46,7 +46,7 @@ namespace scenes {
                 this->setRequiredComponent<InPlayerHandTagComponent>();
             }
 
-            void PlayerHandSystem::process(Engine& engine) {
+            void PlayerHandSystem::process(Engine& engine, double delta_time_ms) {
                 MousePositionComponent* mouse_position_component = engine.getSingletonComponent<MousePositionComponent>();
 \
                 bool needs_update = false;
@@ -136,7 +136,7 @@ namespace scenes {
                 }
 
                 // Then using the width of the hand we center it on the center of the screen.
-                float start_position_x = core::HALF_SCREEN_WIDTH - (total_width / 2);
+                float start_position_x = core::PLAYER_HAND_CENTER.x - (total_width / 2);
                 for (auto entity : player_hand) {
                     PositionComponent* position_component = entity->getComponent<PositionComponent>();
                     position_component->setX(start_position_x);

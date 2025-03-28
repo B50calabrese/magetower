@@ -30,6 +30,12 @@ namespace scenes {
                     return this->deck;
                 }
 
+                int drawCard() {
+                    int id = this->deck[0];
+                    this->deck.erase(this->deck.begin());
+                    return id;
+                }
+
             private:
                 // Contains a reference id to all the entities that make up this deck.
                 std::vector<int> deck;

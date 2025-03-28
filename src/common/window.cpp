@@ -14,6 +14,11 @@ namespace common {
         window_internal->getSceneManager()->processMouseClick(window, button, action, mods);
     }
 
+    void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mod) {
+        Window* window_internal = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        window_internal->getSceneManager()->processKeyInput(window, key, scancode, action, mod);
+    }
+
     int Window::init() {
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -51,8 +56,8 @@ namespace common {
     void Window::start() {
         while (!glfwWindowShouldClose(this->window_internal))
         {
-            float current_frame = glfwGetTime();
-            float delta_time = current_frame - this->last_frame_ms;
+            double current_frame = glfwGetTime();
+            double delta_time = current_frame - this->last_frame_ms;
             this->last_frame_ms = current_frame;
 
             this->scene_manager->updateWindow(this->window_internal);
@@ -74,6 +79,7 @@ namespace common {
         glfwSetWindowUserPointer(this->window_internal, reinterpret_cast<void*>(this));
         glfwSetCursorPosCallback(this->window_internal, Window::mouseMovementCallback);
         glfwSetMouseButtonCallback(this->window_internal, Window::mouseInputCallback);
+        glfwSetKeyCallback(this->window_internal, Window::keyCallback);
     }
 
 } // namespace common

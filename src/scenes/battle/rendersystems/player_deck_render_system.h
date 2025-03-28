@@ -24,7 +24,6 @@ namespace scenes {
                     std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
             private:
-                const static glm::vec2 DECK_POSITION;
                 const static glm::vec2 DECK_SIZE;
 
                 std::shared_ptr<core::renderutils::CardRenderUtil> card_render_util;
