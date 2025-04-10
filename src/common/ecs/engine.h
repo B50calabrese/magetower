@@ -23,7 +23,7 @@ namespace common {
             using EntityList = std::vector<std::shared_ptr<Entity>>;
             using SystemsList = std::vector<std::unique_ptr<System>>;
             using RenderSystemsList = std::vector<std::unique_ptr<RenderSystem>>;
-            using EventQueue = std::queue<std::unique_ptr<Event>>;
+            using EventQueue = std::queue<std::shared_ptr<Event>>;
             using EventListenersList = std::vector<EventListener*>;
             using EventTypeToListenersMap = std::map<std::type_index, EventListenersList>;
             using SingletonComponentMap = std::map<std::type_index, std::unique_ptr<Component>>;

@@ -1,6 +1,8 @@
 #ifndef CONSTS_H
 #define CONSTS_H
 
+#include "common/utils/bounding_box_2d.h"
+
 namespace core {
     // UI constants
     const static float SCREEN_WIDTH = 1920.0f;
@@ -31,7 +33,20 @@ namespace core {
 
     // Position coordinates
     const static glm::vec2 PLAYER_DECK_POSITION = glm::vec2(1703, 35);
+    const static glm::vec2 ENEMY_DECK_POSITION = glm::vec2(34, 799);
+
     const static glm::vec2 PLAYER_HAND_CENTER = glm::vec2(HALF_SCREEN_WIDTH, 0.0f);
+    const static glm::vec2 ENEMY_HAND_CENTER = glm::vec2(HALF_SCREEN_WIDTH, SCREEN_HEIGHT - CARD_HOLDING_HEIGHT);
+
+    const common::utils::BoundingBox2D BOARD_BOUNDING_BOX = {
+        glm::vec2(268.0f, 232.0f),
+        glm::vec2(1384.0f, 259.0f)
+    };
+
+    const common::utils::BoundingBox2D PLAYER_HAND_BOUNDING_BOX = {
+        glm::vec2(0.0f),
+        glm::vec2(SCREEN_WIDTH, 208.0f)
+    };
 } // namespace core
 
 #endif // CONSTS_H

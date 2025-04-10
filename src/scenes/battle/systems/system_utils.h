@@ -1,6 +1,7 @@
 #ifndef SYSTEM_UTILS_H
 #define SYSTEM_UTILS_H
 
+#include "common/utils/bounding_box_2d.h"
 #include "core/components/mouse_position_component.h"
 #include "core/components/position_component.h"
 #include "core/components/size_component.h"
@@ -17,6 +18,10 @@ namespace scenes {
                 core::components::MousePositionComponent& mouse_position,
                 core::components::PositionComponent& position,
                 core::components::SizeComponent& size);
+
+            bool mouseWithinBoundingBox(
+                core::components::MousePositionComponent& mouse_position,
+                common::utils::BoundingBox2D bounding_box);
 
         } // namespace systems
     } // namespace battle

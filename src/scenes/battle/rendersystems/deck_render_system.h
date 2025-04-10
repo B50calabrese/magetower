@@ -1,5 +1,5 @@
-#ifndef PLAYER_DECK_RENDER_SYSTEM_H
-#define PLAYER_DECK_RENDER_SYSTEM_H
+#ifndef DECK_RENDER_SYSTEM_H
+#define DECK_RENDER_SYSTEM_H
 
 #include <memory>
 
@@ -13,11 +13,11 @@ namespace scenes {
         namespace rendersystems {
 
             /*
-            * This system is responsible for rendering the player's deck.
+            * This system is responsible for rendering the players' decks.
             */
-            class PlayerDeckRenderSystem : public common::ecs::RenderSystem {
+            class DeckRenderSystem : public common::ecs::RenderSystem {
             public:
-                PlayerDeckRenderSystem(std::shared_ptr<core::renderutils::CardRenderUtil> card_render_util);
+                DeckRenderSystem(std::shared_ptr<core::renderutils::CardRenderUtil> card_render_util);
 
                 void render(
                     common::ecs::Engine& engine,
@@ -33,4 +33,4 @@ namespace scenes {
     } // namespace battle
 } // namespace scenes
 
-#endif // PLAYER_DECK_RENDER_SYSTEM_H
+#endif // DECK_RENDER_SYSTEM_H

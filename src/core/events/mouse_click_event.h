@@ -9,6 +9,8 @@ namespace core {
         class MouseClickEvent : public common::ecs::Event {
         public:
             std::string getName() const { return "MouseClickEvent"; }
+
+            bool shouldConsumeOnFirstPass() override { return true; }
         };
 
     } // namespace events

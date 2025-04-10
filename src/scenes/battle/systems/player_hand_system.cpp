@@ -85,7 +85,7 @@ namespace scenes {
             bool PlayerHandSystem::handleEvent(Event& event, Engine& engine) {
                 if (typeid(event) == typeid(PlayerHandUpdateEvent)) {
                     this->updateHandSizeAndPosition(engine);
-                    return false;
+                    return true;
                 }
                 else if (typeid(event) == typeid(MouseClickEvent)) {
                     if (engine.getSingletonComponent<InputStateSingletonComponent>()->getInputState() == InputStateSingletonComponent::FULL_CONTROL) {
@@ -155,21 +155,26 @@ namespace scenes {
                 }
 
                 MousePositionComponent* mouse_component = engine.getSingletonComponent<MousePositionComponent>();
-                for (auto& entity : engine.getEntities()) {
-                    if (entity->hasComponent<InPlayerHandTagComponent>()) {
-                        if (mouseWithinSizePosition(
-                            *mouse_component,
-                            *entity->getComponent<PositionComponent>(),
-                            *entity->getComponent<SizeComponent>())) {
-                            // The user is attempting to pick up card in their hand.
-                            input_state_component->setInputState(InputStateSingletonComponent::PLAYER_HOLDING_CARD);
-                            entity->removeComponent<InPlayerHandTagComponent>();
-                            entity->addComponent< PlayerHoldingCardTagComponent>();
-                            this->updateHandSizeAndPosition(engine);
-                            return true;
+
+                // Check that the player is clicking within the player's bounding box, otherwise end early.
+                if (mouseWithinBoundingBox(*mouse_component, core::PLAYER_HAND_BOUNDING_BOX)) {
+                    for (auto& entity : engine.getEntities()) {
+                        if (entity->hasComponent<InPlayerHandTagComponent>()) {
+                            if (mouseWithinSizePosition(
+                                *mouse_component,
+                                *entity->getComponent<PositionComponent>(),
+                                *entity->getComponent<SizeComponent>())) {
+                                // The user is attempting to pick up card in their hand.
+                                input_state_component->setInputState(InputStateSingletonComponent::PLAYER_HOLDING_CARD);
+                                entity->removeComponent<InPlayerHandTagComponent>();
+                                entity->addComponent< PlayerHoldingCardTagComponent>();
+                                this->updateHandSizeAndPosition(engine);
+                                return true;
+                            }
                         }
                     }
                 }
+                
                 return false;
             }
 

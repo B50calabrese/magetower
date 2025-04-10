@@ -1,5 +1,6 @@
 #include "card_hold_system.h"
 
+#include "common/utils/math.h"
 #include "core/consts.h"
 #include "core/components/card_component.h"
 #include "core/components/mouse_position_component.h"
@@ -54,6 +55,13 @@ namespace scenes {
                     && typeid(event) == typeid(MouseClickEvent)) {
                     for (auto& entity : engine.getEntities()) {
                         if ((this->getRequiredSignature() & entity->getSignature()) == this->getRequiredSignature()) {
+                            MousePositionComponent* mouse_position = engine.getSingletonComponent<MousePositionComponent>();
+
+                            if (common::utils::boundingBoxContains(core::BOARD_BOUNDING_BOX, mouse_position->getPosition())) {
+                                // Implement a 'play the card' style event.
+                                std::cout << "Got it!!\n";
+                            }
+
                             entity->removeComponent<PlayerHoldingCardTagComponent>();
                             entity->addComponent<InPlayerHandTagComponent>();
                             engine.publishEvent(std::make_unique<PlayerHandUpdateEvent>());

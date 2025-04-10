@@ -2,6 +2,7 @@
 
 #include "common/ecs/entity.h"
 #include "common/resources/resource_manager.h"
+#include "core/components/animation_state_component.h"
 #include "core/components/card_component.h"
 #include "core/components/mouse_position_component.h"
 #include "core/components/position_component.h"
@@ -15,12 +16,14 @@
 #include "scenes/battle/components/in_enemy_hand_tag_component.h"
 #include "scenes/battle/components/in_player_hand_tag_component.h"
 #include "scenes/battle/components/input_state_singleton_component.h"
+#include "scenes/battle/components/enemy_deck_singleton_component.h"
 #include "scenes/battle/components/player_deck_singleton_component.h"
 #include "scenes/battle/events/player_draw_card_start_event.h"
 #include "scenes/battle/events/player_hand_update_event.h"
 #include "scenes/battle/rendersystems/card_render_system.h"
-#include "scenes/battle/rendersystems/player_deck_render_system.h"
+#include "scenes/battle/rendersystems/deck_render_system.h"
 #include "scenes/battle/systems/card_hold_system.h"
+#include "scenes/battle/systems/enemy_deck_system.h"
 #include "scenes/battle/systems/enemy_hand_system.h"
 #include "scenes/battle/systems/player_deck_system.h"
 #include "scenes/battle/systems/player_hand_system.h"
@@ -29,6 +32,7 @@ namespace scenes {
     namespace battle {
 
         using common::ecs::Entity;
+        using core::components::AnimationStateComponent;
         using core::components::CardComponent;
         using core::components::MousePositionComponent;
         using core::components::PositionComponent;
@@ -42,12 +46,14 @@ namespace scenes {
         using scenes::battle::components::InEnemyHandTagComponent;
         using scenes::battle::components::InPlayerHandTagComponent;
         using scenes::battle::components::InputStateSingletonComponent;
+        using scenes::battle::components::EnemyDeckSingletonComponent;
         using scenes::battle::components::PlayerDeckSingletonComponent;
         using scenes::battle::events::PlayerDrawCardStartEvent;
         using scenes::battle::events::PlayerHandUpdateEvent;
         using scenes::battle::rendersystems::CardRenderSystem;
-        using scenes::battle::rendersystems::PlayerDeckRenderSystem;
+        using scenes::battle::rendersystems::DeckRenderSystem;
         using scenes::battle::systems::CardHoldSystem;
+        using scenes::battle::systems::EnemyDeckSystem;
         using scenes::battle::systems::EnemyHandSystem;
         using scenes::battle::systems::PlayerDeckSystem;
         using scenes::battle::systems::PlayerHandSystem;
@@ -132,13 +138,22 @@ namespace scenes {
             test_card_6.addComponent<CardComponent>("Test name 2");
             test_card_6.addComponent<InEnemyHandTagComponent>();
 
-            Entity& test_card_7 = this->ecs_engine.newEntity();
-            test_card_7.addComponent<SizeComponent>(120, 180);
-            test_card_7.addComponent<PositionComponent>(glm::vec2(50.0f));
-            test_card_7.addComponent<CardComponent>("Test name 2");
-            test_card_7.getComponent<CardComponent>()->setIsVisible(false);
+            for (int i = 0; i < 10; i++) {
+                Entity& player_deck_card = this->ecs_engine.newEntity();
+                player_deck_card.addComponent<SizeComponent>(120, 180);
+                player_deck_card.addComponent<PositionComponent>(glm::vec2(50.0f));
+                player_deck_card.addComponent<CardComponent>("Test name 2");
+                player_deck_card.getComponent<CardComponent>()->setIsVisible(false);
+                ecs_engine.getSingletonComponent<PlayerDeckSingletonComponent>()->addCard(player_deck_card.getId());
+            }
 
-            ecs_engine.getSingletonComponent<PlayerDeckSingletonComponent>()->addCard(test_card_7.getId());
+            Entity& test_card_8 = this->ecs_engine.newEntity();
+            test_card_8.addComponent<SizeComponent>(120, 180);
+            test_card_8.addComponent<PositionComponent>(glm::vec2(50.0f));
+            test_card_8.addComponent<CardComponent>("Test name 8");
+            test_card_8.getComponent<CardComponent>()->setIsVisible(false);
+
+            ecs_engine.getSingletonComponent<EnemyDeckSingletonComponent>()->addCard(test_card_8.getId());
 
             ecs_engine.publishEvent(std::make_unique<PlayerHandUpdateEvent>());
         }
@@ -149,8 +164,9 @@ namespace scenes {
             std::shared_ptr<CardRenderUtil> card_render_util = std::make_shared<CardRenderUtil>();
             this->ecs_engine.registerRenderSystem<SpriteRenderSystem>();
             this->ecs_engine.registerRenderSystem<CardRenderSystem>(card_render_util);
-            this->ecs_engine.registerRenderSystem<PlayerDeckRenderSystem>(card_render_util);
+            this->ecs_engine.registerRenderSystem<DeckRenderSystem>(card_render_util);
 
+            this->ecs_engine.registerSystem<EnemyDeckSystem>();
             this->ecs_engine.registerSystem<PlayerDeckSystem>();
             this->ecs_engine.registerSystem<EnemyHandSystem>();
             this->ecs_engine.registerSystem<PlayerHandSystem>();
@@ -161,6 +177,8 @@ namespace scenes {
             this->ecs_engine.registerSingletonComponent<MousePositionComponent>(0.0f, 0.0f);
             this->ecs_engine.registerSingletonComponent<InputStateSingletonComponent>();
             this->ecs_engine.registerSingletonComponent<PlayerDeckSingletonComponent>();
+            this->ecs_engine.registerSingletonComponent<EnemyDeckSingletonComponent>();
+            this->ecs_engine.registerSingletonComponent<AnimationStateComponent>();
         }
 
     } // namespace battle

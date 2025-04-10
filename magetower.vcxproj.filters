@@ -84,13 +84,16 @@
     <ClCompile Include="src\scenes\battle\systems\enemy_hand_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\scenes\battle\rendersystems\player_deck_render_system.cpp">
+    <ClCompile Include="src\scenes\battle\rendersystems\deck_render_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\core\systems\animation_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\scenes\battle\systems\player_deck_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\battle\systems\enemy_deck_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -242,7 +245,7 @@
     <ClInclude Include="src\scenes\battle\components\player_deck_singleton_component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\scenes\battle\rendersystems\player_deck_render_system.h">
+    <ClInclude Include="src\scenes\battle\rendersystems\deck_render_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\components\animation_component.h">
@@ -255,6 +258,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\scenes\battle\events\player_draw_card_start_event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\components\enemy_deck_singleton_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\components\animation_state_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\events\enemy_draw_card_start_event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\events\enemy_hand_update_event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\systems\enemy_deck_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

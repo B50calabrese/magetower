@@ -2,6 +2,7 @@
 
 #include "common/utils/math.h"
 #include "core/components/animation_component.h"
+#include "core/components/animation_state_component.h"
 #include "core/components/position_component.h"
 
 namespace core {
@@ -9,6 +10,7 @@ namespace core {
 
         using common::ecs::Engine;
         using core::components::AnimationComponent;
+        using core::components::AnimationStateComponent;
         using core::components::PositionComponent;
 
         AnimationSystem::AnimationSystem() {
@@ -17,6 +19,10 @@ namespace core {
         }
 
         void AnimationSystem::process(Engine& engine, double delta_time_ms) {
+            AnimationStateComponent* animation_state_component = engine.getSingletonComponent<AnimationStateComponent>();
+            if (animation_state_component != nullptr)
+                animation_state_component->setIsAnimationPlaying(false);
+
             for (auto& entity : engine.getEntities()) {
                 if ((this->getRequiredSignature() & entity->getSignature()) == this->getRequiredSignature()) {
                     AnimationComponent* animation_component = entity->getComponent<AnimationComponent>();
@@ -53,6 +59,8 @@ namespace core {
                                 animation_component->getStartingPosition().y,
                                 animation_component->getEndingPosition().y,
                                 animation_component->getElapsedMs() / animation_component->getDurationMs()));
+
+                        animation_state_component->setIsAnimationPlaying(true);
                     }
                 }
             }

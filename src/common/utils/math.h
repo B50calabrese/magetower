@@ -1,6 +1,8 @@
 #ifndef MATH_H
 #define MATH_H
 
+#include "common/utils/bounding_box_2d.h"
+
 namespace common {
     namespace utils {
 
@@ -15,8 +17,15 @@ namespace common {
          * @return The interpolated value.
          */
         template <typename T>
-        T tween(T start, T end, T t) {
+        inline T tween(T start, T end, T t) {
             return start + (end - start) * t;
+        }
+
+        inline bool boundingBoxContains(BoundingBox2D bounding_box, glm::vec2 point) {
+            return (point.x >= bounding_box.bottom_left.x)
+                && (point.y >= bounding_box.bottom_left.y)
+                && (point.x < (bounding_box.bottom_left.x + bounding_box.size.x))
+                && (point.y < (bounding_box.bottom_left.y + bounding_box.size.y));
         }
 
     } // namespace utils

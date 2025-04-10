@@ -55,7 +55,7 @@ namespace scenes {
             }
 
             bool EnemyHandSystem::handleEvent(common::ecs::Event& event, common::ecs::Engine& engine) {
-                return false;
+                return true;
             }
 
         } // namespace systems

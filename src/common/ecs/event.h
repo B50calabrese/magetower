@@ -14,6 +14,9 @@ namespace common {
             virtual ~Event() = default;
             
             virtual std::string getName() const { return "Event"; }
+
+            // Used to indicate whether or not an event should be purged on the first pass if an event listerner doesn't consume it.
+            virtual bool shouldConsumeOnFirstPass() { return false; }
         };
 
     } // namespace ecs
