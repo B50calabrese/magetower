@@ -1,6 +1,8 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <memory>
+
 namespace common {
     namespace ecs {
 
@@ -8,6 +10,8 @@ namespace common {
         class Component {
         public:
             virtual ~Component() = default;
+
+            virtual std::unique_ptr<Component> clone() const = 0;
 
             /*
             * Gets the unique component id for a given component.
@@ -17,6 +21,11 @@ namespace common {
                 static int component_id = Component::next_component_id++;
                 return component_id;
             }
+
+            /*
+            * Gets the unique component id given an instance of the component.
+            */
+            virtual int getComponentIdInstance() const = 0;
         
         private:
             static int next_component_id;

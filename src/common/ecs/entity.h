@@ -42,7 +42,17 @@ namespace common {
                 this->signature[Component::getComponentId<T>()] = true;
                 return *static_cast<T*>(this->components[typeIndex].get()); // Return newly created component
             }
-            
+
+            void addComponent(std::unique_ptr<Component>& component) {
+                std::type_index typeIndex = std::type_index(typeid(*component));
+                if (this->components.count(typeIndex)) {
+                    std::cerr << "Component of type already exists on entity " << id << std::endl;
+                    return;
+                }
+                this->signature[component->getComponentIdInstance()] = true;
+                this->components[typeIndex] = std::move(component);
+            }
+
             template<typename T>
             void removeComponent() {
                 std::type_index typeIndex = std::type_index(typeid(T));

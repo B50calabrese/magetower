@@ -1,6 +1,8 @@
 #ifndef INPUT_STATE_SINGLETON_COMPONENT_H
 #define INPUT_STATE_SINGLETON_COMPONENT_H
 
+#include <memory>
+
 #include "common/ecs/component.h"
 
 namespace scenes {
@@ -14,6 +16,14 @@ namespace scenes {
             public:
                 InputStateSingletonComponent() {
                     this->input_state = InputState::FULL_CONTROL;
+                }
+
+                std::unique_ptr<Component> clone() const override {
+                    return std::make_unique<InputStateSingletonComponent>();
+                }
+
+                int getComponentIdInstance() const override {
+                    return Component::getComponentId<InputStateSingletonComponent>();
                 }
 
                 enum InputState {

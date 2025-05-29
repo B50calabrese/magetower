@@ -5,6 +5,7 @@
 #include "common/2D/renderer_manager.h"
 #include "common/ecs/engine.h"
 #include "core/consts.h"
+#include "core/card_registry.h"
 #include "core/components/mouse_position_component.h"
 
 namespace scenes {
@@ -12,7 +13,9 @@ namespace scenes {
 
         class BattleScene : public common::Scene {
         public:
-            BattleScene() : Scene(core::BATTLE_SCENE_ID), update_status(UpdateStatus::OK) {}
+            BattleScene() : Scene(core::BATTLE_SCENE_ID), update_status(UpdateStatus::OK) {
+                this->card_registry = std::make_shared<core::CardRegistry>();
+            }
 
             void render(std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
@@ -45,6 +48,8 @@ namespace scenes {
 
             UpdateStatus update_status;
             common::ecs::Engine ecs_engine;
+
+            std::shared_ptr<core::CardRegistry> card_registry;
         };
     } // namespace battle
 } // namespace scenes

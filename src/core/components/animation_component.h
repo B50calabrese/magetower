@@ -2,6 +2,7 @@
 #define ANIMATION_COMPONENT_H
 
 #include <functional>
+#include <memory>
 #include <string>
 
 #include "common/ecs/component.h"
@@ -25,6 +26,14 @@ namespace core {
                 duration_ms(duration_ms),
                 elapsed_ms(0.0f),
                 callback_ptr(nullptr) {}
+
+            std::unique_ptr<Component> clone() const override {
+                return std::make_unique<AnimationComponent>(this->starting_position, this->ending_position, this->duration_ms);
+            }
+
+            int getComponentIdInstance() const override {
+                return Component::getComponentId<AnimationComponent>();
+            }
 
             enum AnimationState {
                 NOT_STARTED,

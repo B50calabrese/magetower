@@ -18,6 +18,14 @@ namespace scenes {
             public:
                 PlayerDeckSingletonComponent() = default;
 
+                std::unique_ptr<Component> clone() const override {
+                    return std::make_unique<PlayerDeckSingletonComponent>();
+                }
+
+                int getComponentIdInstance() const override {
+                    return Component::getComponentId<PlayerDeckSingletonComponent>();
+                }
+
                 void addCard(int id) {
                     this->deck.push_back(id);
                 }

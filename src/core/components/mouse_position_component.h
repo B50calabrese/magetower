@@ -2,6 +2,7 @@
 #define MOUSE_POSITION_COMPONENT_H
 
 #include <glm/ext/vector_float2.hpp>
+#include <memory>
 
 #include "common/ecs/component.h"
 
@@ -11,6 +12,14 @@ namespace core {
         class MousePositionComponent : public common::ecs::Component {
         public:
             MousePositionComponent(float x, float y) : x(x), y(y) {}
+
+            std::unique_ptr<Component> clone() const override {
+                return std::make_unique<MousePositionComponent>(this->x, this->y);
+            }
+
+            int getComponentIdInstance() const override {
+                return Component::getComponentId<MousePositionComponent>();
+            }
 
             float getX() {
                 return this->x;

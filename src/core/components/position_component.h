@@ -2,6 +2,7 @@
 #define POSITION_COMPONENT_H
 
 #include <glm/vec2.hpp>
+#include <memory>
 
 #include "common/ecs/component.h"
 
@@ -11,6 +12,14 @@ namespace core {
         class PositionComponent : public common::ecs::Component {
         public:
             PositionComponent(glm::vec2 position) : position(position) {}
+
+            std::unique_ptr<Component> clone() const override {
+                return std::make_unique<PositionComponent>(this->position);
+            }
+
+            int getComponentIdInstance() const override {
+                return Component::getComponentId<PositionComponent>();
+            }
 
             glm::vec2 getPosition() {
                 return this->position;

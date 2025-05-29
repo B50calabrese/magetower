@@ -1,6 +1,8 @@
 #ifndef SIZE_COMPONENT_H
 #define SIZE_COMPONENT_H
 
+#include <memory>
+
 #include "common/ecs/component.h"
 
 namespace core {
@@ -9,6 +11,14 @@ namespace core {
         class SizeComponent : public common::ecs::Component {
         public:
             SizeComponent(int width, int height) : width(width), height(height) {}
+
+            std::unique_ptr<Component> clone() const override {
+                return std::make_unique<SizeComponent>(this->width, this->height);
+            }
+
+            int getComponentIdInstance() const override {
+                return Component::getComponentId<SizeComponent>();
+            }
 
             int getWidth() {
                 return this->width;

@@ -1,6 +1,8 @@
 #ifndef ANIMATION_STATE_COMPONENT_H
 #define ANIMATION_STATE_COMPONENT_H
 
+#include <memory>
+
 #include "common/ecs/component.h"
 
 namespace core {
@@ -12,6 +14,14 @@ namespace core {
         class AnimationStateComponent : public common::ecs::Component {
         public:
             AnimationStateComponent() : is_animation_playing(false) {}
+
+            std::unique_ptr<Component> clone() const override {
+                return std::make_unique<AnimationStateComponent>();
+            }
+
+            int getComponentIdInstance() const override {
+                return Component::getComponentId<AnimationStateComponent>();
+            }
 
             bool isAnimationPlaying() {
                 return this->is_animation_playing;

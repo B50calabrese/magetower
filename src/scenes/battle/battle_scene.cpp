@@ -1,5 +1,6 @@
 #include "battle_scene.h"
 
+#include "common/ecs/component.h"
 #include "common/ecs/entity.h"
 #include "common/resources/resource_manager.h"
 #include "core/components/animation_state_component.h"
@@ -31,6 +32,7 @@
 namespace scenes {
     namespace battle {
 
+        using common::ecs::Component;
         using common::ecs::Entity;
         using core::components::AnimationStateComponent;
         using core::components::CardComponent;
@@ -89,71 +91,17 @@ namespace scenes {
             background_entity.addComponent<PositionComponent>(glm::vec2(0.0f));
             background_entity.addComponent<SpriteTagComponent>();
 
-            // Generate an entity to represent a test card;
-            Entity& test_card = this->ecs_engine.newEntity();
-            test_card.addComponent<SizeComponent>(120, 180);
-            test_card.addComponent<PositionComponent>(glm::vec2(50.0f));
-            test_card.addComponent<CardComponent>(
-                common::resources::ResourceManager::LoadTextureRelative(
-                    "assets/cards/art/011_aqua_elemental.png", "011_aqua_elemental", /*alpha=*/ true),
-                "Test name");
-            test_card.getComponent<CardComponent>()->setIsFaceup(true);
-            test_card.addComponent<InPlayerHandTagComponent>();
-
-            Entity& test_card_2 = this->ecs_engine.newEntity();
-            test_card_2.addComponent<SizeComponent>(120, 180);
-            test_card_2.addComponent<PositionComponent>(glm::vec2(50.0f));
-            test_card_2.addComponent<CardComponent>(
-                common::resources::ResourceManager::LoadTextureRelative(
-                    "assets/cards/art/012_merfolk_fledgling.png", "012_merfolk_fledgling", /*alpha=*/ true), 
-                "Test name 2");
-            test_card_2.getComponent<CardComponent>()->setIsFaceup(true);
-            test_card_2.addComponent<InPlayerHandTagComponent>();
-
-            Entity& test_card_3 = this->ecs_engine.newEntity();
-            test_card_3.addComponent<SizeComponent>(120, 180);
-            test_card_3.addComponent<PositionComponent>(glm::vec2(50.0f));
-            test_card_3.addComponent<CardComponent>(
-                common::resources::ResourceManager::LoadTextureRelative(
-                    "assets/cards/art/013_blue_mage_apprentice.png", "013_blue_mage_apprentice", /*alpha=*/ true), 
-                "Test name 3");
-            test_card_3.getComponent<CardComponent>()->setIsFaceup(true);
-            test_card_3.addComponent<InPlayerHandTagComponent>();
-
-            Entity& test_card_4 = this->ecs_engine.newEntity();
-            test_card_4.addComponent<SizeComponent>(120, 180);
-            test_card_4.addComponent<PositionComponent>(glm::vec2(50.0f));
-            test_card_4.addComponent<CardComponent>("Test name 4");
-            test_card_4.addComponent<InEnemyHandTagComponent>();
-
-            Entity& test_card_5 = this->ecs_engine.newEntity();
-            test_card_5.addComponent<SizeComponent>(120, 180);
-            test_card_5.addComponent<PositionComponent>(glm::vec2(50.0f));
-            test_card_5.addComponent<CardComponent>("Test name");
-            test_card_5.addComponent<InEnemyHandTagComponent>();
-
-            Entity& test_card_6 = this->ecs_engine.newEntity();
-            test_card_6.addComponent<SizeComponent>(120, 180);
-            test_card_6.addComponent<PositionComponent>(glm::vec2(50.0f));
-            test_card_6.addComponent<CardComponent>("Test name 2");
-            test_card_6.addComponent<InEnemyHandTagComponent>();
-
-            for (int i = 0; i < 10; i++) {
-                Entity& player_deck_card = this->ecs_engine.newEntity();
-                player_deck_card.addComponent<SizeComponent>(120, 180);
-                player_deck_card.addComponent<PositionComponent>(glm::vec2(50.0f));
-                player_deck_card.addComponent<CardComponent>("Test name 2");
-                player_deck_card.getComponent<CardComponent>()->setIsVisible(false);
-                ecs_engine.getSingletonComponent<PlayerDeckSingletonComponent>()->addCard(player_deck_card.getId());
+            // Generate entities to represent the player's deck and then execute draw commands.
+            std::vector<int> player_deck = { 11 };
+            for (const int id : player_deck) {
+                Entity& entity = this->ecs_engine.newEntity();
+                std::vector<std::unique_ptr<Component>> components = this->card_registry->getCardPrototype(id);
+                for (auto& component : components) {
+                    entity.addComponent(component);
+                }
+                entity.getComponent<CardComponent>()->setIsVisible(true);
+                entity.addComponent<InPlayerHandTagComponent>();
             }
-
-            Entity& test_card_8 = this->ecs_engine.newEntity();
-            test_card_8.addComponent<SizeComponent>(120, 180);
-            test_card_8.addComponent<PositionComponent>(glm::vec2(50.0f));
-            test_card_8.addComponent<CardComponent>("Test name 8");
-            test_card_8.getComponent<CardComponent>()->setIsVisible(false);
-
-            ecs_engine.getSingletonComponent<EnemyDeckSingletonComponent>()->addCard(test_card_8.getId());
 
             ecs_engine.publishEvent(std::make_unique<PlayerHandUpdateEvent>());
         }

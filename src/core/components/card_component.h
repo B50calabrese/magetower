@@ -1,6 +1,7 @@
 #ifndef CARD_COMPONENT_H
 #define CARD_COMPONENT_H
 
+#include <memory>
 #include <string>
 
 #include "common/ecs/component.h"
@@ -18,6 +19,14 @@ namespace core {
 
             CardComponent(common::resources::Texture card_art_texture, std::string name) :
               name(name), is_visible(true), is_hovered(false), is_faceup(false), card_art_texture(card_art_texture) {}
+
+            std::unique_ptr<Component> clone() const override {
+                return std::make_unique<CardComponent>(this->card_art_texture, this->name);
+            }
+
+            int getComponentIdInstance() const override {
+                return Component::getComponentId<CardComponent>();
+            }
 
             std::string getName() {
                 return this->name;
