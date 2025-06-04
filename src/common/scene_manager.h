@@ -5,7 +5,11 @@
 #include <memory>
 
 #include "scene.h"
-#include "common/2D/renderer_manager.h"
+
+namespace common::twod {
+    // Forward declaration to avoid including header.
+    class RendererManager;
+} // namespace common::twod
 
 namespace common {
     

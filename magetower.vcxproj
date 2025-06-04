@@ -184,6 +184,7 @@
     <ClCompile Include="src\scenes\battle\systems\player_hand_system.cpp" />
     <ClCompile Include="src\scenes\battle\systems\system_utils.cpp" />
     <ClCompile Include="src\scenes\mainmenu\main_menu_scene.cpp" />
+    <ClCompile Include="src\tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\common\ecs\README.md" />
@@ -237,6 +238,7 @@
     <ClInclude Include="src\core\events\mouse_click_event.h" />
     <ClInclude Include="src\core\rendersystems\sprite_render_system.h" />
     <ClInclude Include="src\core\renderutils\card_render_util.h" />
+    <ClInclude Include="src\core\scene_ids.h" />
     <ClInclude Include="src\core\systems\animation_system.h" />
     <ClInclude Include="src\scenes\battle\battle_scene.h" />
     <ClInclude Include="src\scenes\battle\components\enemy_deck_singleton_component.h" />

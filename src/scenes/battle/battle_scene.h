@@ -6,6 +6,7 @@
 #include "common/ecs/engine.h"
 #include "core/consts.h"
 #include "core/card_registry.h"
+#include "core/scene_ids.h"
 #include "core/components/mouse_position_component.h"
 
 namespace scenes {
@@ -13,7 +14,7 @@ namespace scenes {
 
         class BattleScene : public common::Scene {
         public:
-            BattleScene() : Scene(core::BATTLE_SCENE_ID), update_status(UpdateStatus::OK) {
+            BattleScene() : Scene(static_cast<int>(core::SceneId::Battle)), update_status(UpdateStatus::OK) {
                 this->card_registry = std::make_shared<core::CardRegistry>();
             }
 

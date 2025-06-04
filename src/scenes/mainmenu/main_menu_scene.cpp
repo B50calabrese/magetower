@@ -30,7 +30,7 @@ namespace scenes {
                 if (this->start_button->containsPoint(this->mouse_position)) {
                     // Switch scene
                     this->update_status = UpdateStatus::SWITCH_SCENE;
-                    this->next_scene_id = core::BATTLE_SCENE_ID;
+                    this->next_scene_id = static_cast<int>(core::SceneId::Battle);
                 } else if (this->exit_button->containsPoint(this->mouse_position)) {
                     this->update_status = UpdateStatus::CLOSE_WINDOW;
                 }

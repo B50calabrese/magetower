@@ -6,13 +6,14 @@
 #include "common/2D/sprite.h"
 #include "common/resources/texture.h"
 #include "core/consts.h"
+#include "core/scene_ids.h"
 
 namespace scenes {
     namespace mainmenu {
 
         class MainMenuScene : public common::Scene {
         public:          
-            MainMenuScene() : Scene(core::MAIN_MENU_SCENE_ID), update_status(UpdateStatus::OK) {}
+            MainMenuScene() : Scene(static_cast<int>(core::SceneId::MainMenu)), update_status(UpdateStatus::OK) {}
 
             void render(std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
