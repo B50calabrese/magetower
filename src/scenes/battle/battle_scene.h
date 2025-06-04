@@ -42,7 +42,13 @@ namespace scenes {
         private:
             void loadEntities();
 
+            void loadPlayerDeck();
+
+            void loadEnemyDeck();
+
             void loadSystems();
+
+            void loadRenderSystems();
 
             void loadSingletonComponents();
 

@@ -30,7 +30,7 @@ namespace scenes {
                     this->deck.push_back(id);
                 }
 
-                int getSizeOfDeck() {
+                int getSizeOfDeck() const {
                     return this->deck.size();
                 }
 

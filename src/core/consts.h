@@ -1,6 +1,8 @@
 #ifndef CONSTS_H
 #define CONSTS_H
 
+#include <glm/ext/vector_float3.hpp>
+
 #include "common/utils/bounding_box_2d.h"
 
 namespace core {
@@ -47,6 +49,9 @@ namespace core {
         glm::vec2(0.0f),
         glm::vec2(SCREEN_WIDTH, 208.0f)
     };
+
+    // Colors
+    const static glm::vec3 COLOR_BLACK = glm::vec3(0.0f, 0.0f, 0.0f);
 } // namespace core
 
 #endif // CONSTS_H

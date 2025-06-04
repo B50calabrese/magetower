@@ -20,7 +20,7 @@ namespace core {
                 return Component::getComponentId<SizeComponent>();
             }
 
-            int getWidth() {
+            int getWidth() const {
                 return this->width;
             }
 
@@ -28,7 +28,7 @@ namespace core {
                 this->width = width;
             }
 
-            int getHeight() {
+            int getHeight() const {
                 return this->height;
             }
 
@@ -41,7 +41,7 @@ namespace core {
                 this->height = height;
             }
 
-            glm::vec2 getSizeVec() {
+            glm::vec2 getSizeVec() const {
                 return glm::vec2(width, height);
             }
 

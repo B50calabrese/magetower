@@ -41,7 +41,7 @@ namespace core {
                 FINISHED
             };
 
-            AnimationState getAnimationState() {
+            AnimationState getAnimationState() const {
                 return this->animation_state;
             }
 
@@ -53,11 +53,11 @@ namespace core {
                 this->elapsed_ms += elapsed;
             }
 
-            float getElapsedMs() {
+            float getElapsedMs() const {
                 return this->elapsed_ms;
             }
 
-            float getDurationMs() {
+            float getDurationMs() const {
                 return this->duration_ms;
             }
 
@@ -65,15 +65,15 @@ namespace core {
                 this->callback_ptr = callback_ptr;
             }
 
-            AnimationCallbackFunction getCallbackFunction() {
+            AnimationCallbackFunction getCallbackFunction() const {
                 return this->callback_ptr;
             }
 
-            glm::vec2 getStartingPosition() {
+            glm::vec2 getStartingPosition() const {
                 return this->starting_position;
             }
 
-            glm::vec2 getEndingPosition() {
+            glm::vec2 getEndingPosition() const {
                 return this->ending_position;
             }
 

@@ -21,7 +21,7 @@ namespace core {
                 return Component::getComponentId<PositionComponent>();
             }
 
-            glm::vec2 getPosition() {
+            glm::vec2 getPosition() const {
                 return this->position;
             }
 
@@ -29,7 +29,7 @@ namespace core {
                 this->position = position;
             }
 
-            float getX() {
+            float getX() const {
                 return this->position.x;
             }
 
@@ -37,7 +37,7 @@ namespace core {
                 this->position.x = x;
             }
 
-            float getY() {
+            float getY() const {
                 return this->position.y;
             }
 

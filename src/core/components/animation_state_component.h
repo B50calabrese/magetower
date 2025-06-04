@@ -23,7 +23,7 @@ namespace core {
                 return Component::getComponentId<AnimationStateComponent>();
             }
 
-            bool isAnimationPlaying() {
+            bool isAnimationPlaying() const {
                 return this->is_animation_playing;
             }
 

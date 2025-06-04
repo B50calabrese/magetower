@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include "common/window.h"
+#include "common/utils/logger.h"
 #include "core/consts.h"
 #include "scenes/mainmenu/main_menu_scene.h"
 #include "scenes/battle/battle_scene.h"
@@ -15,6 +16,7 @@ using scenes::battle::BattleScene;
 
 int main()
 {
+    common::utils::Logger::Init();
     Window* window = new Window(core::SCREEN_WIDTH, core::SCREEN_HEIGHT, "Mage Tower");
     window->init();
 

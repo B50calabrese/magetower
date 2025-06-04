@@ -166,6 +166,7 @@
     <ClCompile Include="src\common\resources\shader.cpp" />
     <ClCompile Include="src\common\resources\texture.cpp" />
     <ClCompile Include="src\common\scene_manager.cpp" />
+    <ClCompile Include="src\common\utils\logger.cpp" />
     <ClCompile Include="src\common\window.cpp" />
     <ClCompile Include="src\core\card_registry.cpp" />
     <ClCompile Include="src\core\rendersystems\sprite_render_system.cpp" />
@@ -218,12 +219,14 @@
     <ClInclude Include="src\common\scene.h" />
     <ClInclude Include="src\common\scene_manager.h" />
     <ClInclude Include="src\common\utils\bounding_box_2d.h" />
+    <ClInclude Include="src\common\utils\logger.h" />
     <ClInclude Include="src\common\utils\math.h" />
     <ClInclude Include="src\common\window.h" />
     <ClInclude Include="src\core\card_registry.h" />
     <ClInclude Include="src\core\components\animation_component.h" />
     <ClInclude Include="src\core\components\animation_state_component.h" />
     <ClInclude Include="src\core\components\card_component.h" />
+    <ClInclude Include="src\core\components\creature_component.h" />
     <ClInclude Include="src\core\components\is_hovered_tag_component.h" />
     <ClInclude Include="src\core\components\mouse_position_component.h" />
     <ClInclude Include="src\core\components\position_component.h" />

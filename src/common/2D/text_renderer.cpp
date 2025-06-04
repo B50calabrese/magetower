@@ -291,13 +291,20 @@ namespace common {
                 return scale;
             }
 
-            for (int i = 2; i <= max_number_of_lines; i++) {
+            for (int i = 2; i <= num_lines; i++) {
                 if (scale * (max_line_width / 2) < bounding_box.size.x) {
                     return scale;
                 }
             }
 
-            return bounding_box.size.x / (max_line_width / max_number_of_lines);
+            float scale_x = bounding_box.size.x / (max_line_width / num_lines);
+            float scale_y = bounding_box.size.y / (this->line_height * num_lines);
+
+            std::cout << bounding_box.size.x << " " << bounding_box.size.y << "\n";
+            std::cout << max_line_width << " " << num_lines << "\n";
+            std::cout << this->line_height << " " << scale_x << " " << scale_y << "\n";
+
+            return std::min(scale_x, scale_y);
         }
 
     } // namespace twod

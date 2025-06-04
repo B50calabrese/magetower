@@ -28,7 +28,7 @@ namespace core {
                 return Component::getComponentId<CardComponent>();
             }
 
-            std::string getName() {
+            std::string getName() const {
                 return this->name;
             }
 
@@ -36,7 +36,7 @@ namespace core {
                 this->name = name;
             }
 
-            bool isVisible() {
+            bool isVisible() const {
                 return this->is_visible;
             }
 
@@ -44,7 +44,7 @@ namespace core {
                 this->is_visible = is_visible;
             }
 
-            bool isFaceup() {
+            bool isFaceup() const {
                 return this->is_faceup;
             }
 

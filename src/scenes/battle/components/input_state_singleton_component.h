@@ -31,7 +31,7 @@ namespace scenes {
                     PLAYER_HOLDING_CARD
                 };
 
-                InputState getInputState() {
+                InputState getInputState() const {
                     return this->input_state;
                 }
 

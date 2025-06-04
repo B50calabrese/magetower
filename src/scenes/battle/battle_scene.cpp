@@ -77,6 +77,7 @@ namespace scenes {
 
         void BattleScene::loadScene() {
             this->loadSystems();
+            this->loadRenderSystems();
             this->loadSingletonComponents();
             this->loadEntities();
         }
@@ -91,6 +92,11 @@ namespace scenes {
             background_entity.addComponent<PositionComponent>(glm::vec2(0.0f));
             background_entity.addComponent<SpriteTagComponent>();
 
+            this->loadPlayerDeck();
+            this->loadEnemyDeck();
+        }
+
+        void BattleScene::loadPlayerDeck() {
             // Generate entities to represent the player's deck and then execute draw commands.
             std::vector<int> player_deck = { 11 };
             for (const int id : player_deck) {
@@ -100,25 +106,29 @@ namespace scenes {
                     entity.addComponent(component);
                 }
                 entity.getComponent<CardComponent>()->setIsVisible(true);
+                entity.getComponent<CardComponent>()->setIsFaceup(true);
                 entity.addComponent<InPlayerHandTagComponent>();
             }
 
             ecs_engine.publishEvent(std::make_unique<PlayerHandUpdateEvent>());
         }
 
+        void BattleScene::loadEnemyDeck() {}
+
         void BattleScene::loadSystems() {
             this->ecs_engine.registerSystem<AnimationSystem>();
-
-            std::shared_ptr<CardRenderUtil> card_render_util = std::make_shared<CardRenderUtil>();
-            this->ecs_engine.registerRenderSystem<SpriteRenderSystem>();
-            this->ecs_engine.registerRenderSystem<CardRenderSystem>(card_render_util);
-            this->ecs_engine.registerRenderSystem<DeckRenderSystem>(card_render_util);
-
             this->ecs_engine.registerSystem<EnemyDeckSystem>();
             this->ecs_engine.registerSystem<PlayerDeckSystem>();
             this->ecs_engine.registerSystem<EnemyHandSystem>();
             this->ecs_engine.registerSystem<PlayerHandSystem>();
             this->ecs_engine.registerSystem<CardHoldSystem>();
+        }
+
+        void BattleScene::loadRenderSystems() {
+            std::shared_ptr<CardRenderUtil> card_render_util = std::make_shared<CardRenderUtil>();
+            this->ecs_engine.registerRenderSystem<SpriteRenderSystem>();
+            this->ecs_engine.registerRenderSystem<CardRenderSystem>(card_render_util);
+            this->ecs_engine.registerRenderSystem<DeckRenderSystem>(card_render_util);
         }
 
         void BattleScene::loadSingletonComponents() {

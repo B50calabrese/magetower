@@ -21,15 +21,15 @@ namespace core {
                 return Component::getComponentId<MousePositionComponent>();
             }
 
-            float getX() {
+            float getX() const {
                 return this->x;
             }
 
-            float getY() {
+            float getY() const {
                 return this->y;
             }
 
-            glm::vec2 getPosition() {
+            glm::vec2 getPosition() const {
                 return glm::vec2(this->x, this->y);
             }
 

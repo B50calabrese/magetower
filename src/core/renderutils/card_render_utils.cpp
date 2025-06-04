@@ -22,6 +22,9 @@ namespace core {
         // Note these are represented as 'percentages' from the origin of the image (so that size of the image doesn't matter).
         const static glm::vec2 ART_POSITION_FACTOR = glm::vec2(16.0f / core::CARD_DEFAULT_WIDTH, 124.0f / core::CARD_DEFAULT_HEIGHT);
         const static glm::vec2 ART_SIZE_FACTOR = glm::vec2(166.0f / core::CARD_DEFAULT_WIDTH, 85.0f / core::CARD_DEFAULT_HEIGHT);
+        
+        const static glm::vec2 NAME_POSITION_FACTOR = glm::vec2(16.0f / core::CARD_DEFAULT_WIDTH, 221.0f / core::CARD_DEFAULT_HEIGHT);
+        const static glm::vec2 NAME_SIZE_FACTOR = glm::vec2(166.0f / core::CARD_DEFAULT_WIDTH, 19.0f / core::CARD_DEFAULT_HEIGHT);
 
         CardRenderUtil::CardRenderUtil() {
             this->card_back_texture = common::resources::ResourceManager::LoadTextureRelative(
@@ -63,6 +66,17 @@ namespace core {
                     card.getCardArtTexture(),
                     resolved_position + (size.getSizeVec() * ART_POSITION_FACTOR),
                     size.getSizeVec() * ART_SIZE_FACTOR
+                );
+                std::cout << "Rendering card name\n";
+                renderer_manager->getTextRenderer()->RenderTextInBoundingBox(
+                    card.getName(),
+                    {
+                        resolved_position + (size.getSizeVec() * NAME_POSITION_FACTOR),
+                        size.getSizeVec() * NAME_SIZE_FACTOR
+                    },
+                    /*scale=*/ 16.0f,
+                    core::COLOR_BLACK,
+                    /*scale_to_fit=*/ true
                 );
             }
         }
