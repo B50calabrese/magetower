@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 
-#include "consts.h"
 #include "common/ecs/component.h"
 #include "common/resources/resource_manager.h"
 #include "common/resources/texture.h"
+#include "core/card_loader_xml.h"
 #include "core/components/card_component.h"
 #include "core/components/position_component.h"
 #include "core/components/size_component.h"
@@ -40,21 +40,18 @@ namespace core {
         }
     }
 
+    void CardRegistry::addCard(int card_id, std::vector<std::shared_ptr<common::ecs::Component>> components) {
+        for (auto component : components) {
+            this->card_prototypes[card_id].push_back(component->clone());
+        }
+    }
+
     // Private functions
 
     void CardRegistry::initRegistry() {
-        this->addCard(11, "Aqua Elemental", "011_aqua_elemental.png");
-    }
-
-    void CardRegistry::addCard(int card_id, std::string card_name, std::string card_art_name) {
-        std::unique_ptr<CardComponent> card_component = std::make_unique<CardComponent>(
-            ResourceManager::LoadTexture(
-                ("assets/cards/art/" + card_art_name).c_str(), card_name, /*alpha=*/ true),
-            card_name
-        );
-        this->card_prototypes[card_id].push_back(std::move(card_component));
-        this->card_prototypes[card_id].push_back(std::make_unique<SizeComponent>(core::CARD_DEFAULT_WIDTH, core::CARD_DEFAULT_HEIGHT));
-        this->card_prototypes[card_id].push_back(std::make_unique<PositionComponent>(glm::vec2(0.0f)));
+        CardLoaderXML card_loader_xml;
+        const std::string file_path = "assets/cards/card_registry.xml";
+        card_loader_xml.loadCards(file_path, *this);
     }
 
 } // namespace core

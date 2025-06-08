@@ -168,6 +168,7 @@
     <ClCompile Include="src\common\scene_manager.cpp" />
     <ClCompile Include="src\common\utils\logger.cpp" />
     <ClCompile Include="src\common\window.cpp" />
+    <ClCompile Include="src\core\card_loader_xml.cpp" />
     <ClCompile Include="src\core\card_registry.cpp" />
     <ClCompile Include="src\core\rendersystems\sprite_render_system.cpp" />
     <ClCompile Include="src\core\renderutils\card_render_utils.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="src\common\utils\logger.h" />
     <ClInclude Include="src\common\utils\math.h" />
     <ClInclude Include="src\common\window.h" />
+    <ClInclude Include="src\core\card_loader_xml.h" />
     <ClInclude Include="src\core\card_registry.h" />
     <ClInclude Include="src\core\components\animation_component.h" />
     <ClInclude Include="src\core\components\animation_state_component.h" />
@@ -266,6 +268,9 @@
     <Image Include="assets\mainmenu\background.png" />
     <Image Include="assets\mainmenu\exit_game_button.png" />
     <Image Include="assets\mainmenu\start_game_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="assets\cards\card_registry.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

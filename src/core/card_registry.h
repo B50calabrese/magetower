@@ -22,6 +22,8 @@ namespace core {
 
         CardPrototype getCardPrototype(int card_id);
 
+        void addCard(int card_id, std::vector<std::shared_ptr<common::ecs::Component>> components);
+
     private:
         std::map<int, CardPrototype> card_prototypes;
 

@@ -8,8 +8,10 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-#include "shader.h"
-#include "texture.h"
+
+#include "common/resources/shader.h"
+#include "common/resources/texture.h"
+#include "common/utils/logger.h"
 
 namespace common {
     namespace resources {
@@ -62,7 +64,9 @@ namespace common {
             }
             else {
                 const char* failureReason = stbi_failure_reason();
-                std::cout << "Failed to load image: " << failureReason << std::endl;
+                std::string failure_reason_string = failureReason;
+                std::string file_string = file;
+                common::utils::Logger::Error("Failed to load image " + file_string + ": " + failure_reason_string + "\n");
             }
             stbi_image_free(data);
             return texture;

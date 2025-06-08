@@ -67,7 +67,6 @@ namespace core {
                     resolved_position + (size.getSizeVec() * ART_POSITION_FACTOR),
                     size.getSizeVec() * ART_SIZE_FACTOR
                 );
-                std::cout << "Rendering card name\n";
                 renderer_manager->getTextRenderer()->RenderTextInBoundingBox(
                     card.getName(),
                     {

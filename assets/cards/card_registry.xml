@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Cards>
+	<Card Id="11">
+		<Component type="CardComponent">
+			<Name>Aqua Elemental</Name>
+			<CardArt>011_aqua_elemental.png</CardArt>
+		</Component>
+	</Card>
+</Cards>

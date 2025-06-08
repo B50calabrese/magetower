@@ -105,6 +105,9 @@
     <ClCompile Include="src\tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\card_loader_xml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\common\README.md" />
@@ -296,6 +299,9 @@
     <ClInclude Include="src\core\scene_ids.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\card_loader_xml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\mainmenu\background.png">
@@ -310,5 +316,8 @@
     <Image Include="assets\battle\background.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="assets\cards\card_registry.xml" />
   </ItemGroup>
 </Project>
