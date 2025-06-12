@@ -4,34 +4,34 @@
 #include <memory>
 
 namespace common {
-    namespace ecs {
+namespace ecs {
 
-        /* Base class for all components. */
-        class Component {
-        public:
-            virtual ~Component() = default;
+/* Base class for all components. */
+class Component {
+ public:
+  virtual ~Component() = default;
 
-            virtual std::unique_ptr<Component> clone() const = 0;
+  virtual std::unique_ptr<Component> clone() const = 0;
 
-            /*
-            * Gets the unique component id for a given component.
-            */
-            template<typename T>
-            static int getComponentId() {
-                static int component_id = Component::next_component_id++;
-                return component_id;
-            }
+  /*
+   * Gets the unique component id for a given component.
+   */
+  template <typename T>
+  static int getComponentId() {
+    static int component_id = Component::next_component_id++;
+    return component_id;
+  }
 
-            /*
-            * Gets the unique component id given an instance of the component.
-            */
-            virtual int getComponentIdInstance() const = 0;
-        
-        private:
-            static int next_component_id;
-        };
+  /*
+   * Gets the unique component id given an instance of the component.
+   */
+  virtual int getComponentIdInstance() const = 0;
 
-    } // namespace ecs
-} // namespace common
+ private:
+  static int next_component_id;
+};
 
-#endif // COMPONENT_H
+}  // namespace ecs
+}  // namespace common
+
+#endif  // COMPONENT_H

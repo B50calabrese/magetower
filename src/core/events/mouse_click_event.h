@@ -4,16 +4,16 @@
 #include "common/ecs/event.h"
 
 namespace core {
-    namespace events {
+namespace events {
 
-        class MouseClickEvent : public common::ecs::Event {
-        public:
-            std::string getName() const { return "MouseClickEvent"; }
+class MouseClickEvent : public common::ecs::Event {
+ public:
+  std::string getName() const { return "MouseClickEvent"; }
 
-            bool shouldConsumeOnFirstPass() override { return true; }
-        };
+  bool shouldConsumeOnFirstPass() override { return true; }
+};
 
-    } // namespace events
-} // namespace core
+}  // namespace events
+}  // namespace core
 
-#endif // MOUSE_CLICK_EVENT_H
+#endif  // MOUSE_CLICK_EVENT_H

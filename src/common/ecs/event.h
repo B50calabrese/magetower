@@ -4,22 +4,24 @@
 #include <string>
 
 namespace common {
-    namespace ecs {
+namespace ecs {
 
-        /*
-        * Used to signal that something happened in the framework, typically to do 'system to world' level notifcations.
-        */
-        class Event {
-        public:
-            virtual ~Event() = default;
-            
-            virtual std::string getName() const { return "Event"; }
+/*
+ * Used to signal that something happened in the framework, typically to do
+ * 'system to world' level notifcations.
+ */
+class Event {
+ public:
+  virtual ~Event() = default;
 
-            // Used to indicate whether or not an event should be purged on the first pass if an event listerner doesn't consume it.
-            virtual bool shouldConsumeOnFirstPass() { return false; }
-        };
+  virtual std::string getName() const { return "Event"; }
 
-    } // namespace ecs
-} // namespace common
+  // Used to indicate whether or not an event should be purged on the first pass
+  // if an event listerner doesn't consume it.
+  virtual bool shouldConsumeOnFirstPass() { return false; }
+};
 
-#endif // EVENT_H
+}  // namespace ecs
+}  // namespace common
+
+#endif  // EVENT_H

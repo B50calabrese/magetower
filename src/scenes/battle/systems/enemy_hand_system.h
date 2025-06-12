@@ -7,28 +7,28 @@
 #include "common/ecs/system.h"
 
 namespace scenes {
-    namespace battle {
-        namespace systems {
+namespace battle {
+namespace systems {
 
-            /*
-            * This system is responsible for managing the enemy's hand.
-            */
-            class EnemyHandSystem : public common::ecs::System, public common::ecs::EventListener {
-            public:
-                EnemyHandSystem();
+/*
+ * This system is responsible for managing the enemy's hand.
+ */
+class EnemyHandSystem : public common::ecs::System,
+                        public common::ecs::EventListener {
+ public:
+  EnemyHandSystem();
 
-                void process(common::ecs::Engine& engine, double delta_time_ms);
+  void process(common::ecs::Engine& engine, double delta_time_ms);
 
-                void registerEventListeners(common::ecs::Engine& engine) override {
-                }
+  void registerEventListeners(common::ecs::Engine& engine) override {}
 
-                bool handleEvent(common::ecs::Event& event, common::ecs::Engine& engine);
+  bool handleEvent(common::ecs::Event& event, common::ecs::Engine& engine);
 
-            private:
-            };
+ private:
+};
 
-        } // namespace systems
-    } // namespace battle
-} // namespace scenes
+}  // namespace systems
+}  // namespace battle
+}  // namespace scenes
 
-#endif // ENEMY_HAND_SYSTEM_H
+#endif  // ENEMY_HAND_SYSTEM_H

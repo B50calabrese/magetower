@@ -8,27 +8,28 @@
 #include "core/events/mouse_click_event.h"
 
 namespace scenes {
-    namespace battle {
-        namespace systems {
+namespace battle {
+namespace systems {
 
-            /*
-            * This system is responsible for managing the card the player is holding.
-            */
-            class CardHoldSystem : public common::ecs::System, public common::ecs::EventListener {
-            public:
-                CardHoldSystem();
+/*
+ * This system is responsible for managing the card the player is holding.
+ */
+class CardHoldSystem : public common::ecs::System,
+                       public common::ecs::EventListener {
+ public:
+  CardHoldSystem();
 
-                void process(common::ecs::Engine& engine, double delta_time_ms);
+  void process(common::ecs::Engine& engine, double delta_time_ms);
 
-                void registerEventListeners(common::ecs::Engine& engine) override {
-                    engine.registerEventListener<core::events::MouseClickEvent>(this);
-                }
+  void registerEventListeners(common::ecs::Engine& engine) override {
+    engine.registerEventListener<core::events::MouseClickEvent>(this);
+  }
 
-                bool handleEvent(common::ecs::Event& event, common::ecs::Engine& engine);
-            };
+  bool handleEvent(common::ecs::Event& event, common::ecs::Engine& engine);
+};
 
-        } // namespace systems
-    } // namespace battle
-} // namespace scenes
+}  // namespace systems
+}  // namespace battle
+}  // namespace scenes
 
-#endif // CARD_HOLD_SYSTEM_H
+#endif  // CARD_HOLD_SYSTEM_H

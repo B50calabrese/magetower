@@ -7,24 +7,24 @@
 #include "core/components/size_component.h"
 
 namespace scenes {
-    namespace battle {
-        namespace systems {
+namespace battle {
+namespace systems {
 
-            /*
-             * Given a MouseComponent, SizeComponent, and PositionComponent, returns whether or not the mouse is within the bounding
-             * box defined by those components.
-             */
-            bool mouseWithinSizePosition(
-                core::components::MousePositionComponent& mouse_position,
-                core::components::PositionComponent& position,
-                core::components::SizeComponent& size);
+/*
+ * Given a MouseComponent, SizeComponent, and PositionComponent, returns whether
+ * or not the mouse is within the bounding box defined by those components.
+ */
+bool mouseWithinSizePosition(
+    core::components::MousePositionComponent& mouse_position,
+    core::components::PositionComponent& position,
+    core::components::SizeComponent& size);
 
-            bool mouseWithinBoundingBox(
-                core::components::MousePositionComponent& mouse_position,
-                common::utils::BoundingBox2D bounding_box);
+bool mouseWithinBoundingBox(
+    core::components::MousePositionComponent& mouse_position,
+    common::utils::BoundingBox2D bounding_box);
 
-        } // namespace systems
-    } // namespace battle
-} // namespace scenes
+}  // namespace systems
+}  // namespace battle
+}  // namespace scenes
 
-#endif // SYSTEM_UTILS_H
+#endif  // SYSTEM_UTILS_H

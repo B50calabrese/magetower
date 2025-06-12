@@ -4,22 +4,22 @@
 #include "event.h"
 
 namespace common {
-    namespace ecs {
+namespace ecs {
 
-        class Engine;
+class Engine;
 
-        /*
-        * Used to hold the logic when an event is triggered.
-        */
-        class EventListener {
-        public:
-            /*
-            * Handles the given event and returns true if the event should be 'consumed'.
-            */
-            virtual bool handleEvent(Event& event, Engine& engine) = 0;
-        };
+/*
+ * Used to hold the logic when an event is triggered.
+ */
+class EventListener {
+ public:
+  /*
+   * Handles the given event and returns true if the event should be 'consumed'.
+   */
+  virtual bool handleEvent(Event& event, Engine& engine) = 0;
+};
 
-    }
-}
+}  // namespace ecs
+}  // namespace common
 
-#endif // EVENT_LISTENER_H
+#endif  // EVENT_LISTENER_H

@@ -6,16 +6,16 @@
 #include "common/ecs/event.h"
 
 namespace scenes {
-    namespace battle {
-        namespace events {
+namespace battle {
+namespace events {
 
-            class PlayerDrawCardStartEvent : public common::ecs::Event {
-            public:
-                std::string getName() const { return "PlayerDrawCardStartEvent"; }
-            };
+class PlayerDrawCardStartEvent : public common::ecs::Event {
+ public:
+  std::string getName() const { return "PlayerDrawCardStartEvent"; }
+};
 
-        } // namespace events
-    } // namespace battle
-} // namespace scenes
+}  // namespace events
+}  // namespace battle
+}  // namespace scenes
 
-#endif // PLAYER_DRAW_CARD_START_EVENT_H
+#endif  // PLAYER_DRAW_CARD_START_EVENT_H

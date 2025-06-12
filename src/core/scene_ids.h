@@ -3,13 +3,9 @@
 
 namespace core {
 
-    // Represents a specific scene in the game.
-    enum class SceneId : unsigned int {
-        MainMenu = 1,
-        Battle = 2,
-        INVALID = -1
-    };
+// Represents a specific scene in the game.
+enum class SceneId : unsigned int { MainMenu = 1, Battle = 2, INVALID = -1 };
 
-} // namespace core
+}  // namespace core
 
-#endif // SCENE_IDS_H
+#endif  // SCENE_IDS_H

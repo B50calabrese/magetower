@@ -8,24 +8,26 @@
 #include "scenes/battle/events/player_draw_card_start_event.h"
 
 namespace scenes {
-    namespace battle {
-        namespace systems {
+namespace battle {
+namespace systems {
 
-            class PlayerDeckSystem : public common::ecs::System, public common::ecs::EventListener {
-            public:
-                PlayerDeckSystem();
+class PlayerDeckSystem : public common::ecs::System,
+                         public common::ecs::EventListener {
+ public:
+  PlayerDeckSystem();
 
-                void process(common::ecs::Engine& engine, double delta_time_ms);
+  void process(common::ecs::Engine& engine, double delta_time_ms);
 
-                void registerEventListeners(common::ecs::Engine& engine) override {
-                    engine.registerEventListener<scenes::battle::events::PlayerDrawCardStartEvent>(this);
-                }
+  void registerEventListeners(common::ecs::Engine& engine) override {
+    engine.registerEventListener<
+        scenes::battle::events::PlayerDrawCardStartEvent>(this);
+  }
 
-                bool handleEvent(common::ecs::Event& event, common::ecs::Engine& engine);
-            };
+  bool handleEvent(common::ecs::Event& event, common::ecs::Engine& engine);
+};
 
-        } // namespace systems
-    } // namespace battle
-} // namespace scenes
+}  // namespace systems
+}  // namespace battle
+}  // namespace scenes
 
-#endif // PLAYER_DECK_SYSTEM_H
+#endif  // PLAYER_DECK_SYSTEM_H

@@ -1,9 +1,9 @@
 #include "component.h"
 
 namespace common {
-    namespace ecs {
+namespace ecs {
 
-        int Component::next_component_id = 0;
+int Component::next_component_id = 0;
 
-    } // namespace ecs
-} // namespace common
+}  // namespace ecs
+}  // namespace common

@@ -9,26 +9,26 @@
 #include "core/renderutils/card_render_util.h"
 
 namespace scenes {
-    namespace battle {
-        namespace rendersystems {
+namespace battle {
+namespace rendersystems {
 
-            /*
-            * This system is responsible for rendering cards on the screen.
-            */
-            class CardRenderSystem : public common::ecs::RenderSystem {
-            public:
-                CardRenderSystem(std::shared_ptr<core::renderutils::CardRenderUtil> card_render_util);
+/*
+ * This system is responsible for rendering cards on the screen.
+ */
+class CardRenderSystem : public common::ecs::RenderSystem {
+ public:
+  CardRenderSystem(
+      std::shared_ptr<core::renderutils::CardRenderUtil> card_render_util);
 
-                void render(
-                    common::ecs::Engine& engine,
-                    std::shared_ptr<common::twod::RendererManager> renderer_manager);
+  void render(common::ecs::Engine& engine,
+              std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
-            private:
-                std::shared_ptr<core::renderutils::CardRenderUtil> card_render_util;
-            };
+ private:
+  std::shared_ptr<core::renderutils::CardRenderUtil> card_render_util;
+};
 
-        } // namespace rendersystems
-    } // namespace battle
-} // namespace scenes
+}  // namespace rendersystems
+}  // namespace battle
+}  // namespace scenes
 
-#endif // CARD_RENDER_SYSTEM_H
+#endif  // CARD_RENDER_SYSTEM_H

@@ -9,35 +9,33 @@
 #include "common/resources/texture.h"
 
 namespace core {
-    namespace components {
+namespace components {
 
-        class TextureComponent : public common::ecs::Component {
-        public:
-            TextureComponent(std::string image_name, std::string image_path, bool alpha = false) {
-                this->texture = common::resources::ResourceManager::LoadTextureRelative(
-                    image_path.c_str(), image_name, /*alpha=*/ alpha
-                );
-            }
-            
-            TextureComponent(common::resources::Texture texture) : texture(texture) {}
+class TextureComponent : public common::ecs::Component {
+ public:
+  TextureComponent(std::string image_name, std::string image_path,
+                   bool alpha = false) {
+    this->texture = common::resources::ResourceManager::LoadTextureRelative(
+        image_path.c_str(), image_name, /*alpha=*/alpha);
+  }
 
-            std::unique_ptr<Component> clone() const override {
-                return std::make_unique<TextureComponent>(texture);
-            }
+  TextureComponent(common::resources::Texture texture) : texture(texture) {}
 
-            int getComponentIdInstance() const override {
-                return Component::getComponentId<TextureComponent>();
-            }
+  std::unique_ptr<Component> clone() const override {
+    return std::make_unique<TextureComponent>(texture);
+  }
 
-            common::resources::Texture& getTexture() {
-                return this->texture;
-            }
+  int getComponentIdInstance() const override {
+    return Component::getComponentId<TextureComponent>();
+  }
 
-        private:
-            common::resources::Texture texture;
-        };
+  common::resources::Texture& getTexture() { return this->texture; }
 
-    } // namespace components
-} // namespace core
+ private:
+  common::resources::Texture texture;
+};
 
-#endif // TEXTURE_COMPONENT_H
+}  // namespace components
+}  // namespace core
+
+#endif  // TEXTURE_COMPONENT_H

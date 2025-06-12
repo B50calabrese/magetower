@@ -6,25 +6,25 @@
 #include "common/ecs/component.h"
 
 namespace core {
-    namespace components {
+namespace components {
 
-        /*
-        * Used to signify a 'sprite' on the screen.
-        */
-        class SpriteTagComponent : public common::ecs::Component{
-        public:
-            SpriteTagComponent() {}
+/*
+ * Used to signify a 'sprite' on the screen.
+ */
+class SpriteTagComponent : public common::ecs::Component {
+ public:
+  SpriteTagComponent() {}
 
-            std::unique_ptr<Component> clone() const override {
-                return std::make_unique<SpriteTagComponent>();
-            }
+  std::unique_ptr<Component> clone() const override {
+    return std::make_unique<SpriteTagComponent>();
+  }
 
-            int getComponentIdInstance() const override {
-                return Component::getComponentId<SpriteTagComponent>();
-            }
-        };
+  int getComponentIdInstance() const override {
+    return Component::getComponentId<SpriteTagComponent>();
+  }
+};
 
-    } // namespace components
-} // namespace core
+}  // namespace components
+}  // namespace core
 
-#endif // SPRITE_TAG_COMPONENT_H
+#endif  // SPRITE_TAG_COMPONENT_H

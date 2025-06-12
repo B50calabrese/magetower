@@ -4,27 +4,27 @@
 #include <string>
 
 namespace common {
-    namespace utils {
-        
-        enum class LogLevel {
-            INFO,
-            WARNING,
-            ERROR
-        };
+namespace utils {
 
-        class Logger {
-        public:
-            static void Init() {}
-            
-            static void Log(LogLevel level, const std::string& message);
+enum class LogLevel { INFO, WARNING, ERROR };
 
-            static void Info(const std::string& message) { Log(LogLevel::INFO, message); }
+class Logger {
+ public:
+  static void Init() {}
 
-            static void Warning(const std::string& message) { Log(LogLevel::WARNING, message); }
+  static void Log(LogLevel level, const std::string& message);
 
-            static void Error(const std::string& message) { Log(LogLevel::ERROR, message); }
-        };
-    } // namespace utils
-} // namespace common
+  static void Info(const std::string& message) { Log(LogLevel::INFO, message); }
 
-#endif // LOGGER_H
+  static void Warning(const std::string& message) {
+    Log(LogLevel::WARNING, message);
+  }
+
+  static void Error(const std::string& message) {
+    Log(LogLevel::ERROR, message);
+  }
+};
+}  // namespace utils
+}  // namespace common
+
+#endif  // LOGGER_H

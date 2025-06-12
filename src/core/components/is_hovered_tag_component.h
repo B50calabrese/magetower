@@ -6,25 +6,25 @@
 #include "common/ecs/component.h"
 
 namespace core {
-    namespace components {
+namespace components {
 
-        /*
-        * Used to signify an entity is 'hovered'.
-        */
-        class IsHoveredTagComponent : public common::ecs::Component {
-        public:
-            IsHoveredTagComponent() {}
+/*
+ * Used to signify an entity is 'hovered'.
+ */
+class IsHoveredTagComponent : public common::ecs::Component {
+ public:
+  IsHoveredTagComponent() {}
 
-            std::unique_ptr<Component> clone() const override {
-                return std::make_unique<IsHoveredTagComponent>();
-            }
+  std::unique_ptr<Component> clone() const override {
+    return std::make_unique<IsHoveredTagComponent>();
+  }
 
-            int getComponentIdInstance() const override {
-                return Component::getComponentId<IsHoveredTagComponent>();
-            }
-        };
+  int getComponentIdInstance() const override {
+    return Component::getComponentId<IsHoveredTagComponent>();
+  }
+};
 
-    } // namespace components
-} // namespace core
+}  // namespace components
+}  // namespace core
 
-#endif // SPRITE_TAG_COMPONENT_H
+#endif  // SPRITE_TAG_COMPONENT_H
