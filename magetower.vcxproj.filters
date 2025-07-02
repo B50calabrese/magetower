@@ -108,6 +108,9 @@
     <ClCompile Include="src\core\card_loader_xml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\scenes\battle\rendersystems\ui_render_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\common\README.md" />
@@ -302,10 +305,16 @@
     <ClInclude Include="src\core\card_loader_xml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\scenes\battle\components\player_mana_singleton_component.h">
+    <ClInclude Include="src\scenes\battle\components\mana_component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\scenes\battle\components\enemy_mana_singleton_component.h">
+    <ClInclude Include="src\scenes\battle\rendersystems\ui_render_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\components\player_tag_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\components\enemy_tag_component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

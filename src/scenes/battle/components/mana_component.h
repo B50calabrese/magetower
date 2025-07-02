@@ -1,5 +1,5 @@
-#ifndef PLAYER_MANA_SINGLETON_COMPONENT_H
-#define PLAYER_MANA_SINGLETON_COMPONENT_H
+#ifndef MANA_COMPONENT_H
+#define MANA_COMPONENT_H
 
 #include <memory>
 
@@ -10,19 +10,18 @@ namespace battle {
 namespace components {
 
 /*
- * Indicates the current and max mana the player has.
+ * Indicates the current and max mana a 'player' has.
  */
-class PlayerManaSingletonComponent : public common::ecs::Component {
+class ManaComponent : public common::ecs::Component {
  public:
-  PlayerManaSingletonComponent(int max_mana)
-      : current_mana(0), max_mana(max_mana) {}
+  ManaComponent(int max_mana) : current_mana(0), max_mana(max_mana) {}
 
   std::unique_ptr<Component> clone() const override {
-    return std::make_unique<PlayerManaSingletonComponent>(max_mana);
+    return std::make_unique<ManaComponent>(max_mana);
   }
 
   int getComponentIdInstance() const override {
-    return Component::getComponentId<PlayerManaSingletonComponent>();
+    return Component::getComponentId<ManaComponent>();
   }
 
   int getCurrentMana() const { return this->current_mana; }
@@ -40,4 +39,4 @@ class PlayerManaSingletonComponent : public common::ecs::Component {
 }  // namespace battle
 }  // namespace scenes
 
-#endif  // PLAYER_MANA_SINGLETON_COMPONENT_H
+#endif  // MANA_COMPONENT_H

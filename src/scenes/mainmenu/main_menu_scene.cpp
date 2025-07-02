@@ -1,7 +1,5 @@
 #include "main_menu_scene.h"
 
-#include <iostream>
-
 #include "common/2D/sprite.h"
 #include "common/resources/resource_manager.h"
 #include "common/resources/texture.h"

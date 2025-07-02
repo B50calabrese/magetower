@@ -1,13 +1,12 @@
 #ifndef BATTLE_SCENE_H
 #define BATTLE_SCENE_H
 
-#include <GLFW/glfw3.h>
-
 #include <glm/ext/vector_float2.hpp>
 #include <memory>
 
 #include "common/2D/renderer_manager.h"
 #include "common/ecs/engine.h"
+#include "common/ecs/entity.h"
 #include "common/scene.h"
 #include "core/card_registry.h"
 #include "core/components/mouse_position_component.h"
@@ -52,7 +51,13 @@ class BattleScene : public common::Scene {
   void unloadScene() {}
 
  private:
+  static const int MAX_MANA = 10;
+
   void loadEntities();
+
+  void loadPlayerEntity();
+
+  void loadEnemyEntity();
 
   void loadPlayerDeck();
 

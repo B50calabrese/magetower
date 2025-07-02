@@ -22,14 +22,18 @@
 #include "core/renderutils/card_render_util.h"
 #include "core/systems/animation_system.h"
 #include "scenes/battle/components/enemy_deck_singleton_component.h"
+#include "scenes/battle/components/enemy_tag_component.h"
 #include "scenes/battle/components/in_enemy_hand_tag_component.h"
 #include "scenes/battle/components/in_player_hand_tag_component.h"
 #include "scenes/battle/components/input_state_singleton_component.h"
+#include "scenes/battle/components/mana_component.h"
 #include "scenes/battle/components/player_deck_singleton_component.h"
+#include "scenes/battle/components/player_tag_component.h"
 #include "scenes/battle/events/player_draw_card_start_event.h"
 #include "scenes/battle/events/player_hand_update_event.h"
 #include "scenes/battle/rendersystems/card_render_system.h"
 #include "scenes/battle/rendersystems/deck_render_system.h"
+#include "scenes/battle/rendersystems/ui_render_system.h"
 #include "scenes/battle/systems/card_hold_system.h"
 #include "scenes/battle/systems/enemy_deck_system.h"
 #include "scenes/battle/systems/enemy_hand_system.h"
@@ -53,14 +57,18 @@ using core::rendersystems::SpriteRenderSystem;
 using core::renderutils::CardRenderUtil;
 using core::systems::AnimationSystem;
 using scenes::battle::components::EnemyDeckSingletonComponent;
+using scenes::battle::components::EnemyTagComponent;
 using scenes::battle::components::InEnemyHandTagComponent;
 using scenes::battle::components::InPlayerHandTagComponent;
 using scenes::battle::components::InputStateSingletonComponent;
+using scenes::battle::components::ManaComponent;
 using scenes::battle::components::PlayerDeckSingletonComponent;
+using scenes::battle::components::PlayerTagComponent;
 using scenes::battle::events::PlayerDrawCardStartEvent;
 using scenes::battle::events::PlayerHandUpdateEvent;
 using scenes::battle::rendersystems::CardRenderSystem;
 using scenes::battle::rendersystems::DeckRenderSystem;
+using scenes::battle::rendersystems::UiRenderSystem;
 using scenes::battle::systems::CardHoldSystem;
 using scenes::battle::systems::EnemyDeckSystem;
 using scenes::battle::systems::EnemyHandSystem;
@@ -104,7 +112,21 @@ void BattleScene::loadEntities() {
   background_entity.addComponent<PositionComponent>(glm::vec2(0.0f));
   background_entity.addComponent<SpriteTagComponent>();
 
+  this->loadPlayerEntity();
+  this->loadEnemyEntity();
+}
+
+void BattleScene::loadPlayerEntity() {
+  Entity& player_entity = this->ecs_engine.newEntity();
+  player_entity.addComponent<PlayerTagComponent>();
+  player_entity.addComponent<ManaComponent>(1);
   this->loadPlayerDeck();
+}
+
+void BattleScene::loadEnemyEntity() {
+  Entity& enemy_entity = this->ecs_engine.newEntity();
+  enemy_entity.addComponent<EnemyTagComponent>();
+  enemy_entity.addComponent<ManaComponent>(1);
   this->loadEnemyDeck();
 }
 
@@ -144,6 +166,7 @@ void BattleScene::loadRenderSystems() {
   this->ecs_engine.registerRenderSystem<SpriteRenderSystem>();
   this->ecs_engine.registerRenderSystem<CardRenderSystem>(card_render_util);
   this->ecs_engine.registerRenderSystem<DeckRenderSystem>(card_render_util);
+  this->ecs_engine.registerRenderSystem<UiRenderSystem>();
 }
 
 void BattleScene::loadSingletonComponents() {
