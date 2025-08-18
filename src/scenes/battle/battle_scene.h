@@ -18,17 +18,16 @@ namespace battle {
 
 class BattleScene : public common::Scene {
  public:
-  BattleScene()
-      : Scene(static_cast<int>(core::SceneId::Battle)),
-        update_status(UpdateStatus::OK) {
+  BattleScene() : Scene(static_cast<int>(core::SceneId::Battle)) {
     this->card_registry = std::make_shared<core::CardRegistry>();
+    update_status_ = UpdateStatus::kOk;
   }
 
   void render(std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
   UpdateStatus update(double delta_time_ms) {
     this->ecs_engine.runSystems(delta_time_ms);
-    return this->update_status;
+    return this->update_status_;
   }
 
   void processMouseInput(GLFWwindow* window, double xPos, double yPos) {
@@ -69,7 +68,6 @@ class BattleScene : public common::Scene {
 
   void loadSingletonComponents();
 
-  UpdateStatus update_status;
   common::ecs::Engine ecs_engine;
 
   std::shared_ptr<core::CardRegistry> card_registry;

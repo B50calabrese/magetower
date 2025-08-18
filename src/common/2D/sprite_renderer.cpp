@@ -1,8 +1,10 @@
 #include "sprite_renderer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/vector_angle.hpp>
 #include <glm/mat4x4.hpp>
 
+#include "common/resources/resource_manager.h"
 #include "common/resources/shader.h"
 
 namespace common {
@@ -21,6 +23,21 @@ void SpriteRenderer::DrawSprite(const common::resources::Texture& texture,
   glm::mat4 model = generateModelMatrix(position, size, rotate);
 
   DrawSprite(texture, model, color);
+}
+
+void SpriteRenderer::DrawLine(glm::vec2 start, glm::vec2 end, float width,
+                              glm::vec4 color) {
+  glm::vec2 diff = end - start;
+  float length = glm::length(diff);
+  float angle = glm::orientedAngle(glm::vec2(1.0f, 0.0f), glm::normalize(diff));
+
+  glm::mat4 model = glm::mat4(1.0f);
+  model = glm::translate(model, glm::vec3(start, 0.0f));
+  model = glm::rotate(model, angle, glm::vec3(0.0f, 0.0f, 1.0f));
+  model = glm::scale(model, glm::vec3(length, width, 1.0f));
+
+  DrawSprite(common::resources::ResourceManager::GetTexture("white_texture"),
+             model, color);
 }
 
 void SpriteRenderer::DrawSprite(const common::resources::Texture& texture,

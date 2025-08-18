@@ -91,6 +91,11 @@ void BattleScene::processKeyInput(GLFWwindow* window, int key, int scancode,
   if (key == GLFW_KEY_E && action == GLFW_PRESS) {
     this->ecs_engine.publishEvent(std::make_unique<PlayerDrawCardStartEvent>());
   }
+  if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+    player_state_->setCurrentMapLevel(player_state_->getCurrentMapLevel() + 1);
+    update_status_ = UpdateStatus::kSwitchScene;
+    next_scene_id_ = static_cast<int>(core::SceneId::Map);
+  }
 }
 
 void BattleScene::loadScene() {

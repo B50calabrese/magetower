@@ -22,7 +22,7 @@ int main() {
 
   auto main_menu_scene = std::make_shared<scenes::mainmenu::MainMenuScene>();
   scene_manager->addScene(main_menu_scene);
-  scene_manager->setCurrentScene(static_cast<int>(core::SceneId::MainMenu));
+  scene_manager->setCurrentScene(static_cast<int>(core::SceneId::Map));
 
   auto battle_scene = std::make_shared<scenes::battle::BattleScene>();
   scene_manager->addScene(battle_scene);

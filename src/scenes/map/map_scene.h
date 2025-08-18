@@ -16,6 +16,7 @@ struct MapNode {
   NodeType type;
   glm::vec2 position;
   std::vector<int> children;
+  int level;
 };
 
 enum class MapState { kMap, kInteraction };

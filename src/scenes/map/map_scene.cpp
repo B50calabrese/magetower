@@ -20,6 +20,14 @@ void MapScene::render(
                               glm::vec2(core::SCREEN_WIDTH, core::SCREEN_HEIGHT),
                               0.0f, glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
 
+  // Render the connections.
+  for (const auto& node : nodes_) {
+    for (int child_index : node.children) {
+      sprite_renderer->DrawLine(node.position, nodes_[child_index].position,
+                                5.0f, glm::vec4(1.0f));
+    }
+  }
+
   // Render the nodes.
   for (const auto& node : nodes_) {
     common::resources::Texture* texture = nullptr;
@@ -37,8 +45,11 @@ void MapScene::render(
             &common::resources::ResourceManager::GetTexture("map_node_shop");
         break;
     }
+    glm::vec4 color = (node.level == player_state_->getCurrentMapLevel())
+                          ? glm::vec4(1.0f)
+                          : glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
     sprite_renderer->DrawSprite(*texture, node.position,
-                                texture->getSizeVector());
+                                texture->getSizeVector(), 0.0f, color);
   }
 
   if (state_ == MapState::kInteraction) {
@@ -57,6 +68,9 @@ void MapScene::processMouseClick(GLFWwindow* window, int button, int action,
   if (wasLeftButtonClicked(button, action)) {
     if (state_ == MapState::kMap) {
       for (const auto& node : nodes_) {
+        if (node.level != player_state_->getCurrentMapLevel()) {
+          continue;
+        }
         common::resources::Texture* texture = nullptr;
         switch (node.type) {
           case NodeType::kBattle:
@@ -111,6 +125,8 @@ void MapScene::processMouseClick(GLFWwindow* window, int button, int action,
           option1_box.bottom_left.y + option1_box.size.y >=
               mouse_position_.y) {
         current_event_.option1_effect();
+        player_state_->setCurrentMapLevel(player_state_->getCurrentMapLevel() +
+                                          1);
         state_ = MapState::kMap;
       } else if (option2_box.bottom_left.x <= mouse_position_.x &&
                  option2_box.bottom_left.x + option2_box.size.x >=
@@ -119,6 +135,8 @@ void MapScene::processMouseClick(GLFWwindow* window, int button, int action,
                  option2_box.bottom_left.y + option2_box.size.y >=
                      mouse_position_.y) {
         current_event_.option2_effect();
+        player_state_->setCurrentMapLevel(player_state_->getCurrentMapLevel() +
+                                          1);
         state_ = MapState::kMap;
       }
     }
@@ -179,25 +197,39 @@ void MapScene::loadScene() {
 }
 
 void MapScene::generateMap() {
+  nodes_.clear();
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_int_distribution<> distrib(0, 2);
+  std::uniform_int_distribution<> node_type_distrib(0, 2);
+  std::uniform_int_distribution<> nodes_per_level_distrib(1, 3);
+  std::uniform_int_distribution<> child_distrib(0, 2);
 
   const int num_levels = 5;
-  const int nodes_per_level = 3;
   const float level_height = core::SCREEN_HEIGHT / (num_levels + 1);
-  const float node_width = core::SCREEN_WIDTH / (nodes_per_level + 1);
-
   int node_index = 0;
+  int nodes_in_previous_level = 0;
+
   for (int i = 0; i < num_levels; ++i) {
-    for (int j = 0; j < nodes_per_level; ++j) {
+    int nodes_in_level = nodes_per_level_distrib(gen);
+    float node_width = core::SCREEN_WIDTH / (nodes_in_level + 1);
+    int previous_level_start_index = node_index - nodes_in_previous_level;
+
+    for (int j = 0; j < nodes_in_level; ++j) {
       MapNode node;
-      node.type = static_cast<NodeType>(distrib(gen));
+      node.type = static_cast<NodeType>(node_type_distrib(gen));
       node.position =
           glm::vec2(node_width * (j + 1), level_height * (i + 1));
+      node.level = i;
+
+      if (i > 0) {
+        int parent_index =
+            previous_level_start_index + (j % nodes_in_previous_level);
+        nodes_[parent_index].children.push_back(node_index);
+      }
       nodes_.push_back(node);
       node_index++;
     }
+    nodes_in_previous_level = nodes_in_level;
   }
 }
 

@@ -58,6 +58,7 @@ void ShopScene::processMouseClick(GLFWwindow* window, int button, int action,
                                   int mods) {
   if (wasLeftButtonClicked(button, action)) {
     if (leave_button_->containsPoint(mouse_position_)) {
+      player_state_->setCurrentMapLevel(player_state_->getCurrentMapLevel() + 1);
       update_status_ = UpdateStatus::kSwitchScene;
       next_scene_id_ = static_cast<int>(core::SceneId::Map);
       return;
