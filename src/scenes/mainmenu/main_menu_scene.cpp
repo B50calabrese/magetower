@@ -8,53 +8,52 @@
 namespace scenes {
 namespace mainmenu {
 
-using common::resources::ResourceManager;
-using common::resources::Texture;
-using common::twod::Sprite;
-
 void MainMenuScene::render(
     std::shared_ptr<common::twod::RendererManager> renderer_manager) {
   auto sprite_renderer = renderer_manager->getSpriteRenderer();
   // Render the background.
-  sprite_renderer->DrawSprite(this->background_texture, glm::vec2(0.0f, 0.0f),
-                              this->background_texture.getSizeVector());
+  sprite_renderer->DrawSprite(*background_texture_, glm::vec2(0.0f, 0.0f),
+                              background_texture_->getSizeVector(), 0.0f,
+                              glm::vec4(1.0f));
 
   // Render the buttons.
-  start_button->render(renderer_manager);
-  exit_button->render(renderer_manager);
+  start_button_->render(renderer_manager);
+  exit_button_->render(renderer_manager);
 }
 
 void MainMenuScene::processMouseClick(GLFWwindow* window, int button,
                                       int action, int mods) {
   // If clicked, check interaction with our buttons on the screen.
-  if (this->wasLeftButtonClicked(button, action)) {
-    if (this->start_button->containsPoint(this->mouse_position)) {
+  if (wasLeftButtonClicked(button, action)) {
+    if (start_button_->containsPoint(mouse_position_)) {
       // Switch scene
-      this->update_status = UpdateStatus::SWITCH_SCENE;
-      this->next_scene_id = static_cast<int>(core::SceneId::Battle);
-    } else if (this->exit_button->containsPoint(this->mouse_position)) {
-      this->update_status = UpdateStatus::CLOSE_WINDOW;
+      update_status_ = UpdateStatus::kSwitchScene;
+      next_scene_id_ = static_cast<int>(core::SceneId::Battle);
+    } else if (exit_button_->containsPoint(mouse_position_)) {
+      update_status_ = UpdateStatus::kCloseWindow;
     }
   }
 }
 
 void MainMenuScene::loadScene() {
-  this->background_texture = ResourceManager::LoadTextureRelative(
+  background_texture_ = &common::resources::ResourceManager::LoadTexture(
       "assets/mainmenu/background.png", "main_menu_background", /*alpha=*/true);
 
-  Texture start_button_texture = ResourceManager::LoadTextureRelative(
-      "assets/mainmenu/start_game_button.png", "start_game_button",
-      /*alpha=*/true);
-  this->start_button = std::make_shared<Sprite>(
+  common::resources::Texture& start_button_texture =
+      common::resources::ResourceManager::LoadTexture(
+          "assets/mainmenu/start_game_button.png", "start_game_button",
+          /*alpha=*/true);
+  start_button_ = std::make_shared<common::twod::Sprite>(
       start_button_texture,
       glm::vec2(core::HALF_SCREEN_WIDTH - (start_button_texture.getWidth() / 2),
                 core::HALF_SCREEN_HEIGHT),
       start_button_texture.getSizeVector());
 
-  Texture exit_button_texture = ResourceManager::LoadTextureRelative(
-      "assets/mainmenu/exit_game_button.png", "exit_game_button",
-      /*alpha=*/true);
-  this->exit_button = std::make_shared<Sprite>(
+  common::resources::Texture& exit_button_texture =
+      common::resources::ResourceManager::LoadTexture(
+          "assets/mainmenu/exit_game_button.png", "exit_game_button",
+          /*alpha=*/true);
+  exit_button_ = std::make_shared<common::twod::Sprite>(
       exit_button_texture,
       glm::vec2(core::HALF_SCREEN_WIDTH - (exit_button_texture.getWidth() / 2),
                 core::HALF_SCREEN_HEIGHT - exit_button_texture.getHeight()),

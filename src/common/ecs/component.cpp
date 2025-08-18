@@ -3,7 +3,7 @@
 namespace common {
 namespace ecs {
 
-int Component::next_component_id = 0;
+int Component::kNextComponentId = 0;
 
 }  // namespace ecs
 }  // namespace common
