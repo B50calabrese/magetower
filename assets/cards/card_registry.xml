@@ -4,6 +4,21 @@
 		<Component type="CardComponent">
 			<Name>Aqua Elemental</Name>
 			<CardArt>011_aqua_elemental.png</CardArt>
+			<Cost>10</Cost>
+		</Component>
+	</Card>
+	<Card Id="12">
+		<Component type="CardComponent">
+			<Name>Merfolk Fledgling</Name>
+			<CardArt>012_merfolk_fledgling.png</CardArt>
+			<Cost>5</Cost>
+		</Component>
+	</Card>
+	<Card Id="13">
+		<Component type="CardComponent">
+			<Name>Blue Mage Apprentice</Name>
+			<CardArt>013_blue_mage_apprentice.png</CardArt>
+			<Cost>8</Cost>
 		</Component>
 	</Card>
 </Cards>

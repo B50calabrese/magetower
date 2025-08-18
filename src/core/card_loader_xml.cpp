@@ -90,20 +90,25 @@ std::shared_ptr<Component> CardLoaderXML::parseComponent(
   std::string type_string = type;
 
   if (type_string == "CardComponent") {
+    const char* id_text = component_element->Parent()->ToElement()->Attribute("Id");
     const char* name = component_element->FirstChildElement("Name")->GetText();
     const char* card_art =
         component_element->FirstChildElement("CardArt")->GetText();
-    if (!name || !card_art) {
+    const char* cost_text =
+        component_element->FirstChildElement("Cost")->GetText();
+    if (!id_text || !name || !card_art || !cost_text) {
       common::utils::Logger::Error(
           "XML Loader Error: CardComponent malformed\n");
       return nullptr;
     }
     std::string card_art_string = card_art;
+    int id = std::stoi(id_text);
+    int cost = std::stoi(cost_text);
     return std::make_shared<CardComponent>(
         common::resources::ResourceManager::LoadTexture(
             ("assets/cards/art/" + card_art_string).c_str(), name,
             /*alpha=*/true),
-        name);
+        id, name, cost);
   }
 
   common::utils::Logger::Error("XML Loader Error: Unknown component type " +

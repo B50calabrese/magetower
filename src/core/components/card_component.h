@@ -15,18 +15,27 @@ namespace components {
  */
 class CardComponent : public common::ecs::Component {
  public:
-  CardComponent(std::string name)
-      : name(name), is_visible(true), is_hovered(false), is_faceup(false) {}
+  CardComponent(int id, std::string name)
+      : id_(id),
+        name(name),
+        cost_(0),
+        is_visible(true),
+        is_hovered(false),
+        is_faceup(false) {}
 
-  CardComponent(common::resources::Texture card_art_texture, std::string name)
-      : name(name),
+  CardComponent(common::resources::Texture card_art_texture, int id,
+                std::string name, int cost)
+      : id_(id),
+        name(name),
+        cost_(cost),
         is_visible(true),
         is_hovered(false),
         is_faceup(false),
         card_art_texture(card_art_texture) {}
 
   std::unique_ptr<Component> clone() const override {
-    return std::make_unique<CardComponent>(this->card_art_texture, this->name);
+    return std::make_unique<CardComponent>(this->card_art_texture, this->id_,
+                                          this->name, this->cost_);
   }
 
   int getComponentIdInstance() const override {
@@ -36,6 +45,8 @@ class CardComponent : public common::ecs::Component {
   std::string getName() const { return this->name; }
 
   void setName(std::string name) { this->name = name; }
+
+  int getCost() const { return this->cost_; }
 
   bool isVisible() const { return this->is_visible; }
 
@@ -54,12 +65,17 @@ class CardComponent : public common::ecs::Component {
   }
 
  private:
+  int id_;
   std::string name;
+  int cost_;
   bool is_visible;
   bool is_hovered;
   bool is_faceup;
 
   common::resources::Texture card_art_texture;
+
+ public:
+  int getId() const { return id_; }
 };
 
 }  // namespace components

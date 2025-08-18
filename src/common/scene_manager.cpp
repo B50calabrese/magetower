@@ -1,13 +1,15 @@
 #include "scene_manager.h"
 
 #include "2D/renderer_manager.h"
+#include "core/player_state.h"
 
 namespace common {
 
 SceneManager::SceneManager(glm::mat4 projection_matrix)
     : projection_matrix_(projection_matrix),
       current_scene_(nullptr),
-      should_close_window_(false) {}
+      should_close_window_(false),
+      player_state_(std::make_shared<core::PlayerState>()) {}
 
 void SceneManager::init() {
   renderer_manager_ =
@@ -23,6 +25,7 @@ void SceneManager::setCurrentScene(int id) {
     current_scene_->unloadScene();
   }
   current_scene_ = scene_map_[id];
+  current_scene_->setPlayerState(player_state_);
   current_scene_->loadScene();
 }
 

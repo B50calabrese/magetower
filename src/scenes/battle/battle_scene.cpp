@@ -133,7 +133,12 @@ void BattleScene::loadEnemyEntity() {
 void BattleScene::loadPlayerDeck() {
   // Generate entities to represent the player's deck and then execute draw
   // commands.
-  std::vector<int> player_deck = {11};
+  const std::vector<int>& player_deck = player_state_->getDeck();
+  if (player_deck.empty()) {
+    // Add a default card if the deck is empty.
+    player_state_->addCardToDeck(11);
+  }
+
   for (const int id : player_deck) {
     Entity& entity = this->ecs_engine.newEntity();
     std::vector<std::unique_ptr<Component>> components =
