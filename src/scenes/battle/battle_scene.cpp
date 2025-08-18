@@ -29,6 +29,7 @@
 #include "scenes/battle/components/mana_component.h"
 #include "scenes/battle/components/player_deck_singleton_component.h"
 #include "scenes/battle/components/player_tag_component.h"
+#include "scenes/battle/components/turn_state_singleton_component.h"
 #include "scenes/battle/events/player_draw_card_start_event.h"
 #include "scenes/battle/events/player_hand_update_event.h"
 #include "scenes/battle/rendersystems/card_render_system.h"
@@ -37,6 +38,7 @@
 #include "scenes/battle/systems/card_hold_system.h"
 #include "scenes/battle/systems/enemy_deck_system.h"
 #include "scenes/battle/systems/enemy_hand_system.h"
+#include "scenes/battle/systems/enemy_turn_system.h"
 #include "scenes/battle/systems/player_deck_system.h"
 #include "scenes/battle/systems/player_hand_system.h"
 
@@ -95,6 +97,14 @@ void BattleScene::processKeyInput(GLFWwindow* window, int key, int scancode,
     player_state_->setCurrentMapLevel(player_state_->getCurrentMapLevel() + 1);
     update_status_ = UpdateStatus::kSwitchScene;
     next_scene_id_ = static_cast<int>(core::SceneId::Map);
+  }
+  if (key == GLFW_KEY_T && action == GLFW_PRESS) {
+    auto turn_state =
+        this->ecs_engine
+            .getSingletonComponent<components::TurnStateSingletonComponent>();
+    if (turn_state->getCurrentTurn() == components::Turn::kPlayer) {
+      turn_state->setCurrentTurn(components::Turn::kEnemy);
+    }
   }
 }
 
@@ -168,6 +178,7 @@ void BattleScene::loadSystems() {
   this->ecs_engine.registerSystem<EnemyHandSystem>();
   this->ecs_engine.registerSystem<PlayerHandSystem>();
   this->ecs_engine.registerSystem<CardHoldSystem>();
+  this->ecs_engine.registerSystem<EnemyTurnSystem>();
 }
 
 void BattleScene::loadRenderSystems() {
@@ -186,6 +197,7 @@ void BattleScene::loadSingletonComponents() {
   this->ecs_engine.registerSingletonComponent<PlayerDeckSingletonComponent>();
   this->ecs_engine.registerSingletonComponent<EnemyDeckSingletonComponent>();
   this->ecs_engine.registerSingletonComponent<AnimationStateComponent>();
+  this->ecs_engine.registerSingletonComponent<TurnStateSingletonComponent>();
 }
 
 }  // namespace battle

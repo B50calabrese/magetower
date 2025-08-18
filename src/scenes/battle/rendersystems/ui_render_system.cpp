@@ -58,6 +58,14 @@ void UiRenderSystem::render(
       }
     }
   }
+
+  auto turn_state = engine.getSingletonComponent<components::TurnStateSingletonComponent>();
+  std::string turn_text = (turn_state->getCurrentTurn() == components::Turn::kPlayer)
+                              ? "Player's Turn"
+                              : "Enemy's Turn";
+  renderer_manager->getTextRenderer()->RenderText(
+      turn_text, glm::vec2(core::HALF_SCREEN_WIDTH - 100.0f, 20.0f), 20.0f,
+      core::COLOR_BLACK);
 }
 
 }  // namespace rendersystems
