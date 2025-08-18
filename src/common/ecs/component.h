@@ -1,5 +1,5 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef COMMON_ECS_COMPONENT_H_
+#define COMMON_ECS_COMPONENT_H_
 
 #include <memory>
 
@@ -18,7 +18,7 @@ class Component {
    */
   template <typename T>
   static int getComponentId() {
-    static int component_id = Component::next_component_id++;
+    static int component_id = kNextComponentId++;
     return component_id;
   }
 
@@ -28,10 +28,10 @@ class Component {
   virtual int getComponentIdInstance() const = 0;
 
  private:
-  static int next_component_id;
+  static int kNextComponentId;
 };
 
 }  // namespace ecs
 }  // namespace common
 
-#endif  // COMPONENT_H
+#endif  // COMMON_ECS_COMPONENT_H_

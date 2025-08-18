@@ -1,5 +1,5 @@
-#ifndef SPRITE_H
-#define SPRITE_H
+#ifndef COMMON_2D_SPRITE_H_
+#define COMMON_2D_SPRITE_H_
 
 #include "common/resources/texture.h"
 #include "object2D.h"
@@ -14,24 +14,21 @@ namespace twod {
  */
 class Sprite : public Object2D {
  public:
-  Sprite(common::resources::Texture texture) : texture(texture) {}
+  explicit Sprite(common::resources::Texture texture);
   Sprite(common::resources::Texture texture,
          glm::vec2 position = glm::vec2(0.0f), glm::vec2 size = glm::vec2(0.0f),
-         glm::vec2 scale = glm::vec2(1.0f))
-      : texture(texture), Object2D(position, size, scale) {}
+         glm::vec2 scale = glm::vec2(1.0f));
 
-  void setTexture(common::resources::Texture texture) {
-    this->texture = texture;
-  }
+  void setTexture(common::resources::Texture texture) { texture_ = texture; }
 
-  common::resources::Texture& getTexture() { return this->texture; }
+  const common::resources::Texture& getTexture() const { return texture_; }
 
   void render(std::shared_ptr<RendererManager> renderer_manager);
 
  private:
-  common::resources::Texture texture;
+  common::resources::Texture texture_;
 };
 }  // namespace twod
 }  // namespace common
 
-#endif  // SPRITE_H
+#endif  // COMMON_2D_SPRITE_H_

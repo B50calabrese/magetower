@@ -1,5 +1,5 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef COMMON_ECS_ENGINE_H_
+#define COMMON_ECS_ENGINE_H_
 
 #include <map>
 #include <memory>
@@ -33,16 +33,9 @@ class Engine {
   Engine() = default;
   ~Engine() = default;
 
-  const EntityList& getEntities() const { return this->entities; }
+  const EntityList& getEntities() const { return entities_; }
 
-  const std::shared_ptr<Entity> getEntityFromId(int id) const {
-    for (auto entity : this->entities) {
-      if (entity->getId() == id) {
-        return entity;
-      }
-    }
-    return nullptr;
-  }
+  const std::shared_ptr<Entity> getEntityFromId(int id) const;
 
   Entity& newEntity();
 
@@ -53,8 +46,8 @@ class Engine {
   void registerSystem(Args&&... args) {
     std::unique_ptr<T> system =
         std::make_unique<T>(std::forward<Args>(args)...);
-    this->systems.push_back(std::move(system));
-    this->systems.back()->registerEventListeners(*this);
+    systems_.push_back(std::move(system));
+    systems_.back()->registerEventListeners(*this);
   }
 
   /*
@@ -64,21 +57,15 @@ class Engine {
   void registerRenderSystem(Args&&... args) {
     std::unique_ptr<T> system =
         std::make_unique<T>(std::forward<Args>(args)...);
-    this->render_systems.push_back(std::move(system));
+    render_systems_.push_back(std::move(system));
   }
 
   void runSystems(double delta_time_ms);
 
   void runRenderSystems(
-      std::shared_ptr<common::twod::RendererManager> renderer_manager) {
-    for (const auto& system : this->render_systems) {
-      system->render(*this, renderer_manager);
-    }
-  }
+      std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
-  void publishEvent(std::unique_ptr<Event> event) {
-    this->event_queue.push(std::move(event));
-  }
+  void publishEvent(std::unique_ptr<Event> event);
 
   /*
    * Used to register an event listener, using the event as a template type.
@@ -86,50 +73,33 @@ class Engine {
   template <typename EventType>
   void registerEventListener(EventListener* event_listener) {
     std::type_index eventTypeIndex = std::type_index(typeid(EventType));
-    this->event_type_to_listeners_map[eventTypeIndex].push_back(event_listener);
+    event_type_to_listeners_map_[eventTypeIndex].push_back(event_listener);
   }
 
   /*
    * Registers a singleton component in the world.
    */
   template <typename T, typename... Args>
-  T& registerSingletonComponent(Args&&... args) {
-    std::type_index typeIndex = std::type_index(typeid(T));
-    if (singleton_component_map.count(typeIndex)) {
-      std::cout << "Singleton Component of type already registered: "
-                << typeIndex.name() << std::endl;
-      return *static_cast<T*>(singleton_component_map[typeIndex].get());
-    }
-    std::unique_ptr<T> component =
-        std::make_unique<T>(std::forward<Args>(args)...);
-    singleton_component_map[typeIndex] = std::move(component);
-    return *static_cast<T*>(singleton_component_map[typeIndex].get());
-  }
+  T& registerSingletonComponent(Args&&... args);
 
   /*
    * Return the singleton component registered in the world.
    */
   template <typename T>
-  T* getSingletonComponent() const {
-    std::type_index typeIndex = std::type_index(typeid(T));
-    if (singleton_component_map.count(typeIndex)) {
-      return static_cast<T*>(singleton_component_map.at(typeIndex).get());
-    }
-    return nullptr;  // Return nullptr if singleton component is not registered
-  }
+  T* getSingletonComponent() const;
 
  private:
-  static int number_of_entities;
+  static int kNumberOfEntities;
 
-  EntityList entities;
-  SystemsList systems;
-  RenderSystemsList render_systems;
-  EventQueue event_queue;
-  EventTypeToListenersMap event_type_to_listeners_map;
-  SingletonComponentMap singleton_component_map;
+  EntityList entities_;
+  SystemsList systems_;
+  RenderSystemsList render_systems_;
+  EventQueue event_queue_;
+  EventTypeToListenersMap event_type_to_listeners_map_;
+  SingletonComponentMap singleton_component_map_;
 };
 
 }  // namespace ecs
 }  // namespace common
 
-#endif  // ENGINE_H
+#endif  // COMMON_ECS_ENGINE_H_

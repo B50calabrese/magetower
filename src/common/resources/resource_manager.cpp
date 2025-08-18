@@ -7,59 +7,47 @@
 #include <string>
 
 #define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 #include "common/resources/shader.h"
 #include "common/resources/texture.h"
 #include "common/utils/logger.h"
-#include "stb_image.h"
 
 namespace common {
 namespace resources {
 
-std::map<std::string, Texture> ResourceManager::textures;
-std::map<std::string, Shader> ResourceManager::shaders;
+std::map<std::string, Texture> ResourceManager::textures_;
+std::map<std::string, Shader> ResourceManager::shaders_;
 
-Texture ResourceManager::LoadTexture(const char* file, std::string texture_name,
-                                     bool alpha) {
-  textures[texture_name] = loadTextureFromFile(file, alpha);
-  return textures[texture_name];
+Texture& ResourceManager::LoadTexture(const std::string& file,
+                                      const std::string& texture_name,
+                                      bool alpha) {
+  textures_[texture_name] = loadTextureFromFile(file, alpha);
+  return textures_[texture_name];
 }
 
-Texture ResourceManager::LoadTextureRelative(const char* file,
-                                             std::string texture_name,
-                                             bool alpha) {
-  return ResourceManager::LoadTexture(
-      (ResourceManager::GetBaseFilePath() + file).data(), texture_name, alpha);
+Shader& ResourceManager::LoadShader(const std::string& vertex_shader_file,
+                                    const std::string& fragment_shader_file,
+                                    const std::string& shader_name) {
+  shaders_[shader_name] =
+      loadShaderFromFile(vertex_shader_file, fragment_shader_file);
+  return shaders_[shader_name];
 }
 
-Shader ResourceManager::LoadShader(const char* vertexShaderFile,
-                                   const char* fragmentShaderFile,
-                                   std::string shader_name) {
-  shaders[shader_name] =
-      loadShaderFromFile(vertexShaderFile, fragmentShaderFile);
-  return shaders[shader_name];
+Texture& ResourceManager::GetTexture(const std::string& texture_name) {
+  return textures_[texture_name];
 }
 
-Shader ResourceManager::LoadShaderRelative(const char* vertexShaderFile,
-                                           const char* fragmentShaderFile,
-                                           std::string shader_name) {
-  return ResourceManager::LoadShader(
-      (ResourceManager::GetBaseFilePath() + vertexShaderFile).data(),
-      (ResourceManager::GetBaseFilePath() + fragmentShaderFile).data(),
-      shader_name);
+Shader& ResourceManager::GetShader(const std::string& shader_name) {
+  return shaders_[shader_name];
 }
 
-Texture ResourceManager::GetTexture(std::string texture_name) {
-  return textures[texture_name];
-}
-
-Shader ResourceManager::GetShader(std::string shader_name) {
-  return shaders[shader_name];
-}
-
-Texture ResourceManager::loadTextureFromFile(const char* file, bool alpha) {
+Texture ResourceManager::loadTextureFromFile(const std::string& file,
+                                              bool alpha) {
   Texture texture;
   int width, height, channels;
-  unsigned char* data = stbi_load(file, &width, &height, &channels, 0);
+  unsigned char* data =
+      stbi_load(file.c_str(), &width, &height, &channels, 0);
   if (alpha) {
     texture.setImageFormat(GL_RGBA);
     texture.setInternalFormat(GL_RGBA);
@@ -68,44 +56,43 @@ Texture ResourceManager::loadTextureFromFile(const char* file, bool alpha) {
   if (data) {
     texture.generate(width, height, data);
   } else {
-    const char* failureReason = stbi_failure_reason();
-    std::string failure_reason_string = failureReason;
-    std::string file_string = file;
-    common::utils::Logger::Error("Failed to load image " + file_string + ": " +
-                                 failure_reason_string + "\n");
+    const char* failure_reason = stbi_failure_reason();
+    utils::Logger::Error("Failed to load image " + file + ": " +
+                         failure_reason + "\n");
   }
   stbi_image_free(data);
   return texture;
 }
 
-Shader ResourceManager::loadShaderFromFile(const char* vertexShader,
-                                           const char* fragmentShader) {
-  std::string vertexCode;
-  std::string fragmentCode;
-  std::ifstream vShaderFile;
-  std::ifstream fShaderFile;
+Shader ResourceManager::loadShaderFromFile(const std::string& vertex_shader,
+                                           const std::string& fragment_shader) {
+  std::string vertex_code;
+  std::string fragment_code;
+  std::ifstream v_shader_file;
+  std::ifstream f_shader_file;
+
+  v_shader_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+  f_shader_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
   try {
-    vShaderFile.open(vertexShader);
-    fShaderFile.open(fragmentShader);
+    v_shader_file.open(vertex_shader);
+    f_shader_file.open(fragment_shader);
 
-    // Read the contents of the files.
-    std::stringstream vShaderStream, fShaderStream;
-    vShaderStream << vShaderFile.rdbuf();
-    fShaderStream << fShaderFile.rdbuf();
+    std::stringstream v_shader_stream, f_shader_stream;
+    v_shader_stream << v_shader_file.rdbuf();
+    f_shader_stream << f_shader_file.rdbuf();
 
-    // Close the files.
-    vShaderFile.close();
-    fShaderFile.close();
+    v_shader_file.close();
+    f_shader_file.close();
 
-    vertexCode = vShaderStream.str();
-    fragmentCode = fShaderStream.str();
+    vertex_code = v_shader_stream.str();
+    fragment_code = f_shader_stream.str();
   } catch (std::ifstream::failure& e) {
-    std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e.what()
-              << std::endl;
+    utils::Logger::Error("SHADER: Failed to read file: " +
+                         std::string(e.what()));
   }
 
-  Shader shader(vertexCode.c_str(), fragmentCode.c_str());
+  Shader shader(vertex_code.c_str(), fragment_code.c_str());
   return shader;
 }
 

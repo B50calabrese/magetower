@@ -15,50 +15,46 @@ namespace scenes {
 namespace battle {
 namespace rendersystems {
 
-using common::ecs::Engine;
-using common::resources::Texture;
-using common::twod::RendererManager;
-using scenes::battle::components::EnemyTagComponent;
-using scenes::battle::components::ManaComponent;
-using scenes::battle::components::PlayerTagComponent;
-
-const glm::vec2 UiRenderSystem::MANA_SIZE = glm::vec2(50.0f);
-const glm::vec2 UiRenderSystem::PLAYER_MANA_POSITION = glm::vec2(24.0f);
-const glm::vec2 UiRenderSystem::ENEMY_MANA_POSITION =
-    glm::vec2(core::SCREEN_WIDTH - MANA_SIZE.x - 24.0f,
-              core::SCREEN_HEIGHT - MANA_SIZE.y - 24.0f);
+const glm::vec2 UiRenderSystem::kManaSize = glm::vec2(50.0f);
+const glm::vec2 UiRenderSystem::kPlayerManaPosition = glm::vec2(24.0f);
+const glm::vec2 UiRenderSystem::kEnemyManaPosition =
+    glm::vec2(core::SCREEN_WIDTH - kManaSize.x - 24.0f,
+              core::SCREEN_HEIGHT - kManaSize.y - 24.0f);
 
 UiRenderSystem::UiRenderSystem() {
-  this->mana_texture = common::resources::ResourceManager::LoadTextureRelative(
+  mana_texture_ = &common::resources::ResourceManager::LoadTexture(
       "assets/battle/ui/mana_texture.png", "mana_texture", /*alpha=*/true);
 }
 
-void UiRenderSystem::render(Engine& engine,
-                            std::shared_ptr<RendererManager> renderer_manager) {
+void UiRenderSystem::render(
+    common::ecs::Engine& engine,
+    std::shared_ptr<common::twod::RendererManager> renderer_manager) {
   for (auto& entity : engine.getEntities()) {
     // If it is the player, render the mana of the player.
-    if (entity->hasComponent<PlayerTagComponent>()) {
+    if (entity->hasComponent<components::PlayerTagComponent>()) {
       // Get the mana component of the player entity.
-      auto player_mana_component = entity->getComponent<ManaComponent>();
+      auto player_mana_component =
+          entity->getComponent<components::ManaComponent>();
 
-      glm::vec2 position = PLAYER_MANA_POSITION;
+      glm::vec2 position = kPlayerManaPosition;
       for (int i = 0; i < player_mana_component->getMaxMana(); i++) {
-        renderer_manager->getSpriteRenderer()->DrawSprite(this->mana_texture,
-                                                          position, MANA_SIZE);
-        position.x += MANA_SIZE.x;
+        renderer_manager->getSpriteRenderer()->DrawSprite(
+            *mana_texture_, position, kManaSize, 0.0f, glm::vec4(1.0f));
+        position.x += kManaSize.x;
       }
     }
 
     // If it is the enemy, render the mana of the enemy.
-    if (entity->hasComponent<EnemyTagComponent>()) {
+    if (entity->hasComponent<components::EnemyTagComponent>()) {
       // Get the mana component of the enemy entity.
-      auto enemy_mana_component = entity->getComponent<ManaComponent>();
+      auto enemy_mana_component =
+          entity->getComponent<components::ManaComponent>();
 
-      glm::vec2 position = ENEMY_MANA_POSITION;
+      glm::vec2 position = kEnemyManaPosition;
       for (int i = 0; i < enemy_mana_component->getMaxMana(); i++) {
-        renderer_manager->getSpriteRenderer()->DrawSprite(this->mana_texture,
-                                                          position, MANA_SIZE);
-        position.x -= MANA_SIZE.x;
+        renderer_manager->getSpriteRenderer()->DrawSprite(
+            *mana_texture_, position, kManaSize, 0.0f, glm::vec4(1.0f));
+        position.x -= kManaSize.x;
       }
     }
   }

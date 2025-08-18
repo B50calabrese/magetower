@@ -1,11 +1,10 @@
-#ifndef MAIN_MENU_SCENE_H
-#define MAIN_MENU_SCENE_H
+#ifndef SCENES_MAINMENU_MAIN_MENU_SCENE_H_
+#define SCENES_MAINMENU_MAIN_MENU_SCENE_H_
 
-#include "common/2D/renderer_manager.h"
+#include <memory>
+
 #include "common/2D/sprite.h"
-#include "common/resources/texture.h"
 #include "common/scene.h"
-#include "core/consts.h"
 #include "core/scene_ids.h"
 
 namespace scenes {
@@ -14,36 +13,31 @@ namespace mainmenu {
 class MainMenuScene : public common::Scene {
  public:
   MainMenuScene()
-      : Scene(static_cast<int>(core::SceneId::MainMenu)),
-        update_status(UpdateStatus::OK) {}
+      : common::Scene(core::MAIN_MENU_SCENE_ID),
+        update_status_(UpdateStatus::kOk) {}
 
-  void render(std::shared_ptr<common::twod::RendererManager> renderer_manager);
-
-  UpdateStatus update(double delta_time_ms) { return this->update_status; }
-
-  void processMouseInput(GLFWwindow* window, double xPos, double yPos) {
-    this->mouse_position = this->convertMousePositionIntoScreenCoordinates(
-        xPos, yPos, core::SCREEN_WIDTH, core::SCREEN_HEIGHT);
+  void render(
+      std::shared_ptr<common::twod::RendererManager> renderer_manager) override;
+  void processMouseInput(GLFWwindow* window, double x_pos,
+                         double y_pos) override {
+    mouse_position_ = convertMousePositionIntoScreenCoordinates(
+        x_pos, y_pos, core::SCREEN_WIDTH, core::SCREEN_HEIGHT);
   }
-
-  void processMouseClick(GLFWwindow* window, int button, int action, int mods);
-
+  void processMouseClick(GLFWwindow* window, int button, int action,
+                         int mods) override;
   void processKeyInput(GLFWwindow* window, int key, int scancode, int action,
-                       int mod) {}
-
-  void loadScene();
-
-  void unloadScene() {}
+                       int mod) override {}
+  UpdateStatus update(double delta_time_ms) override { return update_status_; };
+  void loadScene() override;
+  void unloadScene() override {}
 
  private:
-  common::resources::Texture background_texture;
-
-  std::shared_ptr<common::twod::Sprite> start_button;
-  std::shared_ptr<common::twod::Sprite> exit_button;
-
-  UpdateStatus update_status;
+  UpdateStatus update_status_;
+  common::resources::Texture* background_texture_;
+  std::shared_ptr<common::twod::Sprite> start_button_;
+  std::shared_ptr<common::twod::Sprite> exit_button_;
 };
 }  // namespace mainmenu
 }  // namespace scenes
 
-#endif  // MAIN_MENU_SCENE_H
+#endif  // SCENES_MAINMENU_MAIN_MENU_SCENE_H_

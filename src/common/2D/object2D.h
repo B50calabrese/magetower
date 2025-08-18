@@ -1,5 +1,5 @@
-#ifndef OBJECT2D_H
-#define OBJECT2D_H
+#ifndef COMMON_2D_OBJECT2D_H_
+#define COMMON_2D_OBJECT2D_H_
 
 #include "glm/vec2.hpp"
 
@@ -12,35 +12,37 @@ namespace twod {
 class Object2D {
  public:
   Object2D()
-      : position(0.0f), size(0.0f), scale(1.0f), rotation_radians(0.0f) {}
+      : position_(0.0f),
+        size_(0.0f),
+        scale_(1.0f),
+        rotation_radians_(0.0f) {}
   Object2D(glm::vec2 position, glm::vec2 size, glm::vec2 scale)
-      : position(position), size(size), scale(scale), rotation_radians(0.0f) {}
+      : position_(position),
+        size_(size),
+        scale_(scale),
+        rotation_radians_(0.0f) {}
 
-  void setPosition(glm::vec2 position) { this->position = position; }
+  void setPosition(glm::vec2 position) { position_ = position; }
+  glm::vec2 getPosition() const { return position_; }
 
-  glm::vec2 getPosition() { return this->position; }
+  void setSize(glm::vec2 size) { size_ = size; }
+  glm::vec2 getSize() const { return size_; }
 
-  void setSize(glm::vec2 size) { this->size = size; }
+  void setScale(glm::vec2 scale) { scale_ = scale; }
+  glm::vec2 getScale() const { return scale_; }
 
-  glm::vec2 getSize() { return this->size; }
+  void setRotationRadians(float radians) { rotation_radians_ = radians; }
+  float getRotationRadians() const { return rotation_radians_; }
 
-  void setScale(glm::vec2 scale) { this->scale = scale; }
-
-  glm::vec2 getScale() { return this->scale; }
-
-  void setRotationRadians(float radians) { this->rotation_radians = radians; }
-
-  float getRotationRadians() { return this->rotation_radians; }
-
-  bool containsPoint(glm::vec2 point);
+  bool containsPoint(glm::vec2 point) const;
 
  private:
-  glm::vec2 position;
-  glm::vec2 size;
-  glm::vec2 scale;
-  float rotation_radians;
+  glm::vec2 position_;
+  glm::vec2 size_;
+  glm::vec2 scale_;
+  float rotation_radians_;
 };
 }  // namespace twod
 }  // namespace common
 
-#endif  // OBJECT2D_H
+#endif  // COMMON_2D_OBJECT2D_H_

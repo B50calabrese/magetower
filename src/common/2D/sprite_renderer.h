@@ -1,5 +1,9 @@
-#ifndef SPRITE_RENDERER_H
-#define SPRITE_RENDERER_H
+#ifndef COMMON_2D_SPRITE_RENDERER_H_
+#define COMMON_2D_SPRITE_RENDERER_H_
+
+#include <glm/mat4x4.hpp>
+#include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 
 #include "common/resources/shader.h"
 #include "common/resources/texture.h"
@@ -7,35 +11,31 @@
 namespace common {
 namespace twod {
 
-using common::resources::Shader;
-using common::resources::Texture;
-
 class SpriteRenderer {
  public:
-  SpriteRenderer(Shader& shader, glm::mat4 projection_matrix);
+  SpriteRenderer(common::resources::Shader shader, glm::mat4 projection_matrix);
 
-  void DrawSprite(Texture& texture, glm::vec2 position,
-                  glm::vec2 size = glm::vec2(10.0f, 10.0f), float rotate = 0.0f,
-                  glm::vec4 color = glm::vec4(1.0f));
+  void DrawSprite(const common::resources::Texture& texture, glm::vec2 position,
+                  glm::vec2 size, float rotate, glm::vec4 color);
 
-  void DrawSprite(Texture& texture, glm::mat4 model_matrix,
-                  glm::vec4 color = glm::vec4(1.0f));
+  void DrawSprite(const common::resources::Texture& texture,
+                  glm::mat4 model_matrix, glm::vec4 color);
 
  private:
   void init();
 
-  void bindTextureAndDraw(Texture& texture);
+  void bindTextureAndDraw(const common::resources::Texture& texture);
 
   glm::mat4 generateModelMatrix(glm::vec2 position, glm::vec2 size,
                                 float rotate);
 
-  Shader shader;
-  glm::mat4 projection_matrix;
+  common::resources::Shader shader_;
+  glm::mat4 projection_matrix_;
 
-  unsigned int VAO;
+  unsigned int vao_;
 };
 
 }  // namespace twod
 }  // namespace common
 
-#endif  // SPRITE_RENDERER_H
+#endif  // COMMON_2D_SPRITE_RENDERER_H_

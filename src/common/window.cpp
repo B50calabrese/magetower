@@ -1,8 +1,24 @@
 #include "window.h"
 
-#include <iostream>
+#include "common/utils/logger.h"
 
 namespace common {
+
+namespace {
+constexpr int kGlfwVersionMajor = 3;
+constexpr int kGlfwVersionMinor = 3;
+}  // namespace
+
+Window::Window(unsigned int width, unsigned int height, const std::string& name)
+    : width_(width),
+      height_(height),
+      name_(name),
+      window_internal_(nullptr),
+      last_frame_ms_(0.0) {
+  scene_manager = std::make_shared<SceneManager>(
+      glm::ortho(0.0f, static_cast<float>(width), 0.0f,
+                 static_cast<float>(height), -1.0f, 1.0f));
+}
 
 void Window::mouseMovementCallback(GLFWwindow* window, double xPos,
                                    double yPos) {
@@ -27,23 +43,28 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action,
                                                       action, mod);
 }
 
+void Window::framebufferSizeCallback(GLFWwindow* window, int width,
+                                     int height) {
+  glViewport(0, 0, width, height);
+}
+
 int Window::init() {
   glfwInit();
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, kGlfwVersionMajor);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, kGlfwVersionMinor);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  this->window_internal =
-      glfwCreateWindow(this->width, this->height, this->name, NULL, NULL);
-  if (this->window_internal == NULL) {
-    std::cout << "Failed to create GLFW window" << std::endl;
+  window_internal_ =
+      glfwCreateWindow(width_, height_, name_.c_str(), NULL, NULL);
+  if (window_internal_ == NULL) {
+    utils::Logger::Error("Failed to create GLFW window");
     glfwTerminate();
     return -1;
   }
-  glfwMakeContextCurrent(this->window_internal);
+  glfwMakeContextCurrent(window_internal_);
 
-  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    std::cout << "Failed to initialize GLAD" << std::endl;
+  if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
+    utils::Logger::Error("Failed to initialize GLAD");
     return -1;
   }
 
@@ -57,23 +78,24 @@ int Window::init() {
   glStencilFunc(GL_ALWAYS, 1,
                 0xFF);  // all fragments should pass the stencil test
 
-  this->scene_manager->init();
-  this->initCallbacks();
+  scene_manager->init();
+  initCallbacks();
+  return 0;
 }
 
 void Window::start() {
-  while (!glfwWindowShouldClose(this->window_internal)) {
+  while (!glfwWindowShouldClose(window_internal_)) {
     double current_frame = glfwGetTime();
-    double delta_time = current_frame - this->last_frame_ms;
-    this->last_frame_ms = current_frame;
+    double delta_time = current_frame - last_frame_ms_;
+    last_frame_ms_ = current_frame;
 
-    this->scene_manager->updateWindow(this->window_internal);
+    scene_manager->updateWindow(window_internal_);
 
-    this->scene_manager->update(last_frame_ms);
+    scene_manager->update(last_frame_ms_);
 
-    this->scene_manager->display();
+    scene_manager->display();
 
-    glfwSwapBuffers(this->window_internal);
+    glfwSwapBuffers(window_internal_);
     glfwPollEvents();
   }
 
@@ -83,12 +105,12 @@ void Window::start() {
 // Private functions
 
 void Window::initCallbacks() {
-  glfwSetWindowUserPointer(this->window_internal,
-                           reinterpret_cast<void*>(this));
-  glfwSetCursorPosCallback(this->window_internal,
-                           Window::mouseMovementCallback);
-  glfwSetMouseButtonCallback(this->window_internal, Window::mouseInputCallback);
-  glfwSetKeyCallback(this->window_internal, Window::keyCallback);
+  glfwSetWindowUserPointer(window_internal_, reinterpret_cast<void*>(this));
+  glfwSetCursorPosCallback(window_internal_, Window::mouseMovementCallback);
+  glfwSetMouseButtonCallback(window_internal_, Window::mouseInputCallback);
+  glfwSetKeyCallback(window_internal_, Window::keyCallback);
+  glfwSetFramebufferSizeCallback(window_internal_,
+                                 Window::framebufferSizeCallback);
 }
 
 }  // namespace common

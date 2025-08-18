@@ -8,65 +8,65 @@
 namespace common {
 namespace twod {
 
-using common::resources::Shader;
-using common::resources::Texture;
-
-SpriteRenderer::SpriteRenderer(Shader& shader, glm::mat4 projection_matrix)
-    : shader(shader), projection_matrix(projection_matrix) {
-  this->init();
+SpriteRenderer::SpriteRenderer(common::resources::Shader shader,
+                               glm::mat4 projection_matrix)
+    : shader_(shader), projection_matrix_(projection_matrix) {
+  init();
 }
 
-void SpriteRenderer::DrawSprite(Texture& texture, glm::vec2 position,
-                                glm::vec2 size, float rotate, glm::vec4 color) {
+void SpriteRenderer::DrawSprite(const common::resources::Texture& texture,
+                                glm::vec2 position, glm::vec2 size,
+                                float rotate, glm::vec4 color) {
   // prepare transformations
   glm::mat4 model = generateModelMatrix(position, size, rotate);
 
-  this->DrawSprite(texture, model, color);
+  DrawSprite(texture, model, color);
 }
 
-void SpriteRenderer::DrawSprite(Texture& texture, glm::mat4 model_matrix,
-                                glm::vec4 color) {
-  this->shader.activate();
+void SpriteRenderer::DrawSprite(const common::resources::Texture& texture,
+                                glm::mat4 model_matrix, glm::vec4 color) {
+  shader_.activate();
 
-  this->shader.setMat4("model", model_matrix);
-  this->shader.setVec4("spriteColor", color);
+  shader_.setMat4("model", model_matrix);
+  shader_.setVec4("spriteColor", color);
 
-  this->bindTextureAndDraw(texture);
+  bindTextureAndDraw(texture);
 }
 
 // Private functions.
 
 void SpriteRenderer::init() {
   // configure VAO/VBO
-  unsigned int VBO;
+  unsigned int vbo;
   float vertices[] = {
       // pos      // tex
       0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 
       0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f};
 
-  glGenVertexArrays(1, &this->VAO);
-  glGenBuffers(1, &VBO);
+  glGenVertexArrays(1, &vao_);
+  glGenBuffers(1, &vbo);
 
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-  glBindVertexArray(this->VAO);
+  glBindVertexArray(vao_);
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
 
   // configure shaders
-  this->shader.activate();
-  this->shader.setMat4("projection", this->projection_matrix);
+  shader_.activate();
+  shader_.setMat4("projection", projection_matrix_);
 }
 
-void SpriteRenderer::bindTextureAndDraw(Texture& texture) {
+void SpriteRenderer::bindTextureAndDraw(
+    const common::resources::Texture& texture) {
   glActiveTexture(GL_TEXTURE0);
   texture.bind();
 
-  glBindVertexArray(this->VAO);
+  glBindVertexArray(vao_);
   glDrawArrays(GL_TRIANGLES, 0, 6);
   glBindVertexArray(0);
 }

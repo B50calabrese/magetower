@@ -6,37 +6,37 @@ namespace common {
 namespace resources {
 
 Texture::Texture()
-    : width(0),
-      height(0),
-      internal_format(GL_RGB),
-      image_format(GL_RGB),
-      wrap_s(GL_REPEAT),
-      wrap_t(GL_REPEAT),
-      filter_min(GL_LINEAR),
-      filter_max(GL_LINEAR) {
-  glGenTextures(1, &this->id);
+    : width_(0),
+      height_(0),
+      internal_format_(GL_RGB),
+      image_format_(GL_RGB),
+      wrap_s_(GL_REPEAT),
+      wrap_t_(GL_REPEAT),
+      filter_min_(GL_LINEAR),
+      filter_max_(GL_LINEAR) {
+  glGenTextures(1, &id_);
 }
 
 void Texture::generate(unsigned int width, unsigned int height,
                        unsigned char* data) {
-  this->width = width;
-  this->height = height;
+  width_ = width;
+  height_ = height;
 
-  glBindTexture(GL_TEXTURE_2D, this->id);
-  glTexImage2D(GL_TEXTURE_2D, 0, this->internal_format, width, height, 0,
-               this->image_format, GL_UNSIGNED_BYTE, data);
+  glBindTexture(GL_TEXTURE_2D, id_);
+  glTexImage2D(GL_TEXTURE_2D, 0, internal_format_, width, height, 0,
+               image_format_, GL_UNSIGNED_BYTE, data);
 
   // set Texture wrap and filter modes
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this->wrap_s);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this->wrap_t);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, this->filter_min);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, this->filter_max);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap_s_);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap_t_);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter_min_);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter_max_);
 
   // unbind texture
   glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::bind() const { glBindTexture(GL_TEXTURE_2D, this->id); }
+void Texture::bind() const { glBindTexture(GL_TEXTURE_2D, id_); }
 
 }  // namespace resources
 }  // namespace common

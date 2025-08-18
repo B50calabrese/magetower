@@ -1,5 +1,5 @@
-#ifndef CARD_RENDER_UTIL_H
-#define CARD_RENDER_UTIL_H
+#ifndef CORE_RENDERUTILS_CARD_RENDER_UTIL_H_
+#define CORE_RENDERUTILS_CARD_RENDER_UTIL_H_
 
 #include <memory>
 
@@ -28,12 +28,12 @@ class CardRenderUtil {
       std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
  private:
-  common::resources::Texture card_back_texture;
-  common::resources::Texture creature_card_frame_texture;
-  common::resources::Texture spell_card_frame_texture;
+  common::resources::Texture* card_back_texture_;
+  common::resources::Texture* creature_card_frame_texture_;
+  common::resources::Texture* spell_card_frame_texture_;
 };
 
 }  // namespace renderutils
 }  // namespace core
 
-#endif  // CARD_RENDER_UTIL_H
+#endif  // CORE_RENDERUTILS_CARD_RENDER_UTIL_H_

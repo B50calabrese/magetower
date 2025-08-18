@@ -1,7 +1,9 @@
-#ifndef RENDERER_MANAGER_H
-#define RENDERER_MANAGER_H
+#ifndef COMMON_2D_RENDERER_MANAGER_H_
+#define COMMON_2D_RENDERER_MANAGER_H_
 
 #include <memory>
+
+#include <glm/mat4x4.hpp>
 
 #include "sprite_renderer.h"
 #include "text_renderer.h"
@@ -15,21 +17,19 @@ namespace twod {
  */
 class RendererManager {
  public:
-  RendererManager(glm::mat4 projection_matrix);
+  explicit RendererManager(glm::mat4 projection_matrix);
 
   std::shared_ptr<SpriteRenderer> getSpriteRenderer() {
-    return this->sprite_renderer;
+    return sprite_renderer_;
   }
 
-  std::shared_ptr<TextRenderer> getTextRenderer() {
-    return this->text_renderer;
-  }
+  std::shared_ptr<TextRenderer> getTextRenderer() { return text_renderer_; }
 
  private:
-  std::shared_ptr<SpriteRenderer> sprite_renderer;
-  std::shared_ptr<TextRenderer> text_renderer;
+  std::shared_ptr<SpriteRenderer> sprite_renderer_;
+  std::shared_ptr<TextRenderer> text_renderer_;
 };
 }  // namespace twod
 }  // namespace common
 
-#endif  // RENDERER_MANAGER_H
+#endif  // COMMON_2D_RENDERER_MANAGER_H_

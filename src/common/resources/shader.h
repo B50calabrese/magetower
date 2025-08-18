@@ -1,39 +1,41 @@
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef COMMON_RESOURCES_SHADER_H_
+#define COMMON_RESOURCES_SHADER_H_
+
+#include <string>
 
 #include <glad/glad.h>
-
 #include <glm/mat4x4.hpp>
-#include <string>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
 
 namespace common {
 namespace resources {
 
 class Shader {
  public:
-  Shader() {}
+  Shader() = default;
 
-  Shader(const char* vertexData, const char* fragmentData);
+  Shader(const char* vertex_data, const char* fragment_data);
 
-  void setMat4(const std::string& uniformName, const glm::mat4& input);
+  void setMat4(const std::string& uniform_name, const glm::mat4& input) const;
 
-  void setVec3(const std::string& uniformName, const glm::vec3 input);
+  void setVec3(const std::string& uniform_name, const glm::vec3& input) const;
 
-  void setVec4(const std::string& uniformName, const glm::vec4 input);
+  void setVec4(const std::string& uniform_name, const glm::vec4& input) const;
 
-  void setInteger(const std::string& uniformName, const int input);
+  void setInteger(const std::string& uniform_name, int input) const;
 
   // Enable the shader
-  void activate();
+  void activate() const;
 
   // Disable the shader
-  void deactivate();
+  void deactivate() const;
 
  private:
-  GLuint id = 0;
+  GLuint id_ = 0;
 };
 
 }  // namespace resources
 }  // namespace common
 
-#endif  // SHADER_H
+#endif  // COMMON_RESOURCES_SHADER_H_

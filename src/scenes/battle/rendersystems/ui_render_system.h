@@ -1,5 +1,5 @@
-#ifndef UI_RENDER_SYSTEM_H
-#define UI_RENDER_SYSTEM_H
+#ifndef SCENES_BATTLE_RENDERSYSTEMS_UI_RENDER_SYSTEM_H_
+#define SCENES_BATTLE_RENDERSYSTEMS_UI_RENDER_SYSTEM_H_
 
 #include <memory>
 
@@ -23,14 +23,14 @@ class UiRenderSystem : public common::ecs::RenderSystem {
               std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
  private:
-  const static glm::vec2 PLAYER_MANA_POSITION;
-  const static glm::vec2 ENEMY_MANA_POSITION;
-  const static glm::vec2 MANA_SIZE;
+  static const glm::vec2 kPlayerManaPosition;
+  static const glm::vec2 kEnemyManaPosition;
+  static const glm::vec2 kManaSize;
 
-  common::resources::Texture mana_texture;
+  common::resources::Texture* mana_texture_;
 };
 }  // namespace rendersystems
 }  // namespace battle
 }  // namespace scenes
 
-#endif  // UI_RENDER_SYSTEM_H
+#endif  // SCENES_BATTLE_RENDERSYSTEMS_UI_RENDER_SYSTEM_H_

@@ -6,19 +6,18 @@
 namespace common {
 namespace twod {
 
-using common::resources::ResourceManager;
-using common::resources::Shader;
-
 RendererManager::RendererManager(glm::mat4 projection_matrix) {
-  Shader sprite_shader = ResourceManager::LoadShaderRelative(
-      "src/common/resources/shaders/sprite.vert",
-      "src/common/resources/shaders/sprite.frag", "sprite_shader");
-  Shader text_shader = ResourceManager::LoadShaderRelative(
-      "src/common/resources/shaders/font.vert",
-      "src/common/resources/shaders/font.frag", "text_shader");
-  this->sprite_renderer =
+  common::resources::Shader sprite_shader =
+      common::resources::ResourceManager::LoadShader(
+          "src/common/resources/shaders/sprite.vert",
+          "src/common/resources/shaders/sprite.frag", "sprite_shader");
+  common::resources::Shader text_shader =
+      common::resources::ResourceManager::LoadShader(
+          "src/common/resources/shaders/font.vert",
+          "src/common/resources/shaders/font.frag", "text_shader");
+  sprite_renderer_ =
       std::make_shared<SpriteRenderer>(sprite_shader, projection_matrix);
-  this->text_renderer =
+  text_renderer_ =
       std::make_shared<TextRenderer>(text_shader, projection_matrix);
 }
 

@@ -1,5 +1,5 @@
-#ifndef RESOURCE_MANAGER_H
-#define RESOURCE_MANAGER_H
+#ifndef COMMON_RESOURCES_RESOURCE_MANAGER_H_
+#define COMMON_RESOURCES_RESOURCE_MANAGER_H_
 
 #include <map>
 #include <string>
@@ -12,39 +12,30 @@ namespace resources {
 
 class ResourceManager {
  public:
-  static std::map<std::string, Texture> textures;
-  static std::map<std::string, Shader> shaders;
+  ResourceManager() = delete;
 
-  static Texture LoadTexture(const char* file, std::string texture_name,
-                             bool alpha);
+  static Texture& LoadTexture(const std::string& file,
+                              const std::string& texture_name, bool alpha);
 
-  static Texture LoadTextureRelative(const char* file, std::string texture_name,
-                                     bool alpha);
+  static Shader& LoadShader(const std::string& vertex_shader_file,
+                            const std::string& fragment_shader_file,
+                            const std::string& shader_name);
 
-  static Shader LoadShader(const char* vertexShaderFile,
-                           const char* fragmentShaderFile,
-                           std::string shader_name);
+  static Texture& GetTexture(const std::string& texture_name);
 
-  static Shader LoadShaderRelative(const char* vertexShaderFile,
-                                   const char* fragmentShaderFile,
-                                   std::string shader_name);
-
-  static Texture GetTexture(std::string texture_name);
-
-  static Shader GetShader(std::string shader_name);
-
-  static std::string GetBaseFilePath() { return "C:/code/magetower/"; }
+  static Shader& GetShader(const std::string& shader_name);
 
  private:
-  ResourceManager() {}
+  static Texture loadTextureFromFile(const std::string& file, bool alpha);
 
-  static Texture loadTextureFromFile(const char* file, bool alpha);
+  static Shader loadShaderFromFile(const std::string& vertex_shader,
+                                   const std::string& fragment_shader);
 
-  static Shader loadShaderFromFile(const char* vertexShader,
-                                   const char* fragmentShader);
+  static std::map<std::string, Texture> textures_;
+  static std::map<std::string, Shader> shaders_;
 };
 
 }  // namespace resources
 }  // namespace common
 
-#endif  // RESOURCE_MANAGER_H
+#endif  // COMMON_RESOURCES_RESOURCE_MANAGER_H_
