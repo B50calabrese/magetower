@@ -111,6 +111,9 @@
     <ClCompile Include="src\scenes\battle\rendersystems\ui_render_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\scenes\battle\systems\turn_state_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\common\README.md" />
@@ -315,6 +318,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\scenes\battle\components\enemy_tag_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\components\turn_state_singleton_component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\battle\systems\turn_state_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

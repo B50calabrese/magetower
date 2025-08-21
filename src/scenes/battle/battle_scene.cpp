@@ -29,6 +29,7 @@
 #include "scenes/battle/components/mana_component.h"
 #include "scenes/battle/components/player_deck_singleton_component.h"
 #include "scenes/battle/components/player_tag_component.h"
+#include "scenes/battle/components/turn_state_singleton_component.h"
 #include "scenes/battle/events/player_draw_card_start_event.h"
 #include "scenes/battle/events/player_hand_update_event.h"
 #include "scenes/battle/rendersystems/card_render_system.h"
@@ -39,6 +40,7 @@
 #include "scenes/battle/systems/enemy_hand_system.h"
 #include "scenes/battle/systems/player_deck_system.h"
 #include "scenes/battle/systems/player_hand_system.h"
+#include "scenes/battle/systems/turn_state_system.h"
 
 namespace scenes {
 namespace battle {
@@ -64,6 +66,7 @@ using scenes::battle::components::InputStateSingletonComponent;
 using scenes::battle::components::ManaComponent;
 using scenes::battle::components::PlayerDeckSingletonComponent;
 using scenes::battle::components::PlayerTagComponent;
+using scenes::battle::components::TurnStateSingletonComponent;
 using scenes::battle::events::PlayerDrawCardStartEvent;
 using scenes::battle::events::PlayerHandUpdateEvent;
 using scenes::battle::rendersystems::CardRenderSystem;
@@ -74,6 +77,7 @@ using scenes::battle::systems::EnemyDeckSystem;
 using scenes::battle::systems::EnemyHandSystem;
 using scenes::battle::systems::PlayerDeckSystem;
 using scenes::battle::systems::PlayerHandSystem;
+using scenes::battle::systems::TurnStateSystem;
 
 void BattleScene::render(
     std::shared_ptr<common::twod::RendererManager> renderer_manager) {
@@ -158,6 +162,7 @@ void BattleScene::loadSystems() {
   this->ecs_engine.registerSystem<EnemyHandSystem>();
   this->ecs_engine.registerSystem<PlayerHandSystem>();
   this->ecs_engine.registerSystem<CardHoldSystem>();
+  this->ecs_engine.registerSystem<TurnStateSystem>();
 }
 
 void BattleScene::loadRenderSystems() {
@@ -176,6 +181,7 @@ void BattleScene::loadSingletonComponents() {
   this->ecs_engine.registerSingletonComponent<PlayerDeckSingletonComponent>();
   this->ecs_engine.registerSingletonComponent<EnemyDeckSingletonComponent>();
   this->ecs_engine.registerSingletonComponent<AnimationStateComponent>();
+  this->ecs_engine.registerSingletonComponent<TurnStateSingletonComponent>();
 }
 
 }  // namespace battle

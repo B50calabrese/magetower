@@ -20,7 +20,7 @@ class BattleScene : public common::Scene {
  public:
   BattleScene()
       : Scene(static_cast<int>(core::SceneId::Battle)),
-        update_status(UpdateStatus::OK) {
+        update_status(UpdateStatus::kOk) {
     this->card_registry = std::make_shared<core::CardRegistry>();
   }
 
