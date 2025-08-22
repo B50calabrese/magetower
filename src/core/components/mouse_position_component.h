@@ -1,8 +1,9 @@
-#ifndef MOUSE_POSITION_COMPONENT_H
-#define MOUSE_POSITION_COMPONENT_H
+#ifndef MAGETOWER_SRC_CORE_COMPONENTS_MOUSE_POSITION_COMPONENT_H_
+#define MAGETOWER_SRC_CORE_COMPONENTS_MOUSE_POSITION_COMPONENT_H_
 
-#include <glm/ext/vector_float2.hpp>
 #include <memory>
+
+#include "glm/ext/vector_float2.hpp"
 
 #include "common/ecs/component.h"
 
@@ -11,31 +12,31 @@ namespace components {
 
 class MousePositionComponent : public common::ecs::Component {
  public:
-  MousePositionComponent(float x, float y) : x(x), y(y) {}
+  MousePositionComponent(float x, float y) : x_(x), y_(y) {}
 
   std::unique_ptr<Component> clone() const override {
-    return std::make_unique<MousePositionComponent>(this->x, this->y);
+    return std::make_unique<MousePositionComponent>(x_, y_);
   }
 
-  int getComponentIdInstance() const override {
-    return Component::getComponentId<MousePositionComponent>();
+  int GetComponentIdInstance() const override {
+    return Component::GetComponentId<MousePositionComponent>();
   }
 
-  float getX() const { return this->x; }
+  float x() const { return x_; }
 
-  float getY() const { return this->y; }
+  float y() const { return y_; }
 
-  glm::vec2 getPosition() const { return glm::vec2(this->x, this->y); }
+  glm::vec2 position() const { return glm::vec2(x_, y_); }
 
-  void setX(float x) { this->x = x; }
+  void set_x(float x) { x_ = x; }
 
-  void setY(float y) { this->y = y; }
+  void set_y(float y) { y_ = y; }
 
  private:
-  float x, y;
+  float x_, y_;
 };
 
 }  // namespace components
 }  // namespace core
 
-#endif  // MOUSE_POSITION_COMPONENT_H
+#endif  // MAGETOWER_SRC_CORE_COMPONENTS_MOUSE_POSITION_COMPONENT_H_

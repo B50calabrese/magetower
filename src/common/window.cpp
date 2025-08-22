@@ -1,4 +1,4 @@
-#include "window.h"
+#include "common/window.h"
 
 #include "common/utils/logger.h"
 
@@ -15,40 +15,40 @@ Window::Window(unsigned int width, unsigned int height, const std::string& name)
       name_(name),
       window_internal_(nullptr),
       last_frame_ms_(0.0) {
-  scene_manager = std::make_shared<SceneManager>(
+  scene_manager_ = std::make_shared<SceneManager>(
       glm::ortho(0.0f, static_cast<float>(width), 0.0f,
                  static_cast<float>(height), -1.0f, 1.0f));
 }
 
-void Window::mouseMovementCallback(GLFWwindow* window, double xPos,
+void Window::MouseMovementCallback(GLFWwindow* window, double xPos,
                                    double yPos) {
   Window* window_internal =
       reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
-  window_internal->getSceneManager()->processMouseInput(window, xPos, yPos);
+  window_internal->scene_manager()->ProcessMouseInput(window, xPos, yPos);
 }
 
-void Window::mouseInputCallback(GLFWwindow* window, int button, int action,
+void Window::MouseInputCallback(GLFWwindow* window, int button, int action,
                                 int mods) {
   Window* window_internal =
       reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
-  window_internal->getSceneManager()->processMouseClick(window, button, action,
+  window_internal->scene_manager()->ProcessMouseClick(window, button, action,
                                                         mods);
 }
 
-void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action,
+void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action,
                          int mod) {
   Window* window_internal =
       reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
-  window_internal->getSceneManager()->processKeyInput(window, key, scancode,
+  window_internal->scene_manager()->ProcessKeyInput(window, key, scancode,
                                                       action, mod);
 }
 
-void Window::framebufferSizeCallback(GLFWwindow* window, int width,
+void Window::FramebufferSizeCallback(GLFWwindow* window, int width,
                                      int height) {
   glViewport(0, 0, width, height);
 }
 
-int Window::init() {
+int Window::Init() {
   glfwInit();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, kGlfwVersionMajor);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, kGlfwVersionMinor);
@@ -78,22 +78,22 @@ int Window::init() {
   glStencilFunc(GL_ALWAYS, 1,
                 0xFF);  // all fragments should pass the stencil test
 
-  scene_manager->init();
-  initCallbacks();
+  scene_manager_->Init();
+  InitCallbacks();
   return 0;
 }
 
-void Window::start() {
+void Window::Start() {
   while (!glfwWindowShouldClose(window_internal_)) {
     double current_frame = glfwGetTime();
     double delta_time = current_frame - last_frame_ms_;
     last_frame_ms_ = current_frame;
 
-    scene_manager->updateWindow(window_internal_);
+    scene_manager_->UpdateWindo(window_internal_);
 
-    scene_manager->update(last_frame_ms_);
+    scene_manager_->Update(last_frame_ms_);
 
-    scene_manager->display();
+    scene_manager_->Display();
 
     glfwSwapBuffers(window_internal_);
     glfwPollEvents();
@@ -104,13 +104,13 @@ void Window::start() {
 
 // Private functions
 
-void Window::initCallbacks() {
+void Window::InitCallbacks() {
   glfwSetWindowUserPointer(window_internal_, reinterpret_cast<void*>(this));
-  glfwSetCursorPosCallback(window_internal_, Window::mouseMovementCallback);
-  glfwSetMouseButtonCallback(window_internal_, Window::mouseInputCallback);
-  glfwSetKeyCallback(window_internal_, Window::keyCallback);
+  glfwSetCursorPosCallback(window_internal_, Window::MouseMovementCallback);
+  glfwSetMouseButtonCallback(window_internal_, Window::MouseInputCallback);
+  glfwSetKeyCallback(window_internal_, Window::KeyCallback);
   glfwSetFramebufferSizeCallback(window_internal_,
-                                 Window::framebufferSizeCallback);
+                                 Window::FramebufferSizeCallback);
 }
 
 }  // namespace common

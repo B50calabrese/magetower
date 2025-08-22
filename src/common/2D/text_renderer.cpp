@@ -1,4 +1,4 @@
-#include "text_renderer.h"
+#include "common/2D/text_renderer.h"
 
 #include <ft2build.h>
 
@@ -17,16 +17,16 @@ TextRenderer::TextRenderer(common::resources::Shader shader,
                            glm::mat4 projection_matrix)
     : shader_(shader) {
   // Configure shaders
-  shader_.activate();
-  shader_.setMat4("projection", projection_matrix);
-  init();
+  shader_.Activate();
+  shader_.SetMat4("projection", projection_matrix);
+  Init();
 }
 
 void TextRenderer::RenderText(const std::string& text, float x, float y,
                               float scale, glm::vec3 color, float rotate) {
   // activate corresponding render state
-  shader_.activate();
-  shader_.setVec3("textColor", color);
+  shader_.Activate();
+  shader_.SetVec3("textColor", color);
 
   glActiveTexture(GL_TEXTURE0);
   glBindVertexArray(vao_);
@@ -40,7 +40,7 @@ void TextRenderer::RenderText(const std::string& text, float x, float y,
     Character ch = characters_[c];
 
     starting_position =
-        renderCharacter(c, starting_position.x, starting_position.y, scale);
+        RenderCharacter(c, starting_position.x, starting_position.y, scale);
   }
   glBindVertexArray(0);
   glBindTexture(GL_TEXTURE_2D, 0);
@@ -50,11 +50,11 @@ void TextRenderer::RenderTextInBoundingBox(
     const std::string& text, const common::utils::BoundingBox2D& bounding_box,
     float scale, glm::vec3 color, bool scale_to_fit) {
   float computed_scale =
-      scale_to_fit ? computeOptimalScale(text, scale, bounding_box) : scale;
+      scale_to_fit ? ComputeOptimalScale(text, scale, bounding_box) : scale;
 
   // activate corresponding render state
-  shader_.activate();
-  shader_.setVec3("textColor", color);
+  shader_.Activate();
+  shader_.SetVec3("textColor", color);
 
   glActiveTexture(GL_TEXTURE0);
   glBindVertexArray(vao_);
@@ -72,7 +72,7 @@ void TextRenderer::RenderTextInBoundingBox(
       break;
     } else if (c == ' ' || c == '\n') {
       // Render the word, advance the position, and clear the word.
-      glm::vec2 potential_position = computeWordFinalPosition(
+      glm::vec2 potential_position = ComputeWordFinalPosition(
           potential_word.str(), starting_position.x, starting_position.y,
           computed_scale);
 
@@ -83,11 +83,11 @@ void TextRenderer::RenderTextInBoundingBox(
         starting_position.y -= line_height_ * computed_scale;
       }
 
-      starting_position = renderWord(potential_word.str(), starting_position.x,
+      starting_position = RenderWord(potential_word.str(), starting_position.x,
                                      starting_position.y, computed_scale);
 
       starting_position.x +=
-          (characters_[' '].advance_ >> 6) * computed_scale;
+          (characters_[' '].advance >> 6) * computed_scale;
       potential_word.str("");
 
       if (c == '\n') {
@@ -100,7 +100,7 @@ void TextRenderer::RenderTextInBoundingBox(
   }
   if (potential_word.str() != "") {
     // Render the word, advance the position, and clear the word.
-    glm::vec2 potential_position = computeWordFinalPosition(
+    glm::vec2 potential_position = ComputeWordFinalPosition(
         potential_word.str(), starting_position.x, starting_position.y,
         computed_scale);
 
@@ -112,7 +112,7 @@ void TextRenderer::RenderTextInBoundingBox(
     }
 
     // Render the word, advance the position, and clear the word.
-    starting_position = renderWord(potential_word.str(), starting_position.x,
+    starting_position = RenderWord(potential_word.str(), starting_position.x,
                                    starting_position.y, computed_scale);
   }
 
@@ -122,12 +122,12 @@ void TextRenderer::RenderTextInBoundingBox(
 
 // Private functions
 
-void TextRenderer::init() {
-  loadFreeType();
-  reserveVaoVbo();
+void TextRenderer::Init() {
+  LoadFreeType();
+  ReserveVaoVbo();
 }
 
-void TextRenderer::loadFreeType() {
+void TextRenderer::LoadFreeType() {
   FT_Library ft;
   // All functions return a value different than 0 whenever an error occurred
   if (FT_Init_FreeType(&ft)) {
@@ -182,7 +182,7 @@ void TextRenderer::loadFreeType() {
   FT_Done_Face(face);
 }
 
-void TextRenderer::reserveVaoVbo() {
+void TextRenderer::ReserveVaoVbo() {
   glGenVertexArrays(1, &vao_);
   glGenBuffers(1, &vbo_);
   glBindVertexArray(vao_);
@@ -194,27 +194,27 @@ void TextRenderer::reserveVaoVbo() {
   glBindVertexArray(0);
 }
 
-glm::vec2 TextRenderer::renderWord(const std::string& word, float x, float y,
+glm::vec2 TextRenderer::RenderWord(const std::string& word, float x, float y,
                                    float scale) {
   glm::vec2 starting_position(x, y);
   for (char c2 : word) {
     Character ch = characters_[c2];
 
     starting_position =
-        renderCharacter(c2, starting_position.x, starting_position.y, scale);
+        RenderCharacter(c2, starting_position.x, starting_position.y, scale);
   }
   return starting_position;
 }
 
-glm::vec2 TextRenderer::renderCharacter(const char& c, float x, float y,
+glm::vec2 TextRenderer::RenderCharacter(const char& c, float x, float y,
                                         float scale) {
   Character ch = characters_[c];
 
-  float xpos = x + ch.bearing_.x * scale;
-  float ypos = y - (ch.size_.y - ch.bearing_.y) * scale;
+  float xpos = x + ch.bearing.x * scale;
+  float ypos = y - (ch.size.y - ch.bearing.y) * scale;
 
-  float w = ch.size_.x * scale;
-  float h = ch.size_.y * scale;
+  float w = ch.size.x * scale;
+  float h = ch.size.y * scale;
 
   float vertices[6][4] = {
       {0.0f, h, 0.0f, 0.0f}, {w, 0.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f, 1.0f},
@@ -224,10 +224,10 @@ glm::vec2 TextRenderer::renderCharacter(const char& c, float x, float y,
   glm::mat4 model = glm::mat4(1.0f);
   model = glm::translate(model, glm::vec3(xpos, ypos, 0.0f));
 
-  shader_.setMat4("model", model);
+  shader_.SetMat4("model", model);
 
   // render glyph texture over quad
-  glBindTexture(GL_TEXTURE_2D, ch.texture_id_);
+  glBindTexture(GL_TEXTURE_2D, ch.texture_id);
   // update content of VBO memory
   glBindBuffer(GL_ARRAY_BUFFER, vbo_);
   glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
@@ -237,25 +237,25 @@ glm::vec2 TextRenderer::renderCharacter(const char& c, float x, float y,
 
   // now advance cursors for next glyph (note that advance is number of 1/64
   // pixels)
-  float advance_scaled = (ch.advance_ >> 6) * scale;
+  float advance_scaled = (ch.advance >> 6) * scale;
   return glm::vec2(x + advance_scaled, y);
 }
 
-glm::vec2 TextRenderer::computeWordFinalPosition(const std::string& word,
+glm::vec2 TextRenderer::ComputeWordFinalPosition(const std::string& word,
                                                  float x, float y,
                                                  float scale) {
   glm::vec2 final_position = glm::vec2(x, y);
 
   for (const char& c : word) {
     Character ch = characters_[c];
-    float advance_scaled = (ch.advance_ >> 6) * scale;
+    float advance_scaled = (ch.advance >> 6) * scale;
     final_position += glm::vec2(advance_scaled, 0.0f);
   }
 
   return final_position;
 }
 
-float TextRenderer::computeOptimalScale(
+float TextRenderer::ComputeOptimalScale(
     const std::string& word, float scale,
     const common::utils::BoundingBox2D& bounding_box) {
   float area_of_characters = 0.0f;
@@ -267,8 +267,8 @@ float TextRenderer::computeOptimalScale(
   for (char c : word) {
     Character ch = characters_[c];
     // float w = (ch.advance >> 6) + ch.size.x;
-    float w = (ch.advance_ >> 6);
-    float h = ch.size_.y;
+    float w = (ch.advance >> 6);
+    float h = ch.size.y;
 
     if (c == '\n') {
       max_line_width = max_line_width < current_line_width ? current_line_width

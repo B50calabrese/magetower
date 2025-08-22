@@ -1,4 +1,4 @@
-#include "card_loader_xml.h"
+#include "core/card_loader_xml.h"
 
 #include <memory>
 #include <string>
@@ -21,7 +21,7 @@ using core::components::CardComponent;
 using core::components::PositionComponent;
 using core::components::SizeComponent;
 
-bool CardLoaderXML::loadCards(const std::string& file_path,
+bool CardLoaderXML::LoadCards(const std::string& file_path,
                               CardRegistry& card_registry) {
   tinyxml2::XMLDocument doc;
 
@@ -56,7 +56,7 @@ bool CardLoaderXML::loadCards(const std::string& file_path,
          component_element != nullptr;
          component_element =
              component_element->NextSiblingElement("Component")) {
-      auto component = this->parseComponent(component_element);
+      auto component = ParseComponent(component_element);
       if (component) {
         components.push_back(component);
       }
@@ -69,14 +69,14 @@ bool CardLoaderXML::loadCards(const std::string& file_path,
 
     common::utils::Logger::Info(
         "XML Loader: Registering card id: " + id_string + "\n");
-    card_registry.addCard(std::stoi(id_string), components);
+    card_registry.AddCard(std::stoi(id_string), components);
   }
   return true;
 }
 
 // Private functions
 
-std::shared_ptr<Component> CardLoaderXML::parseComponent(
+std::shared_ptr<Component> CardLoaderXML::ParseComponent(
     tinyxml2::XMLElement* component_element) {
   if (!component_element) {
     return nullptr;

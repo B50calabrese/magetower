@@ -1,4 +1,4 @@
-#include "card_registry.h"
+#include "core/card_registry.h"
 
 #include <iostream>
 #include <memory>
@@ -22,12 +22,12 @@ using core::components::CardComponent;
 using core::components::PositionComponent;
 using core::components::SizeComponent;
 
-CardRegistry::CardRegistry() { this->initRegistry(); }
+CardRegistry::CardRegistry() { InitRegistry(); }
 
-CardRegistry::CardPrototype CardRegistry::getCardPrototype(int card_id) {
-  if (this->card_prototypes.count(card_id)) {
+CardRegistry::CardPrototype CardRegistry::GetCardPrototype(int card_id) {
+  if (card_prototypes_.count(card_id)) {
     std::vector<std::unique_ptr<Component>> clonedComponents;
-    for (const auto& component : this->card_prototypes.at(card_id)) {
+    for (const auto& component : card_prototypes_.at(card_id)) {
       clonedComponents.push_back(component->clone());
     }
     return clonedComponents;
@@ -37,20 +37,20 @@ CardRegistry::CardPrototype CardRegistry::getCardPrototype(int card_id) {
   }
 }
 
-void CardRegistry::addCard(
+void CardRegistry::AddCard(
     int card_id,
     std::vector<std::shared_ptr<common::ecs::Component>> components) {
   for (auto component : components) {
-    this->card_prototypes[card_id].push_back(component->clone());
+    card_prototypes_[card_id].push_back(component->clone());
   }
 }
 
 // Private functions
 
-void CardRegistry::initRegistry() {
+void CardRegistry::InitRegistry() {
   CardLoaderXML card_loader_xml;
   const std::string file_path = "assets/cards/card_registry.xml";
-  card_loader_xml.loadCards(file_path, *this);
+  card_loader_xml.LoadCards(file_path, *this);
 }
 
 }  // namespace core

@@ -1,4 +1,4 @@
-#include "engine.h"
+#include "common/ecs/engine.h"
 
 #include <iostream>
 
@@ -9,43 +9,43 @@ namespace ecs {
 
 int Engine::kNumberOfEntities = 0;
 
-const std::shared_ptr<Entity> Engine::getEntityFromId(int id) const {
+const std::shared_ptr<Entity> Engine::GetEntityFromId(int id) const {
   for (auto entity : entities_) {
-    if (entity->getId() == id) {
+    if (entity->id() == id) {
       return entity;
     }
   }
   return nullptr;
 }
 
-Entity& Engine::newEntity() {
+Entity& Engine::NewEntity() {
   std::shared_ptr<Entity> entity =
       std::make_shared<Entity>(kNumberOfEntities++);
   entities_.push_back(std::move(entity));
   return *(entities_.back());
 }
 
-void Engine::runSystems(double delta_time_ms) {
+void Engine::RunSystems(double delta_time_ms) {
   // Handle just the first event if it exists.
   if (!event_queue_.empty()) {
     std::shared_ptr<Event> event = event_queue_.front();
-    utils::Logger::Info("Processing event: " + event->getName());
+    utils::Logger::Info("Processing event: " + event->name());
     // Get the listeners for the given event type.
     std::type_index eventTypeIndex = std::type_index(typeid(*event));
     auto listeners = event_type_to_listeners_map_.find(eventTypeIndex);
 
-    bool should_pop_event = event->shouldConsumeOnFirstPass();
+    bool should_pop_event = event->ShouldConsumeOnFirstPass();
     // If we have any listeners to iterate through then do so.
     if (listeners != event_type_to_listeners_map_.end()) {
       for (auto& listener : listeners->second) {
-        if (listener->handleEvent(*event, *this)) {
+        if (listener->HandleEvent(*event, *this)) {
           should_pop_event = true;
           break;
         }
       }
     } else {
       utils::Logger::Info("No event listeners subscribed for event type: " +
-                          event->getName());
+                          event->name());
     }
 
     if (should_pop_event) {
@@ -55,23 +55,23 @@ void Engine::runSystems(double delta_time_ms) {
 
   // Once events are processed then finish.
   for (const auto& system : systems_) {
-    system->process(*this, delta_time_ms);
+    system->Process(*this, delta_time_ms);
   }
 }
 
-void Engine::runRenderSystems(
+void Engine::RunRenderSystems(
     std::shared_ptr<common::twod::RendererManager> renderer_manager) {
   for (const auto& system : render_systems_) {
-    system->render(*this, renderer_manager);
+    system->Render(*this, renderer_manager);
   }
 }
 
-void Engine::publishEvent(std::unique_ptr<Event> event) {
+void Engine::PublishEvent(std::unique_ptr<Event> event) {
   event_queue_.push(std::move(event));
 }
 
 template <typename T, typename... Args>
-T& Engine::registerSingletonComponent(Args&&... args) {
+T& Engine::RegisterSingletonComponent(Args&&... args) {
   std::type_index typeIndex = std::type_index(typeid(T));
   if (singleton_component_map_.count(typeIndex)) {
     utils::Logger::Warning("Singleton Component of type already registered: " +
@@ -85,7 +85,7 @@ T& Engine::registerSingletonComponent(Args&&... args) {
 }
 
 template <typename T>
-T* Engine::getSingletonComponent() const {
+T* Engine::GetSingletonComponent() const {
   std::type_index typeIndex = std::type_index(typeid(T));
   if (singleton_component_map_.count(typeIndex)) {
     return static_cast<T*>(singleton_component_map_.at(typeIndex).get());

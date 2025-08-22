@@ -1,8 +1,9 @@
-#ifndef POSITION_COMPONENT_H
-#define POSITION_COMPONENT_H
+#ifndef MAGETOWER_SRC_CORE_COMPONENTS_POSITION_COMPONENT_H_
+#define MAGETOWER_SRC_CORE_COMPONENTS_POSITION_COMPONENT_H_
 
-#include <glm/vec2.hpp>
 #include <memory>
+
+#include "glm/vec2.hpp"
 
 #include "common/ecs/component.h"
 
@@ -11,33 +12,33 @@ namespace components {
 
 class PositionComponent : public common::ecs::Component {
  public:
-  PositionComponent(glm::vec2 position) : position(position) {}
+  explicit PositionComponent(glm::vec2 position) : position_(position) {}
 
   std::unique_ptr<Component> clone() const override {
-    return std::make_unique<PositionComponent>(this->position);
+    return std::make_unique<PositionComponent>(position_);
   }
 
-  int getComponentIdInstance() const override {
-    return Component::getComponentId<PositionComponent>();
+  int GetComponentIdInstance() const override {
+    return Component::GetComponentId<PositionComponent>();
   }
 
-  glm::vec2 getPosition() const { return this->position; }
+  glm::vec2 position() const { return position_; }
 
-  void setPosition(glm::vec2 position) { this->position = position; }
+  void set_position(glm::vec2 position) { position_ = position; }
 
-  float getX() const { return this->position.x; }
+  float x() const { return position_.x; }
 
-  void setX(float x) { this->position.x = x; }
+  void set_x(float x) { position_.x = x; }
 
-  float getY() const { return this->position.y; }
+  float y() const { return position_.y; }
 
-  void setY(float y) { this->position.y = y; }
+  void set_y(float y) { position_.y = y; }
 
  private:
-  glm::vec2 position;
+  glm::vec2 position_;
 };
 
 }  // namespace components
 }  // namespace core
 
-#endif  // POSITION_COMPONENT_H
+#endif  // MAGETOWER_SRC_CORE_COMPONENTS_POSITION_COMPONENT_H_

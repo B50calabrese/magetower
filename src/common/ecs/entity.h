@@ -1,5 +1,5 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef MAGETOWER_SRC_COMMON_ECS_ENTITY_H_
+#define MAGETOWER_SRC_COMMON_ECS_ENTITY_H_
 
 #include <bitset>
 #include <iostream>
@@ -7,89 +7,83 @@
 #include <memory>
 #include <typeindex>
 
-#include "component.h"
+#include "common/ecs/component.h"
 
 namespace common {
 namespace ecs {
 
-/* Container of components defined by an id. */
+// Container of components defined by an id.
 class Entity {
  public:
-  const static int MAX_NUMBER_COMPONENTS = 64;
+  const static int kMaxNumberComponents = 64;
 
   using ComponentMap = std::map<std::type_index, std::unique_ptr<Component>>;
 
-  Entity(int id) : id(id) {}
+  explicit Entity(int id) : id_(id) {}
 
-  int getId() { return this->id; }
+  int id() { return id_; }
 
-  /*
-   * Adds a component by passing in the arguments used to generate the
-   * component.
-   */
+  // Adds a component by passing in the arguments used to generate the
+  // component.
   template <typename T, typename... Args>
-  T& addComponent(Args&&... args) {
+  T& AddComponent(Args&&... args) {
     // Get the type of the component.
     std::type_index typeIndex = std::type_index(typeid(T));
-    if (this->components.count(typeIndex)) {
+    if (components_.count(typeIndex)) {
       // Component already exists, maybe handle error or just return existing
-      std::cerr << "Component of type already exists on entity " << id
+      std::cerr << "Component of type already exists on entity " << id_
                 << std::endl;
       return *static_cast<T*>(
-          this->components[typeIndex].get());  // Return existing component
+          components_[typeIndex].get());  // Return existing component
     }
     std::unique_ptr<T> component =
         std::make_unique<T>(std::forward<Args>(args)...);
-    this->components[typeIndex] = std::move(component);
-    this->signature[Component::getComponentId<T>()] = true;
+    components_[typeIndex] = std::move(component);
+    signature_[Component::GetComponentId<T>()] = true;
     return *static_cast<T*>(
-        this->components[typeIndex].get());  // Return newly created component
+        components_[typeIndex].get());  // Return newly created component
   }
 
-  void addComponent(std::unique_ptr<Component>& component) {
+  void AddComponent(std::unique_ptr<Component>& component) {
     std::type_index typeIndex = std::type_index(typeid(*component));
-    if (this->components.count(typeIndex)) {
-      std::cerr << "Component of type already exists on entity " << id
+    if (components_.count(typeIndex)) {
+      std::cerr << "Component of type already exists on entity " << id_
                 << std::endl;
       return;
     }
-    this->signature[component->getComponentIdInstance()] = true;
-    this->components[typeIndex] = std::move(component);
+    signature_[component->GetComponentIdInstance()] = true;
+    components_[typeIndex] = std::move(component);
   }
 
   template <typename T>
-  void removeComponent() {
+  void RemoveComponent() {
     std::type_index typeIndex = std::type_index(typeid(T));
-    if (components.count(typeIndex)) {
-      components.erase(typeIndex);
-      signature[Component::getComponentId<T>()] =
+    if (components_.count(typeIndex)) {
+      components_.erase(typeIndex);
+      signature_[Component::GetComponentId<T>()] =
           false;  // Clear the bit in the signature
     }
   }
 
-  /*
-   * Gets the component of a given type.
-   */
+  // Gets the component of a given type.
   template <typename T>
-  T* getComponent() const {
+  T* GetComponent() const {
     std::type_index typeIndex = std::type_index(typeid(T));
-    if (this->components.count(typeIndex)) {
-      return static_cast<T*>(this->components.at(typeIndex).get());
+    if (components_.count(typeIndex)) {
+      return static_cast<T*>(components_.at(typeIndex).get());
     }
     return nullptr;  // Or throw an exception if component is expected
   }
 
-  /*
-   * Returns whether or not a component of a given type exists.
-   */
+  // Returns whether or not a component of a given type exists.
   template <typename T>
-  bool hasComponent() const {
+  bool HasComponent() const {
     std::type_index typeIndex = std::type_index(typeid(T));
-    return this->components.count(typeIndex) > 0;
+    return components_.count(typeIndex) > 0;
   }
 
-  const std::bitset<MAX_NUMBER_COMPONENTS> getSignature() {
-    return this->signature;
+  const std::bitset<kMaxNumberComponents> signature() {
+    return signature_;
   }
 
  private:
@@ -99,11 +93,11 @@ class Entity {
   Entity(Entity&&) = delete;
   Entity& operator=(Entity&&) = delete;
 
-  int id;
-  ComponentMap components;
-  std::bitset<MAX_NUMBER_COMPONENTS> signature;
+  int id_;
+  ComponentMap components_;
+  std::bitset<kMaxNumberComponents> signature_;
 };
 }  // namespace ecs
 }  // namespace common
 
-#endif  // ENTITY_H
+#endif  // MAGETOWER_SRC_COMMON_ECS_ENTITY_H_

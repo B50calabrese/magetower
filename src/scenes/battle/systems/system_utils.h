@@ -1,5 +1,5 @@
-#ifndef SYSTEM_UTILS_H
-#define SYSTEM_UTILS_H
+#ifndef MAGETOWER_SRC_SCENES_BATTLE_SYSTEMS_SYSTEM_UTILS_H_
+#define MAGETOWER_SRC_SCENES_BATTLE_SYSTEMS_SYSTEM_UTILS_H_
 
 #include "common/utils/bounding_box_2d.h"
 #include "core/components/mouse_position_component.h"
@@ -10,16 +10,14 @@ namespace scenes {
 namespace battle {
 namespace systems {
 
-/*
- * Given a MouseComponent, SizeComponent, and PositionComponent, returns whether
- * or not the mouse is within the bounding box defined by those components.
- */
-bool mouseWithinSizePosition(
+// Given a MouseComponent, SizeComponent, and PositionComponent, returns whether
+// or not the mouse is within the bounding box defined by those components.
+bool MouseWithinSizePosition(
     core::components::MousePositionComponent& mouse_position,
     core::components::PositionComponent& position,
     core::components::SizeComponent& size);
 
-bool mouseWithinBoundingBox(
+bool MouseWithinBoundingBox(
     core::components::MousePositionComponent& mouse_position,
     common::utils::BoundingBox2D bounding_box);
 
@@ -27,4 +25,4 @@ bool mouseWithinBoundingBox(
 }  // namespace battle
 }  // namespace scenes
 
-#endif  // SYSTEM_UTILS_H
+#endif  // MAGETOWER_SRC_SCENES_BATTLE_SYSTEMS_SYSTEM_UTILS_H_

@@ -1,5 +1,4 @@
-#ifndef SYSTEM_UTILS_H
-#define SYSTEM_UTILS_H
+#include "scenes/battle/systems/system_utils.h"
 
 #include "common/utils/bounding_box_2d.h"
 #include "common/utils/math.h"
@@ -16,22 +15,20 @@ using core::components::MousePositionComponent;
 using core::components::PositionComponent;
 using core::components::SizeComponent;
 
-bool mouseWithinSizePosition(MousePositionComponent& mouse_position,
+bool MouseWithinSizePosition(MousePositionComponent& mouse_position,
                              PositionComponent& position, SizeComponent& size) {
-  return (mouse_position.getX() > position.getX() &&
-          mouse_position.getY() > position.getY() &&
-          mouse_position.getX() < (position.getX() + size.getWidth()) &&
-          mouse_position.getY() < (position.getY() + size.getHeight()));
+  return (mouse_position.x() > position.x() &&
+          mouse_position.y() > position.y() &&
+          mouse_position.x() < (position.x() + size.width()) &&
+          mouse_position.y() < (position.y() + size.height()));
 }
 
-bool mouseWithinBoundingBox(MousePositionComponent& mouse_position,
+bool MouseWithinBoundingBox(MousePositionComponent& mouse_position,
                             BoundingBox2D bounding_box) {
-  return common::utils::boundingBoxContains(bounding_box,
-                                            mouse_position.getPosition());
+  return common::utils::BoundingBoxContains(bounding_box,
+                                            mouse_position.position());
 }
 
 }  // namespace systems
 }  // namespace battle
 }  // namespace scenes
-
-#endif  // SYSTEM_UTILS_H

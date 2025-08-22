@@ -1,5 +1,5 @@
-#ifndef COMMON_ECS_ENGINE_H_
-#define COMMON_ECS_ENGINE_H_
+#ifndef MAGETOWER_SRC_COMMON_ECS_ENGINE_H_
+#define MAGETOWER_SRC_COMMON_ECS_ENGINE_H_
 
 #include <map>
 #include <memory>
@@ -8,17 +8,16 @@
 #include <vector>
 
 #include "common/2D/renderer_manager.h"
-#include "entity.h"
-#include "event.h"
-#include "event_listener.h"
-#include "render_system.h"
-#include "system.h"
+#include "common/ecs/entity.h"
+#include "common/ecs/event.h"
+#include "common/ecs/event_listener.h"
+#include "common/ecs/render_system.h"
+#include "common/ecs/system.h"
 
 namespace common {
 namespace ecs {
 
-/* Manager of the ecs system, handles the coordination of the different parts.
- */
+// Manager of the ecs system, handles the coordination of the different parts.
 class Engine {
  public:
   using EntityList = std::vector<std::shared_ptr<Entity>>;
@@ -33,60 +32,50 @@ class Engine {
   Engine() = default;
   ~Engine() = default;
 
-  const EntityList& getEntities() const { return entities_; }
+  const EntityList& Entities() const { return entities_; }
 
-  const std::shared_ptr<Entity> getEntityFromId(int id) const;
+  const std::shared_ptr<Entity> GetEntityFromId(int id) const;
 
-  Entity& newEntity();
+  Entity& NewEntity();
 
-  /*
-   * Registers a given system with the given arguments.
-   */
+  // Registers a given system with the given arguments.
   template <typename T, typename... Args>
-  void registerSystem(Args&&... args) {
+  void RegisterSystem(Args&&... args) {
     std::unique_ptr<T> system =
         std::make_unique<T>(std::forward<Args>(args)...);
     systems_.push_back(std::move(system));
-    systems_.back()->registerEventListeners(*this);
+    systems_.back()->RegisterEventListeners(*this);
   }
 
-  /*
-   * Registers a given render system with the given arguments.
-   */
+  // Registers a given render system with the given arguments.
   template <typename T, typename... Args>
-  void registerRenderSystem(Args&&... args) {
+  void RegisterRenderSystem(Args&&... args) {
     std::unique_ptr<T> system =
         std::make_unique<T>(std::forward<Args>(args)...);
     render_systems_.push_back(std::move(system));
   }
 
-  void runSystems(double delta_time_ms);
+  void RunSystems(double delta_time_ms);
 
-  void runRenderSystems(
+  void RunRenderSystems(
       std::shared_ptr<common::twod::RendererManager> renderer_manager);
 
-  void publishEvent(std::unique_ptr<Event> event);
+  void PublishEvent(std::unique_ptr<Event> event);
 
-  /*
-   * Used to register an event listener, using the event as a template type.
-   */
+  // Used to register an event listener, using the event as a template type.
   template <typename EventType>
-  void registerEventListener(EventListener* event_listener) {
+  void RegisterEventListener(EventListener* event_listener) {
     std::type_index eventTypeIndex = std::type_index(typeid(EventType));
     event_type_to_listeners_map_[eventTypeIndex].push_back(event_listener);
   }
 
-  /*
-   * Registers a singleton component in the world.
-   */
+  // Registers a singleton component in the world.
   template <typename T, typename... Args>
-  T& registerSingletonComponent(Args&&... args);
+  T& RegisterSingletonComponent(Args&&... args);
 
-  /*
-   * Return the singleton component registered in the world.
-   */
+  // Return the singleton component registered in the world.
   template <typename T>
-  T* getSingletonComponent() const;
+  T* GetSingletonComponent() const;
 
  private:
   static int kNumberOfEntities;
@@ -102,4 +91,4 @@ class Engine {
 }  // namespace ecs
 }  // namespace common
 
-#endif  // COMMON_ECS_ENGINE_H_
+#endif  // MAGETOWER_SRC_COMMON_ECS_ENGINE_H_

@@ -1,4 +1,4 @@
-#include "texture.h"
+#include "common/resources/texture.h"
 
 #include "glad/glad.h"
 
@@ -17,7 +17,7 @@ Texture::Texture()
   glGenTextures(1, &id_);
 }
 
-void Texture::generate(unsigned int width, unsigned int height,
+void Texture::Generate(unsigned int width, unsigned int height,
                        unsigned char* data) {
   width_ = width;
   height_ = height;
@@ -36,7 +36,7 @@ void Texture::generate(unsigned int width, unsigned int height,
   glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::bind() const { glBindTexture(GL_TEXTURE_2D, id_); }
+void Texture::Bind() const { glBindTexture(GL_TEXTURE_2D, id_); }
 
 }  // namespace resources
 }  // namespace common
