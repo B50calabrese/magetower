@@ -63,9 +63,6 @@
     <ClCompile Include="src\core\rendersystems\sprite_render_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\common\ecs\component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\renderutils\card_render_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

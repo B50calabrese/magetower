@@ -28,7 +28,7 @@ class Component {
   virtual int getComponentIdInstance() const = 0;
 
  private:
-  static int kNextComponentId;
+  inline static int kNextComponentId = 0;
 };
 
 }  // namespace ecs
