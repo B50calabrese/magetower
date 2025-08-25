@@ -4,8 +4,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
+#include <memory>
 
 #include "common/2D/renderer_manager.h"
+#include "core/player_state.h"
 
 namespace common {
 
@@ -31,6 +33,10 @@ class Scene {
   virtual void loadScene() = 0;
   virtual void unloadScene() = 0;
 
+  void setPlayerState(std::shared_ptr<core::PlayerState> player_state) {
+    player_state_ = player_state;
+  }
+
   int getId() const { return id_; }
 
   int getNextSceneId() const { return next_scene_id_; }
@@ -49,6 +55,7 @@ class Scene {
 
   glm::vec2 mouse_position_;
   int next_scene_id_;
+  std::shared_ptr<core::PlayerState> player_state_;
 
  private:
   int id_;

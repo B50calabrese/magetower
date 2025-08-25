@@ -7,6 +7,7 @@
 #include "common/ecs/engine.h"
 #include "common/ecs/render_system.h"
 #include "common/resources/texture.h"
+#include "scenes/battle/components/turn_state_singleton_component.h"
 
 namespace scenes {
 namespace battle {

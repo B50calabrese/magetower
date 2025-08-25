@@ -28,7 +28,7 @@ void MainMenuScene::processMouseClick(GLFWwindow* window, int button,
     if (start_button_->containsPoint(mouse_position_)) {
       // Switch scene
       update_status_ = UpdateStatus::kSwitchScene;
-      next_scene_id_ = static_cast<int>(core::SceneId::Battle);
+      next_scene_id_ = static_cast<int>(core::SceneId::Map);
     } else if (exit_button_->containsPoint(mouse_position_)) {
       update_status_ = UpdateStatus::kCloseWindow;
     }

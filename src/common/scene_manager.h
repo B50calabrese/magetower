@@ -6,6 +6,7 @@
 
 #include <glm/mat4x4.hpp>
 
+#include "core/player_state.h"
 #include "scene.h"
 
 // Forward declaration to avoid including header.
@@ -38,6 +39,7 @@ class SceneManager {
   std::map<int, std::shared_ptr<Scene>> scene_map_;
   std::shared_ptr<Scene> current_scene_;
   bool should_close_window_;
+  std::shared_ptr<core::PlayerState> player_state_;
 
   std::shared_ptr<common::twod::RendererManager> renderer_manager_;
 };

@@ -10,6 +10,7 @@
 #include "scenes/battle/components/in_player_hand_tag_component.h"
 #include "scenes/battle/components/input_state_singleton_component.h"
 #include "scenes/battle/components/player_holding_card_tag_component.h"
+#include "scenes/battle/components/turn_state_singleton_component.h"
 #include "scenes/battle/events/player_hand_update_event.h"
 
 namespace scenes {
@@ -56,6 +57,12 @@ void CardHoldSystem::process(common::ecs::Engine& engine,
 
 bool CardHoldSystem::handleEvent(common::ecs::Event& event,
                                  common::ecs::Engine& engine) {
+  auto turn_state =
+      engine.getSingletonComponent<components::TurnStateSingletonComponent>();
+  if (turn_state->getCurrentTurn() != components::Turn::kPlayer) {
+    return false;
+  }
+
   auto* input_state_component =
       engine.getSingletonComponent<InputStateSingletonComponent>();
 

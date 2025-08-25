@@ -22,6 +22,8 @@ class SpriteRenderer {
   void DrawSprite(const common::resources::Texture& texture,
                   glm::mat4 model_matrix, glm::vec4 color);
 
+  void DrawLine(glm::vec2 start, glm::vec2 end, float width, glm::vec4 color);
+
  private:
   void init();
 

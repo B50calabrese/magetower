@@ -38,6 +38,7 @@
 #include "scenes/battle/systems/card_hold_system.h"
 #include "scenes/battle/systems/enemy_deck_system.h"
 #include "scenes/battle/systems/enemy_hand_system.h"
+#include "scenes/battle/systems/enemy_turn_system.h"
 #include "scenes/battle/systems/player_deck_system.h"
 #include "scenes/battle/systems/player_hand_system.h"
 #include "scenes/battle/systems/turn_state_system.h"
@@ -95,6 +96,19 @@ void BattleScene::processKeyInput(GLFWwindow* window, int key, int scancode,
   if (key == GLFW_KEY_E && action == GLFW_PRESS) {
     this->ecs_engine.publishEvent(std::make_unique<PlayerDrawCardStartEvent>());
   }
+  if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+    player_state_->setCurrentMapLevel(player_state_->getCurrentMapLevel() + 1);
+    update_status_ = UpdateStatus::kSwitchScene;
+    next_scene_id_ = static_cast<int>(core::SceneId::Map);
+  }
+  if (key == GLFW_KEY_T && action == GLFW_PRESS) {
+    auto turn_state =
+        this->ecs_engine
+            .getSingletonComponent<components::TurnStateSingletonComponent>();
+    if (turn_state->getCurrentTurn() == components::Turn::kPlayer) {
+      turn_state->setCurrentTurn(components::Turn::kEnemy);
+    }
+  }
 }
 
 void BattleScene::loadScene() {
@@ -137,7 +151,12 @@ void BattleScene::loadEnemyEntity() {
 void BattleScene::loadPlayerDeck() {
   // Generate entities to represent the player's deck and then execute draw
   // commands.
-  std::vector<int> player_deck = {11};
+  const std::vector<int>& player_deck = player_state_->getDeck();
+  if (player_deck.empty()) {
+    // Add a default card if the deck is empty.
+    player_state_->addCardToDeck(11);
+  }
+
   for (const int id : player_deck) {
     Entity& entity = this->ecs_engine.newEntity();
     std::vector<std::unique_ptr<Component>> components =
@@ -162,6 +181,7 @@ void BattleScene::loadSystems() {
   this->ecs_engine.registerSystem<EnemyHandSystem>();
   this->ecs_engine.registerSystem<PlayerHandSystem>();
   this->ecs_engine.registerSystem<CardHoldSystem>();
+  this->ecs_engine.registerSystem<EnemyTurnSystem>();
   this->ecs_engine.registerSystem<TurnStateSystem>();
 }
 
