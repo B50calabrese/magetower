@@ -18,7 +18,9 @@ namespace battle {
 
 class BattleScene : public common::Scene {
  public:
-  BattleScene() : Scene(static_cast<int>(core::SceneId::Battle)) {
+  BattleScene()
+      : Scene(static_cast<int>(core::SceneId::Battle)),
+        update_status(UpdateStatus::kOk) {
     this->card_registry = std::make_shared<core::CardRegistry>();
     update_status_ = UpdateStatus::kOk;
   }

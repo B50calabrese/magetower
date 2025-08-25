@@ -5,6 +5,7 @@
 
 #include "common/2D/sprite.h"
 #include "common/scene.h"
+#include "core/consts.h"
 #include "core/scene_ids.h"
 
 namespace scenes {
@@ -13,7 +14,7 @@ namespace mainmenu {
 class MainMenuScene : public common::Scene {
  public:
   MainMenuScene()
-      : common::Scene(core::MAIN_MENU_SCENE_ID),
+      : Scene(static_cast<int>(core::SceneId::MainMenu)),
         update_status_(UpdateStatus::kOk) {}
 
   void render(

@@ -41,6 +41,7 @@
 #include "scenes/battle/systems/enemy_turn_system.h"
 #include "scenes/battle/systems/player_deck_system.h"
 #include "scenes/battle/systems/player_hand_system.h"
+#include "scenes/battle/systems/turn_state_system.h"
 
 namespace scenes {
 namespace battle {
@@ -66,6 +67,7 @@ using scenes::battle::components::InputStateSingletonComponent;
 using scenes::battle::components::ManaComponent;
 using scenes::battle::components::PlayerDeckSingletonComponent;
 using scenes::battle::components::PlayerTagComponent;
+using scenes::battle::components::TurnStateSingletonComponent;
 using scenes::battle::events::PlayerDrawCardStartEvent;
 using scenes::battle::events::PlayerHandUpdateEvent;
 using scenes::battle::rendersystems::CardRenderSystem;
@@ -76,6 +78,7 @@ using scenes::battle::systems::EnemyDeckSystem;
 using scenes::battle::systems::EnemyHandSystem;
 using scenes::battle::systems::PlayerDeckSystem;
 using scenes::battle::systems::PlayerHandSystem;
+using scenes::battle::systems::TurnStateSystem;
 
 void BattleScene::render(
     std::shared_ptr<common::twod::RendererManager> renderer_manager) {
@@ -179,6 +182,7 @@ void BattleScene::loadSystems() {
   this->ecs_engine.registerSystem<PlayerHandSystem>();
   this->ecs_engine.registerSystem<CardHoldSystem>();
   this->ecs_engine.registerSystem<EnemyTurnSystem>();
+  this->ecs_engine.registerSystem<TurnStateSystem>();
 }
 
 void BattleScene::loadRenderSystems() {

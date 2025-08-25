@@ -1,20 +1,20 @@
-#ifndef SCENES_BATTLE_COMPONENTS_TURN_STATE_SINGLETON_COMPONENT_H_
-#define SCENES_BATTLE_COMPONENTS_TURN_STATE_SINGLETON_COMPONENT_H_
+#ifndef TURN_STATE_SINGLETON_COMPONENT_H
+#define TURN_STATE_SINGLETON_COMPONENT_H
+
+#include <memory>
+#include <vector>
 
 #include "common/ecs/component.h"
+#include "common/ecs/entity.h"
 
-namespace scenes {
-namespace battle {
-namespace components {
+namespace scenes::battle::components {
 
-enum class Turn { kPlayer, kEnemy };
-
+/*
+ * Contains reference to the turn state.
+ */
 class TurnStateSingletonComponent : public common::ecs::Component {
  public:
-  TurnStateSingletonComponent() : current_turn_(Turn::kPlayer) {}
-
-  Turn getCurrentTurn() const { return current_turn_; }
-  void setCurrentTurn(Turn turn) { current_turn_ = turn; }
+  TurnStateSingletonComponent() : is_player_turn(true) {}
 
   std::unique_ptr<Component> clone() const override {
     return std::make_unique<TurnStateSingletonComponent>();
@@ -24,12 +24,17 @@ class TurnStateSingletonComponent : public common::ecs::Component {
     return Component::getComponentId<TurnStateSingletonComponent>();
   }
 
+  bool isPlayerTurn() { return this->is_player_turn; }
+
+  void setIsPlayerTurn(bool is_player_turn) {
+    this->is_player_turn = is_player_turn;
+  }
+
+  void toggerIsPlayerTurn() { this->is_player_turn = !this->is_player_turn; }
+
  private:
-  Turn current_turn_;
+  bool is_player_turn;
 };
+}  // namespace scenes::battle::components
 
-}  // namespace components
-}  // namespace battle
-}  // namespace scenes
-
-#endif  // SCENES_BATTLE_COMPONENTS_TURN_STATE_SINGLETON_COMPONENT_H_
+#endif  // TURN_STATE_SINGLETON_COMPONENT_H

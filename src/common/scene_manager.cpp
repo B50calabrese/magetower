@@ -34,11 +34,11 @@ void SceneManager::update(double delta_time_ms) {
     Scene::UpdateStatus status = current_scene_->update(delta_time_ms);
 
     switch (status) {
-      case Scene::UpdateStatus::CLOSE_WINDOW:
+      case Scene::UpdateStatus::kCloseWindow:
         should_close_window_ = true;
         break;
 
-      case Scene::UpdateStatus::SWITCH_SCENE:
+      case Scene::UpdateStatus::kSwitchScene:
         setCurrentScene(current_scene_->getNextSceneId());
         break;
 

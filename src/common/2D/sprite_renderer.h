@@ -16,7 +16,8 @@ class SpriteRenderer {
   SpriteRenderer(common::resources::Shader shader, glm::mat4 projection_matrix);
 
   void DrawSprite(const common::resources::Texture& texture, glm::vec2 position,
-                  glm::vec2 size, float rotate, glm::vec4 color);
+                  glm::vec2 size, float rotate = 0.0f,
+                  glm::vec4 color = glm::vec4(1.0f));
 
   void DrawSprite(const common::resources::Texture& texture,
                   glm::mat4 model_matrix, glm::vec4 color);
