@@ -18,11 +18,9 @@ namespace battle {
 
 class BattleScene : public common::Scene {
  public:
-  BattleScene()
-      : Scene(static_cast<int>(core::SceneId::Battle)),
-        update_status(UpdateStatus::kOk) {
+  BattleScene() : Scene(static_cast<int>(core::SceneId::Battle)) {
     this->card_registry = std::make_shared<core::CardRegistry>();
-    update_status_ = UpdateStatus::kOk;
+    this->update_status_ = UpdateStatus::kOk;
   }
 
   void render(std::shared_ptr<common::twod::RendererManager> renderer_manager);
@@ -69,6 +67,8 @@ class BattleScene : public common::Scene {
   void loadRenderSystems();
 
   void loadSingletonComponents();
+
+  UpdateStatus update_status_;
 
   common::ecs::Engine ecs_engine;
 

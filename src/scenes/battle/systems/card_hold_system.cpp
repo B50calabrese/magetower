@@ -59,7 +59,7 @@ bool CardHoldSystem::handleEvent(common::ecs::Event& event,
                                  common::ecs::Engine& engine) {
   auto turn_state =
       engine.getSingletonComponent<components::TurnStateSingletonComponent>();
-  if (turn_state->getCurrentTurn() != components::Turn::kPlayer) {
+  if (turn_state->isPlayerTurn()) {
     return false;
   }
 

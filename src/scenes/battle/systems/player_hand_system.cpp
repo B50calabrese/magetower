@@ -158,7 +158,7 @@ void PlayerHandSystem::updateHandSizeAndPosition(common::ecs::Engine& engine) {
 bool PlayerHandSystem::handlePlayerClickedEvent(common::ecs::Engine& engine) {
   auto turn_state =
       engine.getSingletonComponent<components::TurnStateSingletonComponent>();
-  if (turn_state->getCurrentTurn() != components::Turn::kPlayer) {
+  if (turn_state->isPlayerTurn()) {
     return false;
   }
 

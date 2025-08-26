@@ -105,8 +105,8 @@ void BattleScene::processKeyInput(GLFWwindow* window, int key, int scancode,
     auto turn_state =
         this->ecs_engine
             .getSingletonComponent<components::TurnStateSingletonComponent>();
-    if (turn_state->getCurrentTurn() == components::Turn::kPlayer) {
-      turn_state->setCurrentTurn(components::Turn::kEnemy);
+    if (turn_state->isPlayerTurn()) {
+      turn_state->setIsPlayerTurn(false);
     }
   }
 }
@@ -181,7 +181,6 @@ void BattleScene::loadSystems() {
   this->ecs_engine.registerSystem<EnemyHandSystem>();
   this->ecs_engine.registerSystem<PlayerHandSystem>();
   this->ecs_engine.registerSystem<CardHoldSystem>();
-  this->ecs_engine.registerSystem<EnemyTurnSystem>();
   this->ecs_engine.registerSystem<TurnStateSystem>();
 }
 

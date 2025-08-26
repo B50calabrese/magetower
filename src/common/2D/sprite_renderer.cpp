@@ -1,5 +1,7 @@
 #include "sprite_renderer.h"
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/vector_angle.hpp>
 #include <glm/mat4x4.hpp>
