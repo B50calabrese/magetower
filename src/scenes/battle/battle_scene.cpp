@@ -76,6 +76,7 @@ using scenes::battle::rendersystems::UiRenderSystem;
 using scenes::battle::systems::CardHoldSystem;
 using scenes::battle::systems::EnemyDeckSystem;
 using scenes::battle::systems::EnemyHandSystem;
+using scenes::battle::systems::EnemyTurnSystem;
 using scenes::battle::systems::PlayerDeckSystem;
 using scenes::battle::systems::PlayerHandSystem;
 using scenes::battle::systems::TurnStateSystem;
@@ -181,6 +182,7 @@ void BattleScene::loadSystems() {
   this->ecs_engine.registerSystem<EnemyHandSystem>();
   this->ecs_engine.registerSystem<PlayerHandSystem>();
   this->ecs_engine.registerSystem<CardHoldSystem>();
+  this->ecs_engine.registerSystem<EnemyTurnSystem>();
   this->ecs_engine.registerSystem<TurnStateSystem>();
 }
 

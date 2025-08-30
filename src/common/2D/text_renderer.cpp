@@ -72,9 +72,9 @@ void TextRenderer::RenderTextInBoundingBox(
       break;
     } else if (c == ' ' || c == '\n') {
       // Render the word, advance the position, and clear the word.
-      glm::vec2 potential_position = computeWordFinalPosition(
-          potential_word.str(), starting_position.x, starting_position.y,
-          computed_scale);
+      glm::vec2 potential_position =
+          computeWordFinalPosition(potential_word.str(), starting_position.x,
+                                   starting_position.y, computed_scale);
 
       // If we went beyond the bounds of the box, add a line.
       if (potential_position.x >
@@ -86,8 +86,7 @@ void TextRenderer::RenderTextInBoundingBox(
       starting_position = renderWord(potential_word.str(), starting_position.x,
                                      starting_position.y, computed_scale);
 
-      starting_position.x +=
-          (characters_[' '].advance_ >> 6) * computed_scale;
+      starting_position.x += (characters_[' '].advance_ >> 6) * computed_scale;
       potential_word.str("");
 
       if (c == '\n') {
@@ -100,9 +99,9 @@ void TextRenderer::RenderTextInBoundingBox(
   }
   if (potential_word.str() != "") {
     // Render the word, advance the position, and clear the word.
-    glm::vec2 potential_position = computeWordFinalPosition(
-        potential_word.str(), starting_position.x, starting_position.y,
-        computed_scale);
+    glm::vec2 potential_position =
+        computeWordFinalPosition(potential_word.str(), starting_position.x,
+                                 starting_position.y, computed_scale);
 
     // If we went beyond the bounds of the box, add a line.
     if (potential_position.x >
@@ -138,7 +137,7 @@ void TextRenderer::loadFreeType() {
   // load font as face
   FT_Face face;
   // TODO: Change what fonts we read.
-  if (FT_New_Face(ft, "assets/fonts/arial.ttf", 0, &face)) {
+  if (FT_New_Face(ft, "C:\\Windows\\fonts\\arial.ttf", 0, &face)) {
     utils::Logger::Error("FREETYPE: Failed to load font");
   } else {
     line_height_ = (face->height >> 6);

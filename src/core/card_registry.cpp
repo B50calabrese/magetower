@@ -37,6 +37,14 @@ CardRegistry::CardPrototype CardRegistry::getCardPrototype(int card_id) {
   }
 }
 
+std::vector<int> CardRegistry::getAllCardIds() const {
+  std::vector<int> card_ids;
+  for (const auto& pair : this->card_prototypes) {
+    card_ids.push_back(pair.first);
+  }
+  return card_ids;
+}
+
 void CardRegistry::addCard(
     int card_id,
     std::vector<std::shared_ptr<common::ecs::Component>> components) {

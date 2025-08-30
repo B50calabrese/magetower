@@ -16,9 +16,10 @@ void MapScene::render(
   // Render the background.
   common::resources::Texture& white_texture =
       common::resources::ResourceManager::GetTexture("white_texture");
-  sprite_renderer->DrawSprite(white_texture, glm::vec2(0.0f, 0.0f),
-                              glm::vec2(core::SCREEN_WIDTH, core::SCREEN_HEIGHT),
-                              0.0f, glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
+  sprite_renderer->DrawSprite(
+      white_texture, glm::vec2(0.0f, 0.0f),
+      glm::vec2(core::SCREEN_WIDTH, core::SCREEN_HEIGHT), 0.0f,
+      glm::vec4(0.2f, 0.3f, 0.3f, 1.0f));
 
   // Render the connections.
   for (const auto& node : nodes_) {
@@ -33,8 +34,8 @@ void MapScene::render(
     common::resources::Texture* texture = nullptr;
     switch (node.type) {
       case NodeType::kBattle:
-        texture = &common::resources::ResourceManager::GetTexture(
-            "map_node_battle");
+        texture =
+            &common::resources::ResourceManager::GetTexture("map_node_battle");
         break;
       case NodeType::kInteraction:
         texture = &common::resources::ResourceManager::GetTexture(
@@ -119,11 +120,9 @@ void MapScene::processMouseClick(GLFWwindow* window, int button, int action,
           glm::vec2(100.0f, 30.0f)};
 
       if (option1_box.bottom_left.x <= mouse_position_.x &&
-          option1_box.bottom_left.x + option1_box.size.x >=
-              mouse_position_.x &&
+          option1_box.bottom_left.x + option1_box.size.x >= mouse_position_.x &&
           option1_box.bottom_left.y <= mouse_position_.y &&
-          option1_box.bottom_left.y + option1_box.size.y >=
-              mouse_position_.y) {
+          option1_box.bottom_left.y + option1_box.size.y >= mouse_position_.y) {
         current_event_.option1_effect();
         player_state_->setCurrentMapLevel(player_state_->getCurrentMapLevel() +
                                           1);
@@ -165,30 +164,25 @@ void MapScene::renderInteractionOverlay(
       glm::vec4(0.0f, 0.0f, 0.0f, 0.5f));
 
   renderer_manager->getTextRenderer()->RenderText(
-      current_event_.text,
-      glm::vec2(core::HALF_SCREEN_WIDTH - 200.0f, core::HALF_SCREEN_HEIGHT),
-      30.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+      current_event_.text, core::HALF_SCREEN_WIDTH - 200.0f,
+      core::HALF_SCREEN_HEIGHT, 30.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 
   renderer_manager->getTextRenderer()->RenderText(
-      current_event_.option1_text,
-      glm::vec2(core::HALF_SCREEN_WIDTH - 100.0f,
-                core::HALF_SCREEN_HEIGHT - 50.0f),
-      20.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+      current_event_.option1_text, core::HALF_SCREEN_WIDTH - 100.0f,
+      core::HALF_SCREEN_HEIGHT - 50.0f, 20.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 
   renderer_manager->getTextRenderer()->RenderText(
-      current_event_.option2_text,
-      glm::vec2(core::HALF_SCREEN_WIDTH + 100.0f,
-                core::HALF_SCREEN_HEIGHT - 50.0f),
-      20.0f, glm::vec3(1.0f, 1.0f, 1.0f));
+      current_event_.option2_text, core::HALF_SCREEN_WIDTH + 100.0f,
+      core::HALF_SCREEN_HEIGHT - 50.0f, 20.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 void MapScene::loadScene() {
   common::resources::ResourceManager::LoadTexture(
       "assets/mainmenu/start_game_button.png", "map_node_battle",
       /*alpha=*/true);
-  common::resources::ResourceManager::LoadTexture(
-      "assets/mainmenu/test.png", "map_node_interaction",
-      /*alpha=*/true);
+  common::resources::ResourceManager::LoadTexture("assets/mainmenu/test.png",
+                                                  "map_node_interaction",
+                                                  /*alpha=*/true);
   common::resources::ResourceManager::LoadTexture(
       "assets/mainmenu/exit_game_button.png", "map_node_shop",
       /*alpha=*/true);
@@ -217,8 +211,7 @@ void MapScene::generateMap() {
     for (int j = 0; j < nodes_in_level; ++j) {
       MapNode node;
       node.type = static_cast<NodeType>(node_type_distrib(gen));
-      node.position =
-          glm::vec2(node_width * (j + 1), level_height * (i + 1));
+      node.position = glm::vec2(node_width * (j + 1), level_height * (i + 1));
       node.level = i;
 
       if (i > 0) {

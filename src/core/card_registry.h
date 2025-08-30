@@ -23,6 +23,8 @@ class CardRegistry {
 
   CardPrototype getCardPrototype(int card_id);
 
+  std::vector<int> getAllCardIds() const;
+
   void addCard(int card_id,
                std::vector<std::shared_ptr<common::ecs::Component>> components);
 

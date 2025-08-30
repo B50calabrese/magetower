@@ -70,28 +70,5 @@ void Engine::publishEvent(std::unique_ptr<Event> event) {
   event_queue_.push(std::move(event));
 }
 
-template <typename T, typename... Args>
-T& Engine::registerSingletonComponent(Args&&... args) {
-  std::type_index typeIndex = std::type_index(typeid(T));
-  if (singleton_component_map_.count(typeIndex)) {
-    utils::Logger::Warning("Singleton Component of type already registered: " +
-                         std::string(typeIndex.name()));
-    return *static_cast<T*>(singleton_component_map_[typeIndex].get());
-  }
-  std::unique_ptr<T> component =
-      std::make_unique<T>(std::forward<Args>(args)...);
-  singleton_component_map_[typeIndex] = std::move(component);
-  return *static_cast<T*>(singleton_component_map_[typeIndex].get());
-}
-
-template <typename T>
-T* Engine::getSingletonComponent() const {
-  std::type_index typeIndex = std::type_index(typeid(T));
-  if (singleton_component_map_.count(typeIndex)) {
-    return static_cast<T*>(singleton_component_map_.at(typeIndex).get());
-  }
-  return nullptr;  // Return nullptr if singleton component is not registered
-}
-
 }  // namespace ecs
 }  // namespace common

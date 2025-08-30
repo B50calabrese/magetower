@@ -26,23 +26,24 @@ void ShopScene::render(
   auto sprite_renderer = renderer_manager->getSpriteRenderer();
   common::resources::Texture& white_texture =
       common::resources::ResourceManager::GetTexture("white_texture");
-  sprite_renderer->DrawSprite(white_texture, glm::vec2(0.0f, 0.0f),
-                              glm::vec2(core::SCREEN_WIDTH, core::SCREEN_HEIGHT),
-                              0.0f, glm::vec4(0.4f, 0.3f, 0.2f, 1.0f));
+  sprite_renderer->DrawSprite(
+      white_texture, glm::vec2(0.0f, 0.0f),
+      glm::vec2(core::SCREEN_WIDTH, core::SCREEN_HEIGHT), 0.0f,
+      glm::vec4(0.4f, 0.3f, 0.2f, 1.0f));
 
   // Render the cards.
   for (auto& card_entity : cards_in_shop_) {
-    card_render_util_->renderCard(card_entity, renderer_manager);
-    CardComponent& card_component = *card_entity.getComponent<CardComponent>();
+    card_render_util_->renderCard(*card_entity, renderer_manager);
+    CardComponent& card_component = *card_entity->getComponent<CardComponent>();
     PositionComponent& position_component =
-        *card_entity.getComponent<PositionComponent>();
-    SizeComponent& size_component = *card_entity.getComponent<SizeComponent>();
+        *card_entity->getComponent<PositionComponent>();
+    SizeComponent& size_component = *card_entity->getComponent<SizeComponent>();
 
     glm::vec2 cost_position = position_component.getPosition();
     cost_position.y -= 30.0f;
     renderer_manager->getTextRenderer()->RenderText(
-        std::to_string(card_component.getCost()), cost_position, 20.0f,
-        core::COLOR_BLACK);
+        std::to_string(card_component.getCost()), cost_position.x,
+        cost_position.y, 20.0f, core::COLOR_BLACK);
   }
 
   leave_button_->render(renderer_manager);
@@ -58,17 +59,18 @@ void ShopScene::processMouseClick(GLFWwindow* window, int button, int action,
                                   int mods) {
   if (wasLeftButtonClicked(button, action)) {
     if (leave_button_->containsPoint(mouse_position_)) {
-      player_state_->setCurrentMapLevel(player_state_->getCurrentMapLevel() + 1);
+      player_state_->setCurrentMapLevel(player_state_->getCurrentMapLevel() +
+                                        1);
       update_status_ = UpdateStatus::kSwitchScene;
       next_scene_id_ = static_cast<int>(core::SceneId::Map);
       return;
     }
 
-    for (auto it = cards_in_shop_.begin(); it != cards_in_shop_.end(); ++it) {
-      auto& card_entity = *it;
-      PositionComponent& position_component =
-          *card_entity.getComponent<PositionComponent>();
-      SizeComponent& size_component = *card_entity.getComponent<SizeComponent>();
+    for (int i = 0; i < cards_in_shop_.size(); i++) {
+      /*PositionComponent& position_component =
+          cards_in_shop_[i].getComponent<PositionComponent>();
+      SizeComponent& size_component =
+          *card_entity.getComponent<SizeComponent>();
       common::utils::BoundingBox2D box{position_component.getPosition(),
                                        size_component.getSizeVec()};
       if (box.bottom_left.x <= mouse_position_.x &&
@@ -84,7 +86,7 @@ void ShopScene::processMouseClick(GLFWwindow* window, int button, int action,
           cards_in_shop_.erase(it);
           break;
         }
-      }
+      }*/
     }
   }
 }
@@ -93,12 +95,7 @@ void ShopScene::loadScene() {
   card_render_util_ = std::make_unique<core::renderutils::CardRenderUtil>();
   core::CardLoaderXML card_loader;
   card_loader.loadCards("assets/cards/card_registry.xml", card_registry_);
-
-  const auto& card_prototypes = card_registry_.getCardPrototypes();
-  std::vector<int> card_ids;
-  for (auto const& [id, components] : card_prototypes) {
-    card_ids.push_back(id);
-  }
+  std::vector<int> card_ids = card_registry_.getAllCardIds();
 
   std::random_device rd;
   std::mt19937 g(rd());
@@ -106,13 +103,13 @@ void ShopScene::loadScene() {
 
   cards_in_shop_.clear();
   for (int i = 0; i < 10 && i < card_ids.size(); ++i) {
-    Entity card_entity;
+    Entity& card_entity = this->ecs_engine.newEntity();
     auto components = card_registry_.getCardPrototype(card_ids[i]);
     for (auto& component : components) {
       card_entity.addComponent(component);
     }
     card_entity.getComponent<CardComponent>()->setIsFaceup(true);
-    cards_in_shop_.push_back(std::move(card_entity));
+    cards_in_shop_.push_back(&card_entity);
   }
 
   // Position the cards.
@@ -130,9 +127,8 @@ void ShopScene::loadScene() {
     int col = i % 5;
     float x_pos = x_start + col * (card_width + x_padding);
     float y_pos = y_start + row * (card_height + y_padding);
-    cards_in_shop_[i]
-        .getComponent<PositionComponent>()
-        ->setPosition(glm::vec2(x_pos, y_pos));
+    cards_in_shop_[i]->getComponent<PositionComponent>()->setPosition(
+        glm::vec2(x_pos, y_pos));
   }
 
   common::resources::Texture& leave_button_texture =

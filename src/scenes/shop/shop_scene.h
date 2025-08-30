@@ -34,7 +34,8 @@ class ShopScene : public common::Scene {
 
  private:
   UpdateStatus update_status_;
-  std::vector<common::ecs::Entity> cards_in_shop_;
+  common::ecs::Engine ecs_engine;
+  std::vector<common::ecs::Entity*> cards_in_shop_;
   core::CardRegistry card_registry_;
   std::unique_ptr<core::renderutils::CardRenderUtil> card_render_util_;
   std::shared_ptr<common::twod::Sprite> leave_button_;

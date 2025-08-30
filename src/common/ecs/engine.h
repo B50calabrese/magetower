@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "common/2D/renderer_manager.h"
+#include "common/utils/logger.h"
 #include "entity.h"
 #include "event.h"
 #include "event_listener.h"
@@ -80,13 +81,28 @@ class Engine {
    * Registers a singleton component in the world.
    */
   template <typename T, typename... Args>
-  T& registerSingletonComponent(Args&&... args);
+  T& registerSingletonComponent(Args&&... args) {
+    std::type_index typeIndex = std::type_index(typeid(T));
+    if (singleton_component_map_.count(typeIndex)) {
+      utils::Logger::Warning(
+          "Singleton Component of type already registered: " +
+          std::string(typeIndex.name()));
+      return *static_cast<T*>(singleton_component_map_[typeIndex].get());
+    }
+    std::unique_ptr<T> component =
+        std::make_unique<T>(std::forward<Args>(args)...);
+    singleton_component_map_[typeIndex] = std::move(component);
+    return *static_cast<T*>(singleton_component_map_[typeIndex].get());
+  }
 
-  /*
-   * Return the singleton component registered in the world.
-   */
   template <typename T>
-  T* getSingletonComponent() const;
+  T* getSingletonComponent() const {
+    std::type_index typeIndex = std::type_index(typeid(T));
+    if (singleton_component_map_.count(typeIndex)) {
+      return static_cast<T*>(singleton_component_map_.at(typeIndex).get());
+    }
+    return nullptr;  // Return nullptr if singleton component is not registered
+  }
 
  private:
   static int kNumberOfEntities;
